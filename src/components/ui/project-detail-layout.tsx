@@ -8,17 +8,6 @@ import { NavBar } from "../../pages/about";
 
 type Project = (typeof projects)[number];
 
-const monoFont = {
-  fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
-  fontWeight: 400,
-  letterSpacing: "-0.02em",
-};
-
-const displayFont = {
-  fontFamily: '"Neue Haas Unica", "IBM Plex Sans", -apple-system, BlinkMacSystemFont, sans-serif',
-  fontWeight: 700,
-};
-
 function toTitleCase(text: string) {
   return text.replace(/\S+/g, (word) => word.charAt(0).toUpperCase() + word.slice(1));
 }
@@ -50,7 +39,7 @@ function navigateWithTransition(navigate: ReturnType<typeof useNavigate>, to: st
 
 function TechChip({ text }: { text: string }) {
   return (
-    <span className="px-2.5 py-1 text-[12px] text-ink-secondary border border-edge bg-white/[0.03]" style={monoFont}>
+    <span className="px-2.5 py-1 text-[12px] text-ink-secondary border border-edge bg-white/[0.03]">
       {text}
     </span>
   );
@@ -94,7 +83,7 @@ export function ProjectDetailLayout({ project }: { project: Project }) {
   const metrics = "metrics" in project ? project.metrics : undefined;
 
   return (
-    <div className="min-h-screen bg-[#111111] text-white selection:bg-white/20">
+    <div className="min-h-screen bg-[#111111] text-white font-sfmono selection:bg-white/20">
       <NavBar />
       <main className="w-full min-w-0 px-5 pb-24 pt-28 mx-auto max-w-[1280px] md:px-8">
         {/* --- Window chrome --- */}
@@ -121,12 +110,12 @@ export function ProjectDetailLayout({ project }: { project: Project }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, ease: "easeOut" }}
           className="mt-4 break-words text-[56px] font-bold leading-[0.95] tracking-tighter text-ink-primary sm:text-7xl"
-          style={displayFont}
+         
         >
           {title}
         </motion.h1>
 
-        <p className="mt-3 max-w-2xl text-[16px] leading-relaxed text-ink-secondary" style={monoFont}>
+        <p className="mt-3 max-w-2xl text-[16px] leading-relaxed text-ink-secondary">
           {project.subtitle} · {project.category}
         </p>
 
@@ -145,7 +134,7 @@ export function ProjectDetailLayout({ project }: { project: Project }) {
           <div className="mt-8 flex flex-wrap gap-x-10 gap-y-4 border-t border-white/5 pt-6 sm:gap-x-14">
             {metrics.map((m) => (
               <div key={m.label}>
-                <div className="text-[28px] font-bold leading-none text-ink-primary" style={displayFont}>{m.value}</div>
+                <div className="text-[28px] font-bold leading-none text-ink-primary">{m.value}</div>
                 <div className="mt-1.5 font-sfmono text-[11px] uppercase tracking-wide text-ink-muted">{m.label}</div>
               </div>
             ))}
@@ -180,7 +169,7 @@ export function ProjectDetailLayout({ project }: { project: Project }) {
                 <TerminalHint text="$ back to ~/" placement="below-start" />
               </Link>
 
-              <p className="text-[14px] leading-relaxed text-ink-secondary" style={monoFont}>
+              <p className="text-[14px] leading-relaxed text-ink-secondary">
                 {project.description}
               </p>
 
@@ -226,7 +215,7 @@ export function ProjectDetailLayout({ project }: { project: Project }) {
               ref={(el) => { sectionRefs.current.challenge = el; }}
               className="scroll-mt-28"
             >
-              <motion.h2 initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.9 }} variants={fadeInUp} className="text-[20px] font-semibold text-ink-primary" style={monoFont}>
+              <motion.h2 initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.9 }} variants={fadeInUp} className="text-[20px] font-semibold text-ink-primary">
                 <span className="mr-2 text-ink-muted">##</span>The Challenge
               </motion.h2>
               <motion.p initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.9 }} variants={fadeInUp} className="mt-3 max-w-[65ch] text-[15px] leading-relaxed text-ink-secondary">
@@ -239,7 +228,7 @@ export function ProjectDetailLayout({ project }: { project: Project }) {
               ref={(el) => { sectionRefs.current.solution = el; }}
               className="scroll-mt-28"
             >
-              <motion.h2 initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.9 }} variants={fadeInUp} className="text-[20px] font-semibold text-ink-primary" style={monoFont}>
+              <motion.h2 initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.9 }} variants={fadeInUp} className="text-[20px] font-semibold text-ink-primary">
                 <span className="mr-2 text-ink-muted">##</span>The Solution
               </motion.h2>
               <motion.p initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.9 }} variants={fadeInUp} className="mt-3 max-w-[65ch] text-[15px] leading-relaxed text-ink-secondary">
@@ -252,7 +241,7 @@ export function ProjectDetailLayout({ project }: { project: Project }) {
               ref={(el) => { sectionRefs.current.impact = el; }}
               className="scroll-mt-28"
             >
-              <motion.h2 initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.9 }} variants={fadeInUp} className="text-[20px] font-semibold text-ink-primary" style={monoFont}>
+              <motion.h2 initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.9 }} variants={fadeInUp} className="text-[20px] font-semibold text-ink-primary">
                 <span className="mr-2 text-ink-muted">##</span>Impact
               </motion.h2>
               <motion.p initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.9 }} variants={fadeInUp} className="mt-3 max-w-[65ch] text-[15px] leading-relaxed text-ink-secondary">
@@ -273,7 +262,7 @@ export function ProjectDetailLayout({ project }: { project: Project }) {
               <p className="font-sfmono text-[12px] uppercase tracking-wide text-ink-muted">
                 <span className="inline-block transition-transform group-hover:-translate-x-1">←</span> Previous
               </p>
-              <p className="mt-1 text-lg font-bold text-ink-secondary transition-colors group-hover:text-white" style={displayFont}>
+              <p className="mt-1 text-lg font-bold text-ink-secondary transition-colors group-hover:text-white">
                 {toTitleCase(prevProject.title)}
               </p>
             </Link>
@@ -289,7 +278,7 @@ export function ProjectDetailLayout({ project }: { project: Project }) {
                 <p className="font-sfmono text-[12px] uppercase tracking-wide text-ink-muted">
                   Next Project <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
                 </p>
-                <p className="mt-1 text-xl font-bold text-white sm:text-2xl" style={displayFont}>
+                <p className="mt-1 text-xl font-bold text-white sm:text-2xl">
                   {toTitleCase(nextProject.title)}
                 </p>
               </div>
