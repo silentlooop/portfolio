@@ -3,7 +3,11 @@ import { SectionReveal } from "./terminal-effects";
 import { TerminalHint } from "./terminal-hint";
 import { playReelClick } from "../../lib/sound";
 import { projects } from "../../data/projects";
-import { PROJECT_TILE_RATIO, RATIO_CLASS } from "../../data/project-tiles";
+import { PROJECT_TILE_RATIO, RATIO_CLASS, TILE_ORDER } from "../../data/project-tiles";
+
+const orderedProjects = TILE_ORDER.map((slug) => projects.find((p) => p.slug === slug)).filter(
+  (p): p is (typeof projects)[number] => !!p
+);
 
 function toTitleCase(text: string) {
   return text.replace(/\S+/g, (word) => word.charAt(0).toUpperCase() + word.slice(1));
@@ -69,7 +73,7 @@ function ProjectCard({
         }`}
       >
         <span className="absolute left-3 top-3 z-10 font-sfmono text-[11px] text-ink-muted">
-          {String(projects.findIndex((p) => p.slug === project.slug) + 1).padStart(2, "0")}
+          {String(orderedProjects.findIndex((p) => p.slug === project.slug) + 1).padStart(2, "0")}
         </span>
         <div className="flex h-full w-full items-center justify-center">
           {isVideo ? (
@@ -109,7 +113,7 @@ type ProjectsGridProps = {
 const ProjectsGrid: React.FC<ProjectsGridProps> = ({ highlightedSlug = null, onHoverProject = () => {} }) => {
   return (
     <SectionReveal className="columns-1 gap-6 lg:columns-2 min-[1600px]:columns-3" itemClassName="break-inside-avoid">
-      {projects.map((project) => (
+      {orderedProjects.map((project) => (
         <ProjectCard
           key={project.slug}
           project={project}
