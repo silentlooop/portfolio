@@ -82,6 +82,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       href={href}
       id={`project-${projectSlug}`}
       data-project-slug={projectSlug}
+      data-cursor="view"
       onMouseEnter={() => {
         playReelClick();
         onHover(projectSlug);

@@ -220,7 +220,7 @@ export function ProjectDetailLayout({ project }: { project: Project }) {
               <motion.h2 initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.9 }} variants={fadeInUp} className="text-[20px] font-semibold text-ink-primary">
                 <span className="mr-2 text-ink-muted">##</span>The Challenge
               </motion.h2>
-              <motion.p initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.9 }} variants={fadeInUp} className="mt-3 max-w-[65ch] text-[15px] leading-relaxed text-ink-secondary">
+              <motion.p initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.9 }} variants={fadeInUp} className="mt-3 max-w-[65ch] text-[15px] leading-relaxed text-ink-secondary" data-cursor="text">
                 {project.challenge}
               </motion.p>
             </section>
@@ -233,7 +233,7 @@ export function ProjectDetailLayout({ project }: { project: Project }) {
               <motion.h2 initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.9 }} variants={fadeInUp} className="text-[20px] font-semibold text-ink-primary">
                 <span className="mr-2 text-ink-muted">##</span>The Solution
               </motion.h2>
-              <motion.p initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.9 }} variants={fadeInUp} className="mt-3 max-w-[65ch] text-[15px] leading-relaxed text-ink-secondary">
+              <motion.p initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.9 }} variants={fadeInUp} className="mt-3 max-w-[65ch] text-[15px] leading-relaxed text-ink-secondary" data-cursor="text">
                 {project.solution}
               </motion.p>
             </section>
@@ -246,7 +246,7 @@ export function ProjectDetailLayout({ project }: { project: Project }) {
               <motion.h2 initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.9 }} variants={fadeInUp} className="text-[20px] font-semibold text-ink-primary">
                 <span className="mr-2 text-ink-muted">##</span>Impact
               </motion.h2>
-              <motion.p initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.9 }} variants={fadeInUp} className="mt-3 max-w-[65ch] text-[15px] leading-relaxed text-ink-secondary">
+              <motion.p initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.9 }} variants={fadeInUp} className="mt-3 max-w-[65ch] text-[15px] leading-relaxed text-ink-secondary" data-cursor="text">
                 {project.impact}
               </motion.p>
             </section>
@@ -259,6 +259,7 @@ export function ProjectDetailLayout({ project }: { project: Project }) {
             <Link
               to={`/projects/${prevProject.slug}`}
               onClick={navigateWithTransition(navigate, `/projects/${prevProject.slug}`)}
+              data-cursor="view"
               className="group relative"
             >
               <p className="font-sfmono text-[12px] uppercase tracking-wide text-ink-muted">
@@ -274,6 +275,7 @@ export function ProjectDetailLayout({ project }: { project: Project }) {
             <Link
               to={`/projects/${nextProject.slug}`}
               onClick={navigateWithTransition(navigate, `/projects/${nextProject.slug}`)}
+              data-cursor="view"
               className="group relative flex items-center gap-4 text-right"
             >
               <div>

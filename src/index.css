@@ -77,6 +77,12 @@
     .custom-cursor-active * {
       cursor: none !important;
     }
+
+    .custom-cursor-active input,
+    .custom-cursor-active textarea,
+    .custom-cursor-active select {
+      cursor: auto !important;
+    }
   }
 
   @keyframes scanline-sweep {

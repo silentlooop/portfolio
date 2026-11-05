@@ -33,6 +33,7 @@ function BlogRow({ blog }: { blog: BlogPost }) {
             href={blog.url}
             target="_blank"
             rel="noopener noreferrer"
+            data-cursor="view"
             className="group relative flex items-center gap-4 rounded px-3 py-3 transition-colors duration-250 ease-out hover:bg-white/[0.03]"
             style={{ textDecoration: "none" }}
         >
