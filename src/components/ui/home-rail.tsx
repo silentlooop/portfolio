@@ -1,6 +1,6 @@
 import { TerminalHint } from "./terminal-hint";
 import { projects } from "../../data/projects";
-import { FaLinkedin, FaXTwitter, FaGithub } from "react-icons/fa6";
+import { FaLinkedin, FaGithub } from "react-icons/fa6";
 import { SiLeetcode, SiMonkeytype } from "react-icons/si";
 
 function toTitleCase(text: string) {
@@ -74,16 +74,6 @@ export function HomeRail({ activeSlug, onHoverIndex, onSelectIndex }: HomeRailPr
             <TerminalHint text="$ open ./me --in-a-blazer" placement="below-start" />
           </a>
           <a
-            href="https://x.com/null_rejected"
-            target="_blank"
-            rel="noreferrer"
-            className="group relative flex w-fit items-center gap-2 transition-colors hover:text-white"
-          >
-            <FaXTwitter className="h-4 w-4 shrink-0 text-ink-muted transition-colors group-hover:text-white" />
-            twitter ↗
-            <TerminalHint text="$ tail -f ./unfiltered-thoughts" placement="below-start" />
-          </a>
-          <a
             href="https://leetcode.com/u/silentlooop/"
             target="_blank"
             rel="noreferrer"
@@ -102,15 +92,6 @@ export function HomeRail({ activeSlug, onHoverIndex, onSelectIndex }: HomeRailPr
             <SiMonkeytype className="h-4 w-4 shrink-0 text-ink-muted transition-colors group-hover:text-[#E2B714]" />
             monkeytype ↗
             <TerminalHint text="$ wpm --check --again" placement="below-start" />
-          </a>
-          <a
-            href="/resume.pdf"
-            target="_blank"
-            rel="noreferrer"
-            className="group relative w-fit transition-colors hover:text-white"
-          >
-            resume ↗
-            <TerminalHint text="$ cat resume.pdf" placement="below-start" />
           </a>
         </div>
       </div>
