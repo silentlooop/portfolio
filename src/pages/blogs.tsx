@@ -3,17 +3,64 @@ import { SectionPrompt, SectionReveal } from "../components/ui/terminal-effects"
 import { TerminalHint } from "../components/ui/terminal-hint";
 import { Measure, RegMark, Signature } from "../components/ui/annotations";
 
-const BLOGS = [
+interface BlogPost {
+    slug: string;
+    title: string;
+    date: string;
+    excerpt: string;
+    tags: string[];
+    readTime: string;
+    url: string;
+    /** Optional cover thumbnail, standard frame. */
+    thumbnail?: string;
+}
+
+const BLOGS: BlogPost[] = [
     {
-        slug: "the boy who wouldn't shut up",
-        title: "",
+        slug: "the-boy-who-wouldnt-shut-up",
+        title: "The Boy Who Wouldn't Shut Up",
         date: "2025-09-24",
+        excerpt: "A short, unfiltered reflection on being the kid who never stopped talking — and what that turned into.",
+        tags: ["life"],
+        readTime: "4 min read",
         url: "https://medium.com/@pattedamanthan/the-boy-who-wouldnt-shut-up-15f1eb4406f5"
     }
 ];
 
+function BlogRow({ blog }: { blog: BlogPost }) {
+    return (
+        <a
+            href={blog.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group relative flex items-center gap-4 rounded px-3 py-3 transition-colors duration-250 ease-out hover:bg-white/[0.03]"
+            style={{ textDecoration: "none" }}
+        >
+            <TerminalHint text={`$ cat ./blogs/${blog.slug}.md`} placement="below-start" />
+            <div className="min-w-0 flex-1">
+                <h3 className="text-[18px] font-semibold leading-snug text-ink-primary underline decoration-transparent decoration-1 underline-offset-4 transition-colors duration-250 ease-out group-hover:decoration-ink-primary">
+                    {blog.title}
+                </h3>
+                <p className="mt-1 line-clamp-2 text-[14px] leading-relaxed text-ink-secondary">{blog.excerpt}</p>
+                <p className="mt-2 font-sfmono text-[12px] uppercase tracking-wide text-ink-muted">
+                    {blog.date} · {blog.readTime}
+                    {blog.tags.length > 0 && <> · {blog.tags.map((t) => `#${t}`).join(" ")}</>}
+                </p>
+            </div>
+            {blog.thumbnail && (
+                <div className="hidden h-16 w-24 shrink-0 overflow-hidden rounded-md border border-edge bg-[#161616] p-2 sm:block">
+                    <img src={blog.thumbnail} alt="" className="h-full w-full object-contain" />
+                </div>
+            )}
+            <span className="shrink-0 text-ink-muted transition-transform duration-150 ease-out group-hover:translate-x-1">↗</span>
+        </a>
+    );
+}
+
 const Blogs = () => {
     const sortedBlogs = [...BLOGS].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    const years = Array.from(new Set(sortedBlogs.map((b) => new Date(b.date).getFullYear())));
+    const showYearLabels = years.length > 1;
 
     return (
         <>
@@ -26,7 +73,6 @@ const Blogs = () => {
                         <Measure className="flex-1" label={`${sortedBlogs.length} post${sortedBlogs.length === 1 ? "" : "s"}`} note="fig. 03 — the archive" />
                     </div>
 
-
                     <div className="relative bg-[#111111] rounded-md p-6 border border-white/10 shadow-sm shadow-white/5">
                         <RegMark className="pointer-events-none absolute -left-7 -top-7 hidden md:block" />
                         <RegMark className="pointer-events-none absolute -bottom-7 -right-7 hidden md:block" />
@@ -37,43 +83,32 @@ const Blogs = () => {
                             <span className="ml-3 text-gray-400 text-xs">manthan@portfolio:~/blogs$</span>
                         </div>
 
-                        
-                        <SectionReveal className="space-y-2">
-                            {sortedBlogs.map((blog) => (
-                                <a
-                                    key={blog.slug}
-                                    href={blog.url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="group relative block rounded border border-transparent px-2 py-2 transition-colors hover:border-white/10 hover:bg-white/[0.02]"
-                                    style={{ textDecoration: "none" }}
-                                >
-                                    <TerminalHint text="$ brew coffee && cat ./blog.md" placement="below-start" />
-                                    <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
-                                        <div className="flex items-center gap-2 min-w-0">
-                                            <span className="text-gray-600 text-sm">-</span>
-                                            <span className="truncate text-gray-100 group-hover:text-white">
-                                                {blog.slug}.md
-                                            </span>
-                                        </div>
-                                        <div className="pl-4 sm:pl-0 text-xs text-gray-500 shrink-0">
-                                            {blog.date}
-                                        </div>
+                        {sortedBlogs.length > 0 ? (
+                            <SectionReveal className="space-y-1">
+                                {years.map((year) => (
+                                    <div key={year}>
+                                        {showYearLabels && (
+                                            <p className="mb-2 mt-4 font-sfmono text-[11px] uppercase tracking-wide text-ink-muted first:mt-0">{year}</p>
+                                        )}
+                                        {sortedBlogs
+                                            .filter((b) => new Date(b.date).getFullYear() === year)
+                                            .map((blog) => (
+                                                <BlogRow key={blog.slug} blog={blog} />
+                                            ))}
                                     </div>
-                                    <div className="pl-6 text-sm text-gray-400 group-hover:text-gray-300 mt-1">
-                                        {blog.title}
-                                    </div>
-                                </a>
-                            ))}
-                        </SectionReveal>
+                                ))}
+                            </SectionReveal>
+                        ) : (
+                            <p className="px-3 py-2 text-sm text-ink-muted">looking for one...</p>
+                        )}
 
-                        <div className="mt-3 flex items-center gap-2 text-gray-500 text-sm">
-                            
-                            
+                        <div className="mt-4 flex items-center gap-2 border-t border-white/5 pt-4 text-sm text-gray-500">
+                            <span>manthan@portfolio:~/blogs$</span>
+                            <span className="terminal-cursor inline-block">▍</span>
                         </div>
                     </div>
 
-                    <div aria-hidden="true" className="pointer-events-none mt-16 hidden justify-end md:flex">
+                    <div aria-hidden="true" className="pointer-events-none mt-6 hidden justify-end md:flex">
                         <div className="text-right">
                             <Signature className="ml-auto h-12 w-36" />
                         </div>
