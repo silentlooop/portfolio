@@ -1,6 +1,7 @@
 import { useLocation } from "react-router-dom";
 import { NavBar } from "./about";
 import { OPEN_TERMINAL_EVENT } from "../components/ui/command-terminal";
+import { WindowDots } from "../components/ui/window-dots";
 
 export default function NotFound() {
     const { pathname } = useLocation();
@@ -11,9 +12,7 @@ export default function NotFound() {
             <main className="flex min-h-screen items-center justify-center px-5">
                 <div className="w-full max-w-xl overflow-hidden rounded-md border border-white/10 bg-[#141414] font-sfmono shadow-2xl shadow-black/20">
                     <div className="flex items-center gap-2 border-b border-white/10 bg-[#111111] px-5 py-3">
-                        <span className="h-2.5 w-2.5 rounded-full bg-red-500" />
-                        <span className="h-2.5 w-2.5 rounded-full bg-yellow-500" />
-                        <span className="h-2.5 w-2.5 rounded-full bg-green-500" />
+                        <WindowDots />
                         <span className="ml-3 text-xs text-zinc-500">exit code 404</span>
                     </div>
                     <div className="space-y-3 px-5 py-6 text-sm leading-relaxed">

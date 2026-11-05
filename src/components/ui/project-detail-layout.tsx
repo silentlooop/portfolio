@@ -5,6 +5,7 @@ import type { Variants } from "framer-motion";
 import { projects } from "../../data/projects";
 import { TerminalHint } from "./terminal-hint";
 import { NavBar } from "../../pages/about";
+import { WindowDots } from "./window-dots";
 
 type Project = (typeof projects)[number];
 
@@ -89,10 +90,8 @@ export function ProjectDetailLayout({ project }: { project: Project }) {
         {/* --- Window chrome --- */}
         <div className="overflow-hidden rounded-md border border-white/10 bg-[#111111]">
           <div className="flex items-end gap-3 border-b border-white/10 px-3 pt-2 md:px-5">
-            <div className="flex shrink-0 items-center gap-2 px-2 pb-3">
-              <span className="h-2.5 w-2.5 rounded-full bg-red-500" />
-              <span className="h-2.5 w-2.5 rounded-full bg-yellow-500" />
-              <span className="h-2.5 w-2.5 rounded-full bg-green-500" />
+            <div className="flex shrink-0 items-center px-2 pb-3">
+              <WindowDots />
             </div>
             <div className="-mb-px flex min-w-0 max-w-full items-center rounded-t-md border-x border-t border-white/10 bg-[#181818] px-4 py-2.5 md:px-5">
               <span className="truncate font-mono text-xs text-zinc-400">./projects/{project.slug}</span>

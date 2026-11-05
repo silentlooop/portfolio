@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { projects } from "../../data/projects";
 import { TerminalHint } from "./terminal-hint";
+import { WindowDots } from "./window-dots";
 
 // Fire this from anywhere to open the terminal, e.g. a footer button.
 export const OPEN_TERMINAL_EVENT = "open-command-terminal";
@@ -315,9 +316,7 @@ export function CommandTerminal() {
                         onClick={() => inputRef.current?.focus()}
                     >
                         <div className="flex items-center gap-2 border-b border-white/10 bg-[#111111] px-4 py-3">
-                            <button type="button" aria-label="Close terminal" onClick={close} className="h-2.5 w-2.5 rounded-full bg-red-500 hover:brightness-125" />
-                            <span className="h-2.5 w-2.5 rounded-full bg-yellow-500" />
-                            <span className="h-2.5 w-2.5 rounded-full bg-green-500" />
+                            <WindowDots onClose={close} />
                             <span className="ml-3 truncate text-xs text-zinc-500">manthan@portfolio: ~</span>
                             <span className="ml-auto hidden text-[11px] text-zinc-600 sm:inline">esc to close</span>
                         </div>

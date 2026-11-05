@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { EFFECTS } from "../../lib/effects-config";
 import { startHum, stopHum, unlockAudio, playTick } from "../../lib/sound";
+import { WindowDots } from "./window-dots";
 
 const SESSION_KEY = "intro-seen";
 
@@ -125,9 +126,7 @@ export function Intro({ onDone }: { onDone: () => void }) {
 
       <div className="w-[88vw] max-w-md overflow-hidden rounded-md border border-white/10 bg-[#141414] shadow-2xl shadow-black/40">
         <div className="flex items-center gap-2 border-b border-white/10 bg-[#111111] px-4 py-3">
-          <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-[#FF5F57]" />
-          <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-[#FFBD2E]" />
-          <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-[#28C840]" />
+          <WindowDots />
           <span className="ml-2 truncate text-xs text-gray-500">manthan@portfolio:~$ boot</span>
         </div>
 

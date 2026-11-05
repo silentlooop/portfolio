@@ -104,7 +104,7 @@ function App() {
         </div>
 
         {/* Sign-off */}
-        <div aria-hidden="true" className="pointer-events-none mx-auto mt-14 hidden w-full max-w-[1440px] items-end justify-end px-5 md:flex md:px-10">
+        <div aria-hidden="true" className="pointer-events-none mx-auto mt-14 hidden w-full max-w-[1440px] items-end justify-end px-5 pb-16 md:flex md:px-10 md:pb-20">
           <div className="text-right">
             <Signature className="ml-auto h-14 w-40" />
             <Note rotate={-2} size="sm" ink="faint">

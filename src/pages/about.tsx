@@ -12,6 +12,7 @@ import { ScrambleText } from "../components/ui/scramble-text";
 import { useInViewOnce, usePrefersReducedMotion } from "../components/ui/use-terminal-effects";
 import { FaLinkedin, FaXTwitter, FaGithub } from "react-icons/fa6";
 import { SiLeetcode, SiMonkeytype } from "react-icons/si";
+import { WindowDots } from "../components/ui/window-dots";
 
 // --- HELPERS ---
 
@@ -46,9 +47,7 @@ function TerminalExperience() {
             <div className="grid gap-4 md:grid-cols-[13rem_1fr]">
                 <nav aria-label="Experience categories" className="overflow-hidden rounded-md border border-white/10 bg-[#141414] shadow-2xl shadow-black/20 md:self-start">
                     <div className="flex items-center gap-2 border-b border-white/10 bg-[#111111] px-4 py-3">
-                        <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-red-500" />
-                        <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-yellow-500" />
-                        <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-green-500" />
+                        <WindowDots />
                         <span className="ml-2 truncate text-[11px] text-zinc-600">~/experience</span>
                     </div>
                     <div className="px-3 pt-2.5 text-[10px] font-semibold uppercase tracking-wider text-zinc-600">Explorer</div>
@@ -474,9 +473,7 @@ function About() {
                             {/* File-tree sidebar, replaces the old top tab bar */}
                             <nav aria-label="Portfolio views" className="overflow-hidden rounded-md border border-white/10 bg-[#141414] shadow-2xl shadow-black/20 md:self-start">
                                 <div className="flex items-center gap-2 border-b border-white/10 bg-[#111111] px-4 py-3">
-                                    <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-red-500" />
-                                    <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-yellow-500" />
-                                    <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-green-500" />
+                                    <WindowDots />
                                     <span className="ml-2 truncate text-[11px] text-zinc-600">~/manthan</span>
                                 </div>
                                 <div className="px-3 pt-2.5 text-[10px] font-semibold uppercase tracking-wider text-zinc-600">Explorer</div>

@@ -2,6 +2,7 @@ import { NavBar } from "./about";
 import { SectionPrompt, SectionReveal } from "../components/ui/terminal-effects";
 import { TerminalHint } from "../components/ui/terminal-hint";
 import { Measure, RegMark, Signature } from "../components/ui/annotations";
+import { WindowDots } from "../components/ui/window-dots";
 
 interface BlogPost {
     slug: string;
@@ -78,9 +79,7 @@ const Blogs = () => {
                         <RegMark className="pointer-events-none absolute -left-7 -top-7 hidden md:block" />
                         <RegMark className="pointer-events-none absolute -bottom-7 -right-7 hidden md:block" />
                         <div className="mb-6 flex items-center gap-2">
-                            <span className="h-2.5 w-2.5 rounded bg-red-500/80 inline-block" />
-                            <span className="h-2.5 w-2.5 rounded bg-yellow-500/80 inline-block" />
-                            <span className="h-2.5 w-2.5 rounded bg-green-500/80 inline-block" />
+                            <WindowDots />
                             <span className="ml-3 text-gray-400 text-xs">manthan@portfolio:~/blogs$</span>
                         </div>
 

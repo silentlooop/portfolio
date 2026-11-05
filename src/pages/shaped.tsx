@@ -5,6 +5,7 @@ import { Arrow, Measure, Note, RegMark, Signature } from "../components/ui/annot
 import { TerminalHint } from "../components/ui/terminal-hint";
 import { ScrambleText } from "../components/ui/scramble-text";
 import { useInViewOnce, usePrefersReducedMotion } from "../components/ui/use-terminal-effects";
+import { WindowDots } from "../components/ui/window-dots";
 
 // --- TYPES ---
 
@@ -182,9 +183,7 @@ export default function Shaped() {
 
                 <SectionReveal className="relative z-[1] mb-10 overflow-hidden rounded-md border border-white/10 bg-[#141414] shadow-2xl shadow-black/20">
                     <div className="flex items-center gap-2 border-b border-white/10 bg-[#111111] px-5 py-4">
-                        <span className="w-3 h-3 rounded-full bg-[#FF5F57] shrink-0" />
-                        <span className="w-3 h-3 rounded-full bg-[#FFBD2E] shrink-0" />
-                        <span className="w-3 h-3 rounded-full bg-[#28C840] shrink-0" />
+                        <WindowDots />
                         <span className="ml-3 text-sm text-gray-400 font-sfmono truncate">
                             <ScrambleText text="manthan@life ~ % things-that-shaped-me" />
                         </span>
