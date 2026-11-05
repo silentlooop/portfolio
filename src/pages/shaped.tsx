@@ -11,8 +11,6 @@ interface ShapedItem {
     title: string;
     type: string;
     description: string;
-    rotation: number;
-    span: string;
     /** URL to an image or video. Leave undefined for text-only cards. */
     media?: string;
     /** "image" (default) or "video" — auto-detected from extension if omitted. */
@@ -26,46 +24,37 @@ const shapedItems: ShapedItem[] = [
         type: "[obsession]",
         description:
             "My most exhausting trait. Also the one I'm most grateful and hate myself for.",
-        rotation: -3,
-        span: "md:col-span-5 md:row-span-1",
     },
     {
         title: "Don't believe everything you think",
         type: "[book]",
         description: "A reminder that my mind is a noisy place, and that's okay.",
-        rotation: 1,
-        span: "md:col-span-7 md:row-span-1"
     },
     {
         title: "アニメ (Anime)",
         type: "[film]",
         description: "From the emotional depth of 'A Silent Voice' to the mind-bending narrative of 'Hyouka', anime made me reconsider my beliefs.",
-        rotation: -2.5,
-        span: "md:col-span-7 md:row-span-1",
     },
     {
         title: "3am debugging sessions",
         type: "[habit]",
         description: "When the world is quiet, the code finally makes sense.",
-        rotation: 1.5,
-        span: "md:col-span-5 md:row-span-1",
     },
     {
         title: "Realization",
         type: "[moment]",
         description: "Realized alone times are the best ones.",
-        rotation: -1,
-        span: "md:col-span-4 md:row-span-1",
     },
     {
         title: "Present",
         type: "[life]",
         description:
             "I'm just trying, and most of the time failing. Just figuring things out as I go.",
-        rotation: 2.5,
-        span: "md:col-span-8 md:row-span-1",
     },
 ];
+
+// Bento spans for the 6-column grid: 3/3, 4/2, 2/4 — same rhythm, equal row height.
+const BENTO_SPANS = ["md:col-span-3", "md:col-span-3", "md:col-span-4", "md:col-span-2", "md:col-span-2", "md:col-span-4"];
 
 // --- HELPERS ---
 
@@ -99,7 +88,7 @@ function CardMedia({ media, mediaType, title }: { media: string; mediaType?: "im
 
 // --- ShapedCard Component ---
 
-function ShapedCard({ item }: { item: ShapedItem }) {
+function ShapedCard({ item, spanClass }: { item: ShapedItem; spanClass: string }) {
     const slug = item.title.toLowerCase().replace(/[^a-z0-9]+/g, "-");
     const [ref, isInView] = useInViewOnce();
     const prefersReducedMotion = usePrefersReducedMotion();
@@ -108,7 +97,7 @@ function ShapedCard({ item }: { item: ShapedItem }) {
     return (
         <div
             ref={ref}
-            className={`${item.span} transition-[opacity,transform] duration-500 ease-out`}
+            className={`${spanClass} transition-[opacity,transform] duration-500 ease-out`}
             style={{
                 opacity: revealed ? 1 : 0,
                 transform: revealed ? "translateY(0)" : "translateY(12px)",
@@ -152,12 +141,6 @@ export default function Shaped() {
                     <p className="absolute bottom-[22%] left-[8%] text-4xl md:text-6xl font-sfmono text-white opacity-[0.02] whitespace-nowrap rotate-[1deg]">
                         &gt; parsing experiences...
                     </p>
-                    <p className="absolute bottom-[8%] right-[12%] text-2xl md:text-4xl font-sfmono text-white opacity-[0.03] whitespace-nowrap">
-                        exit_code: 0
-                    </p>
-
-
-
                     {/* Vertical pipe decorations */}
                     <div className="absolute top-[12%] left-[48%] font-sfmono text-white opacity-[0.035] text-xs leading-tight whitespace-pre">
                         {`│
@@ -174,6 +157,64 @@ export default function Shaped() {
 └───────┘`}
                     </div>
                 </div>
+
+                {/* ── Whoami intro ── */}
+                <SectionPrompt command="whoami" className="relative z-[1] mb-6" startOnMount />
+                <SectionReveal className="relative z-[1] mb-10 overflow-hidden rounded-md border border-white/10 bg-[#141414] shadow-2xl shadow-black/20">
+                    <div className="flex flex-col gap-6 p-5 sm:flex-row sm:items-start sm:p-7 md:p-8">
+                        <div className="group/avatar h-28 w-28 shrink-0 overflow-hidden rounded-md border border-edge bg-[#161616] p-1">
+                            <img
+                                src="/pfp.PNG"
+                                alt="Manthan"
+                                className="h-full w-full rounded object-cover grayscale transition-all duration-400 ease-out group-hover/avatar:grayscale-0"
+                            />
+                        </div>
+                        <div className="min-w-0 flex-1 space-y-3">
+                            <div>
+                                <h1 className="text-xl font-bold text-ink-primary">Manthan</h1>
+                                <p className="mt-0.5 text-sm text-ink-secondary">ML engineer · IIT Bombay</p>
+                            </div>
+                            <p className="max-w-xl text-[14px] leading-relaxed text-ink-secondary">
+                                I build where math meets machinery — models that learn, pipelines that ship, and
+                                interfaces people actually enjoy using. Most days you'll find me somewhere between a
+                                terminal and a sketchbook.
+                            </p>
+                            <p className="text-[13px] text-ink-muted">
+                                <span className="text-ink-secondary">currently:</span> deep in diffusion models,
+                                watching structure emerge from noise.
+                            </p>
+                            <div className="flex flex-wrap gap-5 pt-1 text-sm text-ink-secondary">
+                                <a
+                                    href="https://github.com/silentlooop"
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="relative transition-colors hover:text-white"
+                                >
+                                    github ↗
+                                    <TerminalHint text="$ git log --since=3am" placement="below-start" />
+                                </a>
+                                <a
+                                    href="https://www.linkedin.com/in/manthan-p-6457b3313"
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="relative transition-colors hover:text-white"
+                                >
+                                    linkedin ↗
+                                    <TerminalHint text="$ open ./me --in-a-blazer" placement="below-start" />
+                                </a>
+                                <a
+                                    href="/resume.pdf"
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="relative transition-colors hover:text-white"
+                                >
+                                    resume ↗
+                                    <TerminalHint text="$ cat resume.pdf" placement="below-start" />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </SectionReveal>
 
                 {/* ── Terminal Window Bar ── */}
                 <SectionPrompt command="cat ./me/about" className="relative z-[1] mb-6" />
@@ -219,60 +260,43 @@ export default function Shaped() {
                     </div>
                 </SectionReveal>
 
-                {/* ══════════ CARD GRID ══════════ */}
-                <div className="relative z-[1] grid grid-cols-1 gap-x-3 gap-y-6 md:grid-cols-12 md:gap-x-4 md:gap-y-8">
-                    {/* Row 1 */}
-                    {shapedItems.slice(0, 2).map((item) => (
-                        <ShapedCard key={item.title} item={item} />
-                    ))}
-                </div>
-
-                {/* ══════════ CARD GRID ══════════ */}
-                <div className="relative z-[1] mt-6 grid grid-cols-1 gap-x-3 gap-y-6 md:mt-8 md:grid-cols-12 md:gap-x-4 md:gap-y-8">
-                    {/* Row 2 */}
-                    {shapedItems.slice(2, 4).map((item) => (
-                        <ShapedCard key={item.title} item={item} />
-                    ))}
-                </div>
-
-                {/* ══════════ CARD GRID ══════════ */}
-                <div className="relative z-[1] mt-6 grid grid-cols-1 gap-x-3 gap-y-6 md:mt-8 md:grid-cols-12 md:gap-x-4 md:gap-y-8">
-                    {/* Row 3 */}
-                    {shapedItems.slice(4, 6).map((item) => (
-                        <ShapedCard key={item.title} item={item} />
+                {/* ══════════ BENTO CARD GRID ══════════ */}
+                <div className="relative z-[1] grid grid-cols-1 gap-6 md:grid-cols-6">
+                    {shapedItems.map((item, i) => (
+                        <ShapedCard key={item.title} item={item} spanClass={BENTO_SPANS[i]} />
                     ))}
                 </div>
 
                 {/* ── Anime Terminal Log ── */}
                 <SectionPrompt command="cat ./me/anime" className="relative z-[1] mt-12 mb-6" />
 
-                <div className="relative z-[1] mx-auto mb-4 max-w-4xl rounded-md border border-white/10 bg-[#141414] p-5 font-sfmono text-xs text-gray-300 shadow-2xl shadow-black/20 md:p-6 md:text-sm">
+                <div className="relative z-[1] mb-4 rounded-md border border-white/10 bg-[#141414] p-5 font-sfmono text-xs text-gray-300 shadow-2xl shadow-black/20 md:p-6 md:text-sm">
                     <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-x-12">
                         <div>
-                            <span className="text-gray-500">$</span> Anime Series (Top 10)
-                            <br />
-                            <span className="text-ink-primary">BLACK CLOVER</span><br />
-                            <span className="text-ink-primary">HYOUKA</span><br />
-                            <span className="text-ink-primary">FRIEREN</span><br />
-                            <span className="text-ink-primary">TOKYO GHOUL</span><br />
-                            <span className="text-ink-primary">NARUTO</span><br />
-                            <span className="text-ink-primary">ONE PIECE</span><br />
-                            <span className="text-ink-primary">BLEACH</span><br />
-                            <span className="text-ink-primary">DEMON SLAYER</span><br />
-                            <span className="text-ink-primary">BUNGO STRAY DOGS</span><br />
-                            <span className="text-ink-primary">AOT</span><br />
+                            <span className="text-ink-muted">$</span> <span className="text-ink-muted">Anime Series (Top 10)</span>
+                            <ol className="mt-2 space-y-1">
+                                {[
+                                    "Black Clover", "Hyouka", "Frieren", "Tokyo Ghoul", "Naruto",
+                                    "One Piece", "Bleach", "Demon Slayer", "Bungo Stray Dogs", "AOT",
+                                ].map((name, i) => (
+                                    <li key={name} className="text-ink-primary">
+                                        <span className="text-ink-muted">{String(i + 1).padStart(2, "0")}</span> {name}
+                                    </li>
+                                ))}
+                            </ol>
                         </div>
                         <div>
-                            <span className="text-gray-500">$</span> Anime Movies
-                            <br />
-                            <span className="text-ink-primary">THE LIGHT OF FIREFLY FOREST</span><br />
-                            <span className="text-ink-primary">YOUR NAME</span><br />
-                            <span className="text-ink-primary">SUZUME</span><br />
-                            <span className="text-ink-primary">A SILENT VOICE</span><br />
-                            <span className="text-ink-primary">5CM PER SECOND</span><br />
-                            <span className="text-ink-primary">GARDEN OF WORDS</span><br />
-                            <span className="text-ink-primary">NARUTO MOVIES</span><br />
-                            <span className="text-ink-primary">SPY FAMILY : CODE WHITE</span><br />
+                            <span className="text-ink-muted">$</span> <span className="text-ink-muted">Anime Movies</span>
+                            <ol className="mt-2 space-y-1">
+                                {[
+                                    "The Light of Firefly Forest", "Your Name", "Suzume", "A Silent Voice",
+                                    "5cm Per Second", "Garden of Words", "Naruto Movies", "Spy Family: Code White",
+                                ].map((name, i) => (
+                                    <li key={name} className="text-ink-primary">
+                                        <span className="text-ink-muted">{String(i + 1).padStart(2, "0")}</span> {name}
+                                    </li>
+                                ))}
+                            </ol>
                         </div>
                     </div>
                 </div>
