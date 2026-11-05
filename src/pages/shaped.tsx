@@ -140,7 +140,7 @@ export default function Shaped() {
         <div className="relative min-h-screen bg-[#111111]">
             <NavBar />
 
-            <main className="pt-24 pb-20 px-5 max-w-5xl mx-auto relative text-white font-sfmono">
+            <main className="pt-24 pb-20 px-5 max-w-content mx-auto relative text-white font-sfmono">
 
                 {/* ── Background decorative layer ── */}
                 <div className="absolute inset-0 pointer-events-none select-none overflow-hidden z-0">

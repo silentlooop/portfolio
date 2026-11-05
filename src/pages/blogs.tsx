@@ -19,7 +19,7 @@ const Blogs = () => {
         <>
             <NavBar />
             <div className="relative min-h-screen bg-[#111111] text-white font-sfmono pt-24 pb-20">
-                <div className="relative w-full px-5 max-w-5xl mx-auto">
+                <div className="relative w-full px-5 max-w-content mx-auto">
                     <SectionPrompt command="cat ./blogs" className="mb-6" />
                     <div aria-hidden="true" className="pointer-events-none mb-4 hidden items-center gap-3 md:flex">
                         <span className="font-sfmono text-[10px] text-zinc-600">03</span>

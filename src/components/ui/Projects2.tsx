@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { SectionReveal } from "./terminal-effects";
 import { TerminalHint } from "./terminal-hint";
 import { playReelClick } from "../../lib/sound";
@@ -29,6 +29,26 @@ function ProjectCard({
   const isVideo = ("video" in project && !!project.video) || isVideoUrl(media);
   const title = toTitleCase(project.title);
   const meta = `${project.year} · ${project.role} · ${project.stack[0]}`;
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (!isVideo) return;
+    const el = videoRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.play().catch(() => {});
+        } else {
+          el.pause();
+        }
+      },
+      { threshold: 0.25 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [isVideo]);
 
   return (
     <a
@@ -54,12 +74,13 @@ function ProjectCard({
         <div className="flex h-full w-full items-center justify-center">
           {isVideo ? (
             <video
+              ref={videoRef}
               src={media}
               className="h-full w-full object-contain transition-transform duration-400 ease-out group-hover/card:scale-[1.02]"
-              autoPlay
               loop
               muted
               playsInline
+              preload="metadata"
             />
           ) : (
             <img
