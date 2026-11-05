@@ -158,64 +158,6 @@ export default function Shaped() {
                     </div>
                 </div>
 
-                {/* ── Whoami intro ── */}
-                <SectionPrompt command="whoami" className="relative z-[1] mb-6" startOnMount />
-                <SectionReveal className="relative z-[1] mb-10 overflow-hidden rounded-md border border-white/10 bg-[#141414] shadow-2xl shadow-black/20">
-                    <div className="flex flex-col gap-6 p-5 sm:flex-row sm:items-start sm:p-7 md:p-8">
-                        <div className="group/avatar h-28 w-28 shrink-0 overflow-hidden rounded-md border border-edge bg-[#161616] p-1">
-                            <img
-                                src="/pfp.PNG"
-                                alt="Manthan"
-                                className="h-full w-full rounded object-cover grayscale transition-all duration-400 ease-out group-hover/avatar:grayscale-0"
-                            />
-                        </div>
-                        <div className="min-w-0 flex-1 space-y-3">
-                            <div>
-                                <h1 className="text-xl font-bold text-ink-primary">Manthan</h1>
-                                <p className="mt-0.5 text-sm text-ink-secondary">ML engineer · IIT Bombay</p>
-                            </div>
-                            <p className="max-w-xl text-[14px] leading-relaxed text-ink-secondary">
-                                I build where math meets machinery — models that learn, pipelines that ship, and
-                                interfaces people actually enjoy using. Most days you'll find me somewhere between a
-                                terminal and a sketchbook.
-                            </p>
-                            <p className="text-[13px] text-ink-muted">
-                                <span className="text-ink-secondary">currently:</span> deep in diffusion models,
-                                watching structure emerge from noise.
-                            </p>
-                            <div className="flex flex-wrap gap-5 pt-1 text-sm text-ink-secondary">
-                                <a
-                                    href="https://github.com/silentlooop"
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className="relative transition-colors hover:text-white"
-                                >
-                                    github ↗
-                                    <TerminalHint text="$ git log --since=3am" placement="below-start" />
-                                </a>
-                                <a
-                                    href="https://www.linkedin.com/in/manthan-p-6457b3313"
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className="relative transition-colors hover:text-white"
-                                >
-                                    linkedin ↗
-                                    <TerminalHint text="$ open ./me --in-a-blazer" placement="below-start" />
-                                </a>
-                                <a
-                                    href="/resume.pdf"
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className="relative transition-colors hover:text-white"
-                                >
-                                    resume ↗
-                                    <TerminalHint text="$ cat resume.pdf" placement="below-start" />
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </SectionReveal>
-
                 {/* ── Terminal Window Bar ── */}
                 <SectionPrompt command="cat ./me/about" className="relative z-[1] mb-6" />
                 <div aria-hidden="true" className="pointer-events-none relative z-[1] mb-4 hidden items-center gap-3 md:flex">
@@ -247,12 +189,23 @@ export default function Shaped() {
                         </span>
                     </div>
                     <div className="px-5 py-6 font-sfmono text-sm sm:px-7 sm:py-7 md:px-10 md:py-8">
-                        <p className="flex items-center gap-2 text-gray-500">
-                            <span className="text-gray-600">$</span> cat manifest.txt
-                        </p>
-                        <p className="mt-3 max-w-xl text-[13px] leading-relaxed text-gray-400 sm:text-[15px]">
-                            a running log of things that left a mark — some serious, some not, all true.
-                        </p>
+                        <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
+                            <div className="group/avatar h-20 w-20 shrink-0 overflow-hidden rounded-md border border-edge bg-[#161616] p-1">
+                                <img
+                                    src="/pfp.PNG"
+                                    alt="Manthan"
+                                    className="h-full w-full rounded object-cover grayscale transition-all duration-400 ease-out group-hover/avatar:grayscale-0"
+                                />
+                            </div>
+                            <div className="min-w-0 flex-1">
+                                <p className="flex items-center gap-2 text-gray-500">
+                                    <span className="text-gray-600">$</span> cat manifest.txt
+                                </p>
+                                <p className="mt-3 max-w-xl text-[13px] leading-relaxed text-gray-400 sm:text-[15px]">
+                                    a running log of things that left a mark — some serious, some not, all true.
+                                </p>
+                            </div>
+                        </div>
                         <div className="mt-6 flex items-center justify-between border-t border-white/5 pt-4 text-xs text-zinc-600">
                             <span>status: <span className="text-[#fde047]">online</span></span>
                             <span>process: profile_loaded</span>
