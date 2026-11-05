@@ -124,13 +124,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           )}
         </div>
       </article>
-      <div className="pt-2 pb-3 px-3">
+      <div className="relative pt-2 pb-3 px-3">
         <div className="font-semibold text-white text-base">{title}</div>
         <div className="text-zinc-500 text-xs mt-[2px]">{category}</div>
         {description && (
-          <div className="grid grid-rows-[0fr] transition-[grid-template-rows] duration-250 ease-out group-hover/card:grid-rows-[1fr]">
-            <div className="overflow-hidden">
-              <div className="pt-1.5 text-xs leading-relaxed text-zinc-400">{description}</div>
+          <div className="pointer-events-none absolute left-3 right-3 top-full z-20 -translate-y-1 opacity-0 transition-[opacity,transform] duration-250 ease-out group-hover/card:translate-y-0 group-hover/card:opacity-100">
+            <div className="rounded-sm bg-[#111111]/95 pt-1.5 text-xs leading-relaxed text-zinc-400 backdrop-blur-sm">
+              {description}
             </div>
           </div>
         )}
