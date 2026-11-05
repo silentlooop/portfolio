@@ -23,10 +23,10 @@ const displayFont = {
 function ProjectMeta({ label, value }: { label: string; value: string }) {
   return (
     <div className="space-y-1">
-      <h3 className="text-[13px] md:text-[14px] text-[#6a9955]/80 uppercase tracking-[0.05em] select-none" style={monoFont}>
+      <h3 className="text-[14px] md:text-[15px] text-[#6a9955]/80 uppercase tracking-[0.05em] select-none" style={monoFont}>
         {label}
       </h3>
-      <p className="text-[#EBEBF5] text-[15px] md:text-[16px] leading-snug" style={monoFont}>
+      <p className="text-ink-primary text-[16px] md:text-[17px] leading-snug" style={monoFont}>
         {value}
       </p>
     </div>
@@ -64,7 +64,7 @@ const staggerContainer: Variants = {
 
 function TechBadge({ text }: { text: string }) {
   return (
-    <span className="px-3 py-1 text-[12px] text-ink-secondary border border-edge bg-white/[0.03]" style={monoFont}>
+    <span className="px-3 py-1 text-[13px] text-ink-secondary border border-edge bg-white/[0.03]" style={monoFont}>
       {text}
     </span>
   );
@@ -119,7 +119,7 @@ export default function ProjectDetail() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="break-words text-6xl font-bold leading-none tracking-tighter text-[#EBEBF5] sm:text-7xl md:text-8xl"
+              className="break-words text-6xl font-bold leading-none tracking-tighter text-ink-primary sm:text-7xl md:text-8xl"
               style={displayFont}
             >
               {project.title}
@@ -128,21 +128,21 @@ export default function ProjectDetail() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4, duration: 0.8 }}
-              className="max-w-2xl break-words text-[16px] leading-relaxed text-[#999] md:text-[18px]"
+              className="max-w-2xl break-words text-[17px] leading-relaxed text-ink-secondary md:text-[19px]"
               style={monoFont}
             >
               {project.subtitle} <br />
-              <span className="text-[#666]">{project.category}</span>
+              <span className="text-ink-muted">{project.category}</span>
             </motion.p>
           </div>
 
-          <div className="grid min-w-0 grid-cols-2 gap-8 border-l border-[#333] pl-8 md:col-span-4 md:pl-12">
+          <div className="grid min-w-0 grid-cols-2 gap-8 border-l border-edge pl-8 md:col-span-4 md:pl-12">
             <ProjectMeta label="Role" value={project.role} />
             <ProjectMeta label="Year" value={project.year} />
             <ProjectMeta label="Type" value={project.type} />
 
             <div className="space-y-2 col-span-2">
-              <h3 className="text-[13px] md:text-[14px] text-[#6a9955]/80 uppercase tracking-[0.05em] select-none" style={monoFont}>// Stack</h3>
+              <h3 className="text-[14px] md:text-[15px] text-[#6a9955]/80 uppercase tracking-[0.05em] select-none" style={monoFont}>// Stack</h3>
               <div className="flex flex-wrap gap-2">
                 {project.stack.map((tech) => (
                   <TechBadge key={tech} text={tech} />
@@ -193,11 +193,11 @@ export default function ProjectDetail() {
                   href={project.sourceLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group relative block w-full py-4 border-t border-b border-[#333] hover:border-[#fde047] transition-colors"
+                  className="group relative block w-full py-4 border-t border-b border-edge hover:border-[#fde047] transition-colors"
                 >
                   <TerminalHint text="$ cat ./src --judge-gently" placement="below-start" />
                   <div className="flex items-center justify-between" style={monoFont}>
-                    <span className="text-[13px] uppercase tracking-widest text-[#7a7770] group-hover:text-[#fde047]">
+                    <span className="text-[14px] uppercase tracking-widest text-ink-muted group-hover:text-[#fde047]">
                       View Source
                     </span>
                     <span className="text-lg group-hover:translate-x-1 transition-transform group-hover:text-[#fde047]">
@@ -207,7 +207,7 @@ export default function ProjectDetail() {
                 </a>
               )}
 
-              <p className="text-[14px] md:text-[15px] text-[#888] leading-relaxed" style={monoFont}>
+              <p className="text-[15px] md:text-[16px] text-ink-secondary leading-relaxed" style={monoFont}>
                 {project.description}
               </p>
             </div>
@@ -216,32 +216,32 @@ export default function ProjectDetail() {
           {/* Narrative */}
           <div className="min-w-0 space-y-16 md:col-span-8">
             <motion.section variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true }} className="space-y-4">
-              <motion.h2 variants={fadeInUp} className="text-[22px] font-bold text-[#EBEBF5]" style={monoFont}><span className="mr-2 text-[#6a9955]/80">##</span>The Challenge</motion.h2>
-              <motion.p variants={fadeInUp} className="break-words text-[16px] leading-relaxed text-[#999] md:text-[17px]" style={monoFont}>{project.challenge}</motion.p>
+              <motion.h2 variants={fadeInUp} className="text-[23px] font-bold text-ink-primary" style={monoFont}><span className="mr-2 text-[#6a9955]/80">##</span>The Challenge</motion.h2>
+              <motion.p variants={fadeInUp} className="max-w-[65ch] break-words text-[17px] leading-relaxed text-ink-secondary md:text-[18px]" style={monoFont}>{project.challenge}</motion.p>
             </motion.section>
 
             <motion.section variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true }} className="space-y-4">
-              <motion.h2 variants={fadeInUp} className="text-[22px] font-bold text-[#EBEBF5]" style={monoFont}><span className="mr-2 text-[#6a9955]/80">##</span>The Solution</motion.h2>
-              <motion.p variants={fadeInUp} className="break-words text-[16px] leading-relaxed text-[#999] md:text-[17px]" style={monoFont}>{project.solution}</motion.p>
+              <motion.h2 variants={fadeInUp} className="text-[23px] font-bold text-ink-primary" style={monoFont}><span className="mr-2 text-[#6a9955]/80">##</span>The Solution</motion.h2>
+              <motion.p variants={fadeInUp} className="max-w-[65ch] break-words text-[17px] leading-relaxed text-ink-secondary md:text-[18px]" style={monoFont}>{project.solution}</motion.p>
             </motion.section>
 
             <motion.section variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true }} className="space-y-4">
-              <motion.h2 variants={fadeInUp} className="text-[22px] font-bold text-[#EBEBF5]" style={monoFont}><span className="mr-2 text-[#6a9955]/80">##</span>Impact</motion.h2>
-              <motion.p variants={fadeInUp} className="break-words text-[16px] leading-relaxed text-[#999] md:text-[17px]" style={monoFont}>{project.impact}</motion.p>
+              <motion.h2 variants={fadeInUp} className="text-[23px] font-bold text-ink-primary" style={monoFont}><span className="mr-2 text-[#6a9955]/80">##</span>Impact</motion.h2>
+              <motion.p variants={fadeInUp} className="max-w-[65ch] break-words text-[17px] leading-relaxed text-ink-secondary md:text-[18px]" style={monoFont}>{project.impact}</motion.p>
             </motion.section>
           </div>
         </div>
 
         {/* --- NEXT PROJECT --- */}
-        <div className="mt-40 border-t border-[#333] pt-12 pb-16 flex justify-between items-end group cursor-pointer">
+        <div className="mt-40 border-t border-edge pt-12 pb-16 flex justify-between items-end group cursor-pointer">
           <div>
-            <p className="text-[13px] text-[#7a7770] uppercase mb-2" style={monoFont}>Next Project</p>
+            <p className="text-[14px] text-ink-muted uppercase mb-2" style={monoFont}>Next Project</p>
             <Link to={`/projects/${project.nextProject}`} className="relative text-3xl md:text-5xl font-bold text-white group-hover:text-[#fde047] transition-colors tracking-tight" style={displayFont}>
               {project.nextProjectTitle}
               <TerminalHint text="$ next --one-more" placement="below-start" />
             </Link>
           </div>
-          <span className="text-2xl text-[#666] group-hover:translate-x-2 transition-transform duration-300">→</span>
+          <span className="text-2xl text-ink-muted group-hover:translate-x-2 transition-transform duration-300">→</span>
         </div>
 
           </div>
