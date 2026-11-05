@@ -15,7 +15,7 @@ type HomeRailProps = {
 
 export function HomeRail({ activeSlug, onHoverIndex, onSelectIndex }: HomeRailProps) {
   return (
-    <aside className="mb-10 lg:sticky lg:top-24 lg:mb-0 lg:h-fit lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto">
+    <aside className="mb-10 lg:sticky lg:top-24 lg:mb-0 lg:h-fit">
       <div className="space-y-6 font-sfmono">
         <div>
           <h1 className="text-2xl font-bold text-ink-primary">Manthan</h1>
@@ -27,13 +27,6 @@ export function HomeRail({ activeSlug, onHoverIndex, onSelectIndex }: HomeRailPr
           people actually enjoy using. Currently deep in diffusion models, watching structure emerge
           from noise.
         </p>
-
-        <div className="flex items-center gap-2 text-sm text-ink-muted">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#fde047] animate-pulse" />
-          <span>
-            status: <span className="text-[#fde047]">online</span>
-          </span>
-        </div>
 
         <nav
           aria-label="Projects index"
@@ -59,7 +52,7 @@ export function HomeRail({ activeSlug, onHoverIndex, onSelectIndex }: HomeRailPr
           })}
         </nav>
 
-        <div className="flex flex-col gap-2.5 border-t border-white/5 pt-5 text-sm text-ink-secondary">
+        <div className="flex flex-col gap-2.5 border-t border-white/5 pt-5 text-sm text-[#6a9955]/80">
           <a
             href="https://github.com/silentlooop"
             target="_blank"
