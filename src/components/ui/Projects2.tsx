@@ -5,7 +5,6 @@ import { SectionReveal } from "./terminal-effects";
 import { TerminalHint } from "./terminal-hint";
 import { EFFECTS } from "../../lib/effects-config";
 import { playReelClick } from "../../lib/sound";
-import { projects } from "../../data/projects";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -37,7 +36,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 }) => {
   const Wrapper: React.ElementType = href ? "a" : "div";
   const projectSlug = href?.split("/").filter(Boolean).pop() ?? title.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-  const description = projects.find((p) => p.slug === projectSlug)?.description;
 
   // Determine media type from file extension if not explicitly provided
   const isVideo = mediaType === "video" ||
@@ -124,16 +122,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           )}
         </div>
       </article>
-      <div className="relative pt-2 pb-3 px-3">
+      <div className="pt-2 pb-3 px-3">
         <div className="font-semibold text-white text-base">{title}</div>
         <div className="text-zinc-500 text-xs mt-[2px]">{category}</div>
-        {description && (
-          <div className="pointer-events-none absolute left-3 right-3 top-full z-20 -translate-y-1 opacity-0 transition-[opacity,transform] duration-250 ease-out group-hover/card:translate-y-0 group-hover/card:opacity-100">
-            <div className="rounded-sm bg-[#111111]/95 pt-1.5 text-xs leading-relaxed text-zinc-400 backdrop-blur-sm">
-              {description}
-            </div>
-          </div>
-        )}
       </div>
     </Wrapper>
   );
