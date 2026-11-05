@@ -23,7 +23,7 @@ const displayFont = {
 function ProjectMeta({ label, value }: { label: string; value: string }) {
   return (
     <div className="space-y-1">
-      <h3 className="text-[13px] md:text-[14px] text-[#555] uppercase tracking-[0.05em] select-none" style={monoFont}>
+      <h3 className="text-[13px] md:text-[14px] text-[#6a9955]/80 uppercase tracking-[0.05em] select-none" style={monoFont}>
         {label}
       </h3>
       <p className="text-[#EBEBF5] text-[15px] md:text-[16px] leading-snug" style={monoFont}>
@@ -102,6 +102,13 @@ export default function ProjectDetail() {
               <span className="truncate font-mono text-xs text-zinc-400">./projects/{project.slug}</span>
             </div>
           </div>
+          <div className="flex items-center gap-1.5 border-b border-white/5 bg-[#111111] px-4 py-2 font-sfmono text-[10px] text-zinc-600 md:px-5">
+            <span>~</span>
+            <span className="text-zinc-700">›</span>
+            <span>projects</span>
+            <span className="text-zinc-700">›</span>
+            <span className="text-zinc-400">{project.slug}.md</span>
+          </div>
 
           <div className="mx-auto w-full min-w-0 max-w-6xl px-5 sm:px-8 md:px-10">
         {/* --- HERO SECTION --- */}
@@ -135,7 +142,7 @@ export default function ProjectDetail() {
             <ProjectMeta label="Type" value={project.type} />
 
             <div className="space-y-2 col-span-2">
-              <h3 className="text-[13px] md:text-[14px] text-[#555] uppercase tracking-[0.05em] select-none" style={monoFont}>// Stack</h3>
+              <h3 className="text-[13px] md:text-[14px] text-[#6a9955]/80 uppercase tracking-[0.05em] select-none" style={monoFont}>// Stack</h3>
               <div className="flex flex-wrap gap-2">
                 {project.stack.map((tech) => (
                   <TechBadge key={tech} text={tech} />
@@ -209,17 +216,17 @@ export default function ProjectDetail() {
           {/* Narrative */}
           <div className="min-w-0 space-y-16 md:col-span-8">
             <motion.section variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true }} className="space-y-4">
-              <motion.h2 variants={fadeInUp} className="text-[22px] font-bold text-[#EBEBF5]" style={monoFont}>The Challenge</motion.h2>
+              <motion.h2 variants={fadeInUp} className="text-[22px] font-bold text-[#EBEBF5]" style={monoFont}><span className="mr-2 text-[#6a9955]/80">##</span>The Challenge</motion.h2>
               <motion.p variants={fadeInUp} className="break-words text-[16px] leading-relaxed text-[#999] md:text-[17px]" style={monoFont}>{project.challenge}</motion.p>
             </motion.section>
 
             <motion.section variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true }} className="space-y-4">
-              <motion.h2 variants={fadeInUp} className="text-[22px] font-bold text-[#EBEBF5]" style={monoFont}>The Solution</motion.h2>
+              <motion.h2 variants={fadeInUp} className="text-[22px] font-bold text-[#EBEBF5]" style={monoFont}><span className="mr-2 text-[#6a9955]/80">##</span>The Solution</motion.h2>
               <motion.p variants={fadeInUp} className="break-words text-[16px] leading-relaxed text-[#999] md:text-[17px]" style={monoFont}>{project.solution}</motion.p>
             </motion.section>
 
             <motion.section variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true }} className="space-y-4">
-              <motion.h2 variants={fadeInUp} className="text-[22px] font-bold text-[#EBEBF5]" style={monoFont}>Impact</motion.h2>
+              <motion.h2 variants={fadeInUp} className="text-[22px] font-bold text-[#EBEBF5]" style={monoFont}><span className="mr-2 text-[#6a9955]/80">##</span>Impact</motion.h2>
               <motion.p variants={fadeInUp} className="break-words text-[16px] leading-relaxed text-[#999] md:text-[17px]" style={monoFont}>{project.impact}</motion.p>
             </motion.section>
           </div>

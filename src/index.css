@@ -3,8 +3,35 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    /* text */
+    --text-primary: #EDEDED;
+    --text-secondary: #A1A1A1;
+    --text-muted: #6B6B6B;
+
+    /* surfaces */
+    --surface-bg: #111111;
+    --surface-raised: #141414;
+    --surface-border: rgba(255, 255, 255, 0.08);
+    --surface-border-hover: rgba(255, 255, 255, 0.16);
+
+    /* accent (existing yellow) */
+    --accent: #fde047;
+  }
+
   html, body {
     background-color: #111111;
+    overflow-x: hidden;
+  }
+
+  a, button, [tabindex] {
+    outline-color: var(--accent);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 2px;
   }
 
   @keyframes terminal-blink {
@@ -25,6 +52,49 @@
     to {
       opacity: 1;
       transform: translateY(0);
+    }
+  }
+
+  @keyframes grain-shift {
+    0% { transform: translate(0, 0); }
+    10% { transform: translate(-2%, -4%); }
+    20% { transform: translate(-6%, 2%); }
+    30% { transform: translate(4%, -2%); }
+    40% { transform: translate(-3%, 5%); }
+    50% { transform: translate(5%, 0%); }
+    60% { transform: translate(0%, 4%); }
+    70% { transform: translate(-4%, 0%); }
+    80% { transform: translate(3%, 3%); }
+    90% { transform: translate(-2%, -3%); }
+    100% { transform: translate(0, 0); }
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .custom-cursor-active,
+    .custom-cursor-active * {
+      cursor: none !important;
+    }
+  }
+
+  @keyframes scanline-sweep {
+    0% { top: -20%; opacity: 0; }
+    15% { opacity: 0.8; }
+    85% { opacity: 0.8; }
+    100% { top: 120%; opacity: 0; }
+  }
+
+  @keyframes crt-expand {
+    0% {
+      transform: scaleX(0) scaleY(0.002);
+      opacity: 1;
+    }
+    55% {
+      transform: scaleX(1) scaleY(0.002);
+      opacity: 1;
+    }
+    100% {
+      transform: scaleX(1) scaleY(1);
+      opacity: 0;
     }
   }
 

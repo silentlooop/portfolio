@@ -6,6 +6,34 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors: {
+        ink: {
+          primary: "var(--text-primary)",
+          secondary: "var(--text-secondary)",
+          muted: "var(--text-muted)",
+        },
+        surface: {
+          bg: "var(--surface-bg)",
+          raised: "var(--surface-raised)",
+        },
+        edge: {
+          DEFAULT: "var(--surface-border)",
+          hover: "var(--surface-border-hover)",
+        },
+      },
+      fontSize: {
+        "2xs": ["12px", { lineHeight: "16px" }],
+        heading: ["28px", { lineHeight: "36px", letterSpacing: "-0.01em" }],
+        hero: ["clamp(2.75rem, 6vw, 4rem)", { lineHeight: "1.05", letterSpacing: "-0.02em" }],
+      },
+      transitionDuration: {
+        150: "150ms",
+        250: "250ms",
+        400: "400ms",
+      },
+      maxWidth: {
+        content: "1100px",
+      },
       keyframes: {
         highlight: {
           "0%": { backgroundColor: "transparent" },

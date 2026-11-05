@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useInViewOnce, usePrefersReducedMotion } from "./use-terminal-effects";
+import { playTick } from "../../lib/sound";
 
 type TypewriterLineProps = {
     text: string;
@@ -41,6 +42,7 @@ export function TypewriterLine({
                     return previous;
                 }
 
+                playTick();
                 return previous + 1;
             });
         }, speedMs);

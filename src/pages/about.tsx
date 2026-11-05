@@ -1,11 +1,17 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
 import type { Variants } from "framer-motion";
 import { SectionPrompt, SectionReveal } from "../components/ui/terminal-effects";
 import { TerminalHint } from "../components/ui/terminal-hint";
-import { Arrow, Measure, MeasureVertical, Note, RegMark, Signature } from "../components/ui/annotations";
+import { Arrow, Measure, Note, RegMark, Signature } from "../components/ui/annotations";
+import { MuteToggle } from "../components/ui/mute-toggle";
+import { ScrambleText } from "../components/ui/scramble-text";
+import { useInViewOnce, usePrefersReducedMotion } from "../components/ui/use-terminal-effects";
+import { FaLinkedin, FaXTwitter, FaGithub } from "react-icons/fa6";
+import { SiLeetcode, SiMonkeytype } from "react-icons/si";
 
 // --- HELPERS ---
 
@@ -30,55 +36,81 @@ function TerminalExperience() {
     ];
 
     const visibleExperiences = experiences.filter((experience) => experience.type === activeType);
+    const categories = [
+        { key: "college" as const, hint: "$ make learn && make ship" },
+        { key: "industry" as const, hint: "$ hire manthan --vacancy=open" },
+    ];
 
     return (
-        <div className="w-full max-w-5xl mx-auto rounded-md border border-white/10 bg-[#141414] font-mono text-[14px] text-gray-300 shadow-2xl shadow-black/20 md:text-[15px]">
-            <div role="tablist" aria-label="Experience types" className="flex min-w-0 items-end gap-3 border-b border-white/10 bg-[#111111] px-3 pt-2 md:px-5">
-                <div className="flex shrink-0 items-center gap-2 px-2 pb-3">
-                    <span className="h-2.5 w-2.5 rounded-full bg-red-500"></span>
-                    <span className="h-2.5 w-2.5 rounded-full bg-yellow-500"></span>
-                    <span className="h-2.5 w-2.5 rounded-full bg-green-500"></span>
+        <div className="w-full max-w-5xl mx-auto font-mono text-[14px] text-gray-300 md:text-[15px]">
+            {/* Same sidebar + panel system as the trajectory section above */}
+            <div className="grid gap-4 md:grid-cols-[13rem_1fr]">
+                <nav aria-label="Experience categories" className="overflow-hidden rounded-md border border-white/10 bg-[#141414] shadow-2xl shadow-black/20 md:self-start">
+                    <div className="flex items-center gap-2 border-b border-white/10 bg-[#111111] px-4 py-3">
+                        <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-red-500" />
+                        <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-yellow-500" />
+                        <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-green-500" />
+                        <span className="ml-2 truncate text-[11px] text-zinc-600">~/experience</span>
+                    </div>
+                    <div className="px-3 pt-2.5 text-[10px] font-semibold uppercase tracking-wider text-zinc-600">Explorer</div>
+                    <div role="tablist" aria-label="Experience categories" className="flex gap-1 overflow-x-auto p-2 md:flex-col md:overflow-visible">
+                        {categories.map((cat) => {
+                            const isActive = activeType === cat.key;
+                            return (
+                                <button
+                                    key={cat.key}
+                                    type="button"
+                                    role="tab"
+                                    aria-selected={isActive}
+                                    onClick={() => setActiveType(cat.key)}
+                                    className={`relative flex w-full shrink-0 items-center gap-2 rounded px-3 py-2.5 text-left text-[11px] font-sfmono transition-colors md:text-xs ${isActive ? "bg-white/5 text-zinc-200" : "text-zinc-600 hover:bg-white/[0.03] hover:text-zinc-400"}`}
+                                >
+                                    {isActive && (
+                                        <motion.span layoutId="experience-sidebar-active" className="absolute inset-y-1 left-0 hidden w-0.5 rounded-full bg-zinc-300 md:block" transition={{ type: "spring", stiffness: 300, damping: 30 }} />
+                                    )}
+                                    <span className="truncate">{cat.key}.log</span>
+                                    <TerminalHint text={cat.hint} placement="below-start" />
+                                </button>
+                            );
+                        })}
+                    </div>
+                </nav>
+
+                <div className="min-w-0 overflow-hidden rounded-md border border-white/10 bg-[#141414] shadow-2xl shadow-black/20">
+                    <div className="flex items-center gap-1.5 border-b border-white/5 bg-[#111111] px-4 py-2 font-sfmono text-[10px] text-zinc-600">
+                        <span>~</span>
+                        <span className="text-zinc-700">›</span>
+                        <span>experience</span>
+                        <span className="text-zinc-700">›</span>
+                        <span className="text-zinc-400">{activeType}.log</span>
+                    </div>
+                    <div className="space-y-6 px-5 py-5 sm:px-7 sm:py-6">
+                        {visibleExperiences.length > 0 ? visibleExperiences.map((exp, idx) => (
+                            <div key={exp.company}>
+                                <div className="flex flex-wrap items-center gap-2 leading-relaxed">
+                                    <span className="text-[#6a9955]/80">$</span>
+                                    <span className="text-gray-400">cat</span>
+                                    <span className="break-all text-white">./experience/{exp.company.replace(/\s/g, '').toLowerCase()}</span>
+                                    <span className="shrink-0 text-xs text-gray-700">[{exp.period}]</span>
+                                </div>
+                                <div className="mt-2 break-words leading-relaxed">
+                                    <span className="text-[#6a9955]/80">role:</span> <span className="text-white">{exp.role}</span><br />
+                                    <span className="text-[#6a9955]/80">desc:</span> <span className="text-gray-400 break-words">{exp.desc}</span>
+                                </div>
+                                {idx !== visibleExperiences.length - 1 && <div className="mt-6 border-b border-white/5" />}
+                            </div>
+                        )) : (
+                            <div className="flex items-center gap-2 text-sm text-zinc-500">
+                                <span className="text-gray-500">$</span>
+                                <span>looking for one...</span>
+                            </div>
+                        )}
+                    </div>
                 </div>
-                {(["college", "industry"] as const).map((type) => (
-                    <button
-                        key={type}
-                        type="button"
-                        role="tab"
-                        aria-selected={activeType === type}
-                        onClick={() => setActiveType(type)}
-                        className={`relative z-10 flex min-w-0 flex-1 items-center rounded-t-md border-x border-t px-3 py-2.5 text-left text-xs capitalize transition-colors md:px-5 ${activeType === type ? "-mb-px border-white/10 bg-[#181818] text-zinc-300" : "border-transparent bg-[#111111] text-zinc-600 hover:text-zinc-400"}`}
-                    >
-                        <span className="truncate">{type}</span>
-                        <TerminalHint text={type === "college" ? "$ make learn && make ship" : "$ hire manthan --vacancy=open"} placement="below-start" />
-                    </button>
-                ))}
             </div>
-            <div className="space-y-6 px-5 pb-4 pt-5 sm:px-7 sm:pb-5 sm:pt-6 md:px-10 md:pb-6 md:pt-8">
-                {visibleExperiences.length > 0 ? visibleExperiences.map((exp, idx) => (
-                    <div key={exp.company}>
-                        <div className="flex flex-wrap items-center gap-2 leading-relaxed">
-                            <span className="text-gray-500">$</span>
-                            <span className="text-gray-400">cat</span>
-                            <span className="break-all text-white">./experience/{exp.company.replace(/\s/g, '').toLowerCase()}</span>
-                            <span className="shrink-0 text-xs text-gray-700">[{exp.period}]</span>
-                        </div>
-                        <div className="mt-2 break-words pl-6 leading-relaxed">
-                            <span className="text-gray-600">role:</span> <span className="text-white">{exp.role}</span><br />
-                            <span className="text-gray-600">desc:</span> <span className="text-gray-400 break-words">{exp.desc}</span>
-                        </div>
-                        {idx !== visibleExperiences.length - 1 && <div className="mt-6 border-b border-white/5" />}
-                    </div>
-                )) : (
-                    <div className="flex items-center gap-2 py-3 font-mono text-sm text-zinc-500">
-                        <span className="text-gray-500">$</span>
-                        <span>looking for one...</span>
-                    </div>
-                )}
-                <div className="flex items-center gap-2 border-t border-white/5 pt-5 text-xs text-zinc-600">
-                    <span>status:</span>
-                    <span className="text-[#fde047]">online</span>
-                    <span className="ml-auto">process: experience_loaded</span>
-                </div>
+
+            <div className="mt-6 flex items-center justify-end gap-2 border-t border-white/5 pt-5 text-xs text-zinc-600">
+                <span>process: experience_loaded</span>
             </div>
         </div>
     );
@@ -93,7 +125,7 @@ function ContactTerminal() {
                     <span className="text-zinc-300 truncate">cat contact.txt</span>
                 </div>
                 <div className="space-y-3 text-[13px] leading-6 text-gray-400 sm:text-[15px] md:text-base">
-                    <p className="text-lg font-bold tracking-tight text-white sm:text-xl md:text-2xl break-words">Let&apos;s connect.</p>
+                    <p className="text-lg font-bold tracking-tight text-white sm:text-xl md:text-2xl break-words"><ScrambleText text="Let's connect." /></p>
                     <p className="break-words sm:text-base">Open channels for thoughtful work, curious conversations, and ambitious ideas.</p>
                 </div>
                 <div className="grid gap-2 border-t border-white/5 pt-4 sm:gap-3 sm:border-t sm:pt-6 sm:grid-cols-2">
@@ -101,21 +133,27 @@ function ContactTerminal() {
                         href="https://www.linkedin.com/in/manthan-p-6457b3313"
                         target="_blank"
                         rel="noreferrer"
-                        className="group relative rounded-md border border-white/5 bg-[#111111] px-3 py-2.5 transition-colors hover:border-white/20 hover:bg-[#181818] sm:px-4 sm:py-3"
+                        className="group relative flex items-center gap-3 rounded-md border border-white/5 bg-[#111111] px-3 py-2.5 transition-colors hover:border-white/20 hover:bg-[#181818] sm:px-4 sm:py-3"
                     >
                         <TerminalHint text="$ open ./me --in-a-blazer" placement="below-start" />
-                        <span className="block text-[10px] text-zinc-600 sm:text-xs">network</span>
-                        <span className="mt-0.5 block text-xs text-gray-300 group-hover:text-white sm:text-sm">linkedin <span className="text-zinc-600">↗</span></span>
+                        <FaLinkedin className="h-5 w-5 shrink-0 text-zinc-600 transition-all duration-250 ease-out group-hover:scale-110 group-hover:text-[#0A66C2]" />
+                        <span className="min-w-0">
+                            <span className="block text-[10px] text-[#6a9955]/80 sm:text-xs">network</span>
+                            <span className="mt-0.5 block text-xs text-gray-300 group-hover:text-white sm:text-sm">linkedin <span className="text-zinc-600">↗</span></span>
+                        </span>
                     </a>
                     <a
                         href="https://x.com/null_rejected"
                         target="_blank"
                         rel="noreferrer"
-                        className="group relative rounded-md border border-white/5 bg-[#111111] px-3 py-2.5 transition-colors hover:border-white/20 hover:bg-[#181818] sm:px-4 sm:py-3"
+                        className="group relative flex items-center gap-3 rounded-md border border-white/5 bg-[#111111] px-3 py-2.5 transition-colors hover:border-white/20 hover:bg-[#181818] sm:px-4 sm:py-3"
                     >
                         <TerminalHint text="$ tail -f ./unfiltered-thoughts" placement="below-start" />
-                        <span className="block text-[10px] text-zinc-600 sm:text-xs">signal</span>
-                        <span className="mt-0.5 block text-xs text-gray-300 group-hover:text-white sm:text-sm">twitter <span className="text-zinc-600">↗</span></span>
+                        <FaXTwitter className="h-5 w-5 shrink-0 text-zinc-600 transition-all duration-250 ease-out group-hover:scale-110 group-hover:text-white" />
+                        <span className="min-w-0">
+                            <span className="block text-[10px] text-[#6a9955]/80 sm:text-xs">signal</span>
+                            <span className="mt-0.5 block text-xs text-gray-300 group-hover:text-white sm:text-sm">twitter <span className="text-zinc-600">↗</span></span>
+                        </span>
                     </a>
                 </div>
                 <div className="border-t border-white/5 pt-4 sm:pt-6">
@@ -125,18 +163,19 @@ function ContactTerminal() {
                             href="https://github.com/silentlooop"
                             target="_blank"
                             rel="noreferrer"
-                            className="group relative rounded-md border border-white/5 bg-[#111111] px-3 py-2.5 transition-colors hover:border-white/20 hover:bg-[#181818] sm:px-4 sm:py-3"
+                            className="group relative flex items-center gap-3 rounded-md border border-white/5 bg-[#111111] px-3 py-2.5 transition-colors hover:border-white/20 hover:bg-[#181818] sm:px-4 sm:py-3"
                         >
                             <TerminalHint text="$ git log --since=3am" placement="below-start" />
-                            <span className="block text-[10px] text-zinc-600 sm:text-xs">source</span>
-                            <span className="mt-0.5 block text-xs text-gray-300 group-hover:text-white sm:text-sm">github <span className="text-zinc-600">↗</span></span>
+                            <FaGithub className="h-5 w-5 shrink-0 text-zinc-600 transition-all duration-250 ease-out group-hover:scale-110 group-hover:text-white" />
+                            <span className="min-w-0">
+                                <span className="block text-[10px] text-[#6a9955]/80 sm:text-xs">source</span>
+                                <span className="mt-0.5 block text-xs text-gray-300 group-hover:text-white sm:text-sm">github <span className="text-zinc-600">↗</span></span>
+                            </span>
                         </a>
                     </div>
                 </div>
-                <div className="flex flex-wrap items-center gap-2 border-t border-white/5 pt-4 text-[10px] text-zinc-600 sm:text-xs">
-                    <span>status:</span>
-                    <span className="text-[#fde047]">online</span>
-                    <span className="ml-auto truncate">process: contact_ready</span>
+                <div className="flex flex-wrap items-center justify-end gap-2 border-t border-white/5 pt-4 text-[10px] text-zinc-600 sm:text-xs">
+                    <span className="truncate">process: contact_ready</span>
                 </div>
             </div>
         </div>
@@ -152,7 +191,7 @@ function TechLabTerminal() {
                     <span className="text-zinc-300">cat tech-lab.txt</span>
                 </div>
                 <div className="space-y-3 text-[15px] leading-7 text-gray-400 md:text-base">
-                    <p className="text-xl font-bold tracking-tight text-white sm:text-2xl md:text-3xl break-words">The tech lab.</p>
+                    <p className="text-xl font-bold tracking-tight text-white sm:text-2xl md:text-3xl break-words"><ScrambleText text="The tech lab." /></p>
                     <p className="break-words sm:text-base">Places where I practice, experiment, and keep the feedback loop moving.</p>
                 </div>
                 <div className="grid gap-3 border-t border-white/5 pt-6 sm:grid-cols-2">
@@ -160,27 +199,31 @@ function TechLabTerminal() {
                         href="https://leetcode.com/u/silentlooop/"
                         target="_blank"
                         rel="noreferrer"
-                        className="group relative rounded-md border border-white/5 bg-[#111111] px-4 py-3 transition-colors hover:border-white/20 hover:bg-[#181818]"
+                        className="group relative flex items-center gap-3 rounded-md border border-white/5 bg-[#111111] px-4 py-3 transition-colors hover:border-white/20 hover:bg-[#181818]"
                     >
                         <TerminalHint text="$ sudo solve --daily-humility" placement="below-start" />
-                        <span className="block text-xs text-zinc-600">problem solving</span>
-                        <span className="mt-1 block text-sm text-gray-300 group-hover:text-white">leetcode <span className="text-zinc-600">↗</span></span>
+                        <SiLeetcode className="h-5 w-5 shrink-0 text-zinc-600 transition-all duration-250 ease-out group-hover:scale-110 group-hover:text-[#FFA116]" />
+                        <span className="min-w-0">
+                            <span className="block text-xs text-[#6a9955]/80">problem solving</span>
+                            <span className="mt-1 block text-sm text-gray-300 group-hover:text-white">leetcode <span className="text-zinc-600">↗</span></span>
+                        </span>
                     </a>
                     <a
                         href="https://monkeytype.com/account"
                         target="_blank"
                         rel="noreferrer"
-                        className="group relative rounded-md border border-white/5 bg-[#111111] px-4 py-3 transition-colors hover:border-white/20 hover:bg-[#181818]"
+                        className="group relative flex items-center gap-3 rounded-md border border-white/5 bg-[#111111] px-4 py-3 transition-colors hover:border-white/20 hover:bg-[#181818]"
                     >
                         <TerminalHint text="$ wpm --check --again" placement="below-start" />
-                        <span className="block text-xs text-zinc-600">typing practice</span>
-                        <span className="mt-1 block text-sm text-gray-300 group-hover:text-white">monkeytype <span className="text-zinc-600">↗</span></span>
+                        <SiMonkeytype className="h-5 w-5 shrink-0 text-zinc-600 transition-all duration-250 ease-out group-hover:scale-110 group-hover:text-[#E2B714]" />
+                        <span className="min-w-0">
+                            <span className="block text-xs text-[#6a9955]/80">typing practice</span>
+                            <span className="mt-1 block text-sm text-gray-300 group-hover:text-white">monkeytype <span className="text-zinc-600">↗</span></span>
+                        </span>
                     </a>
                 </div>
-                <div className="flex items-center gap-2 border-t border-white/5 pt-5 text-xs text-zinc-600">
-                    <span>status:</span>
-                    <span className="text-[#fde047]">online</span>
-                    <span className="ml-auto">process: lab_ready</span>
+                <div className="flex items-center justify-end gap-2 border-t border-white/5 pt-5 text-xs text-zinc-600">
+                    <span>process: lab_ready</span>
                 </div>
             </div>
         </div>
@@ -204,6 +247,10 @@ function NavBar() {
     const [isOpen, setIsOpen] = useState(false);
     const { scrollYProgress } = useScroll();
     const scrollProgress = useSpring(scrollYProgress, { stiffness: 200, damping: 30, restDelta: 0.001 });
+    const location = useLocation();
+
+    const isActive = (path: string) =>
+        path === "/" ? location.pathname === "/" : location.pathname.startsWith(path);
 
     // Lock body scroll when menu is open
     useEffect(() => {
@@ -226,7 +273,7 @@ function NavBar() {
 
     return (
         <>
-            <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-5 py-3 md:px-6 md:py-4 bg-[#111111] border-b border-white/5 transition-all duration-300">
+            <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-5 py-3 md:px-6 md:py-4 bg-[#111111]/80 backdrop-blur-md border-b border-white/5 transition-all duration-300">
                 {/* Logo */}
                 <a href="/" className="text-white font-sfmono text-base md:text-lg font-bold tracking-tight hover:opacity-80 transition-opacity z-50 relative">
                     silentlooop<span className="terminal-cursor text-zinc-500">_</span>
@@ -235,9 +282,10 @@ function NavBar() {
 
                 {/* Desktop Links */}
                 <div className="hidden md:flex items-center gap-8 text-sm font-sfmono text-gray-400">
-                    <a href="/#work" onClick={(e) => scrollToSection(e, 'work')} className="relative hover:text-white transition-colors cursor-pointer">work<TerminalHint text="$ ls ./proof-i-dont-just-talk" placement="below" /></a>
-                    <a href="/blogs" className="relative hover:text-white transition-colors cursor-pointer">blogs<TerminalHint text="$ cat ./thoughts --uncompiled" placement="below" /></a>
-                    <a href="/shaped" className="relative hover:text-white transition-colors cursor-pointer">~/me<TerminalHint text="$ whoami --the-human-behind-it" placement="below" /></a>
+                    <a href="/#work" onClick={(e) => scrollToSection(e, 'work')} className={`relative transition-colors cursor-pointer ${isActive("/") ? "text-[#fde047]" : "hover:text-white"}`}>work<TerminalHint text="$ ls ./proof-i-dont-just-talk" placement="below" /></a>
+                    <a href="/blogs" className={`relative transition-colors cursor-pointer ${isActive("/blogs") ? "text-[#fde047]" : "hover:text-white"}`}>blogs<TerminalHint text="$ cat ./thoughts --uncompiled" placement="below" /></a>
+                    <a href="/shaped" className={`relative transition-colors cursor-pointer ${isActive("/shaped") ? "text-[#fde047]" : "hover:text-white"}`}>~/me<TerminalHint text="$ whoami --the-human-behind-it" placement="below" /></a>
+                    <MuteToggle className="relative text-gray-400" />
                 </div>
 
                 {/* Mobile Menu Toggle (Hamburger / Close) */}
@@ -288,6 +336,9 @@ function NavBar() {
                             >
                                 ~/me
                             </motion.a>
+                            <motion.div custom={3} variants={linkVariants}>
+                                <MuteToggle className="text-xl font-semibold text-gray-500 tracking-tight font-sfmono" />
+                            </motion.div>
                         </div>
                     </motion.div>
                 )}
@@ -331,6 +382,8 @@ function renderTypedChunks(chunks: TypeChunk[], visibleChars: number) {
 function About() {
     const command = "./boot_trajectory.sh";
     const [activeTab, setActiveTab] = useState<"trajectory" | "contact" | "tech-lab">("trajectory");
+    const [panelRef, panelInView] = useInViewOnce(0.2);
+    const prefersReducedMotionHero = usePrefersReducedMotion();
 
     const trajectorySegments: TypeSegment[] = [
         {
@@ -413,67 +466,85 @@ function About() {
                         </div>
                         <RegMark className="pointer-events-none absolute -left-7 -top-7 hidden md:block" />
                         <RegMark className="pointer-events-none absolute -bottom-7 -right-7 hidden md:block" />
-                        <div aria-hidden="true" className="pointer-events-none absolute right-full top-14 mr-4 hidden w-40 xl:block">
+                        <div aria-hidden="true" className="pointer-events-none absolute right-full top-14 mr-4 hidden overflow-hidden lg:block lg:w-[clamp(0rem,calc(50vw-33rem),10rem)]">
                             <Note rotate={-8} className="pl-2">who wrote this?</Note>
                             <Arrow variant="swoop" className="ml-10 mt-1 h-14 w-24" rotate={6} />
                         </div>
-                        <div aria-hidden="true" className="pointer-events-none absolute bottom-10 left-full ml-4 hidden w-44 xl:block">
+                        <div aria-hidden="true" className="pointer-events-none absolute bottom-10 left-full ml-4 hidden overflow-hidden lg:block lg:w-[clamp(0rem,calc(50vw-33rem),11rem)]">
                             <Arrow variant="hook" flip className="h-14 w-14" rotate={-20} />
                             <Note rotate={5} size="sm" className="mt-1">still figuring it out… and probably always will.</Note>
                         </div>
 
-                        <div className="relative z-10 overflow-hidden rounded-md border border-white/10 bg-[#141414] shadow-2xl shadow-black/20">
-                            <div role="tablist" aria-label="Portfolio views" className="flex min-w-0 items-end gap-3 border-b border-white/10 bg-[#111111] px-2 pt-2 md:px-5">
-                                <div className="flex shrink-0 items-center gap-2 px-2 pb-3">
-                                    <span className="h-2.5 w-2.5 rounded-full bg-red-500" />
-                                    <span className="h-2.5 w-2.5 rounded-full bg-yellow-500" />
-                                    <span className="h-2.5 w-2.5 rounded-full bg-green-500" />
+                        <div className="relative z-10 grid gap-4 md:grid-cols-[13rem_1fr]">
+                            {/* File-tree sidebar, replaces the old top tab bar */}
+                            <nav aria-label="Portfolio views" className="overflow-hidden rounded-md border border-white/10 bg-[#141414] shadow-2xl shadow-black/20 md:self-start">
+                                <div className="flex items-center gap-2 border-b border-white/10 bg-[#111111] px-4 py-3">
+                                    <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-red-500" />
+                                    <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-yellow-500" />
+                                    <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-green-500" />
+                                    <span className="ml-2 truncate text-[11px] text-zinc-600">~/manthan</span>
                                 </div>
-                                <button
-                                    type="button"
-                                    role="tab"
-                                    aria-selected={activeTab === "trajectory"}
-                                    onClick={() => setActiveTab("trajectory")}
-                                    className={`relative z-10 flex min-w-0 flex-1 items-center rounded-t-md border-x border-t px-2 py-2 text-left text-[11px] leading-tight transition-colors md:px-5 md:text-xs ${activeTab === "trajectory" ? "-mb-px border-white/10 bg-[#181818] text-zinc-300" : "border-transparent bg-[#111111] text-zinc-600 hover:text-zinc-400"}`}
-                                >
-                                    <span className="truncate">{command}</span>
-                                    <TerminalHint text="$ cat ./how-i-got-here.log" placement="below-start" />
-                                </button>
-                                <button
-                                    type="button"
-                                    role="tab"
-                                    aria-selected={activeTab === "contact"}
-                                    onClick={() => setActiveTab("contact")}
-                                    className={`relative z-10 flex min-w-0 flex-1 items-center rounded-t-md border-x border-t px-2 py-2 text-left text-[11px] leading-tight transition-colors md:px-5 md:text-xs ${activeTab === "contact" ? "-mb-px border-white/10 bg-[#181818] text-zinc-300" : "border-transparent bg-[#111111] text-zinc-600 hover:text-zinc-400"}`}
-                                >
-                                    <span className="truncate">cat contact.txt</span>
-                                    <TerminalHint text="$ ping manthan --say-hi" placement="below-start" />
-                                </button>
-                                <button
-                                    type="button"
-                                    role="tab"
-                                    aria-selected={activeTab === "tech-lab"}
-                                    onClick={() => setActiveTab("tech-lab")}
-                                    className={`relative z-10 flex min-w-0 flex-1 items-center rounded-t-md border-x border-t px-2 py-2 text-left text-[11px] leading-tight transition-colors md:px-5 md:text-xs ${activeTab === "tech-lab" ? "-mb-px border-white/10 bg-[#181818] text-zinc-300" : "border-transparent bg-[#111111] text-zinc-600 hover:text-zinc-400"}`}
-                                >
-                                    <span className="truncate">tech-lab.txt</span>
-                                    <TerminalHint text="$ ./break-things --on-purpose" placement="below-start" />
-                                </button>
-                            </div>
+                                <div className="px-3 pt-2.5 text-[10px] font-semibold uppercase tracking-wider text-zinc-600">Explorer</div>
+                                <div role="tablist" aria-label="Portfolio views" className="flex gap-1 overflow-x-auto p-2 md:flex-col md:overflow-visible">
+                                    {([
+                                        { key: "trajectory" as const, label: "trajectory.md", hint: "$ cat ./how-i-got-here.log" },
+                                        { key: "contact" as const, label: "contact.txt", hint: "$ ping manthan --say-hi" },
+                                        { key: "tech-lab" as const, label: "tech-lab.txt", hint: "$ ./break-things --on-purpose" },
+                                    ]).map((tab) => (
+                                        <button
+                                            key={tab.key}
+                                            type="button"
+                                            role="tab"
+                                            aria-selected={activeTab === tab.key}
+                                            onClick={() => setActiveTab(tab.key)}
+                                            className={`relative flex w-full shrink-0 items-center gap-2 rounded px-3 py-2.5 text-left text-[11px] font-sfmono transition-colors md:text-xs ${activeTab === tab.key ? "bg-white/5 text-zinc-200" : "text-zinc-600 hover:bg-white/[0.03] hover:text-zinc-400"}`}
+                                        >
+                                            {activeTab === tab.key && (
+                                                <motion.span layoutId="sidebar-active" className="absolute inset-y-1 left-0 hidden w-0.5 rounded-full bg-zinc-300 md:block" transition={{ type: "spring", stiffness: 300, damping: 30 }} />
+                                            )}
+                                            <span className="truncate">{tab.label}</span>
+                                            <TerminalHint text={tab.hint} placement="below-start" />
+                                        </button>
+                                    ))}
+                                </div>
+                            </nav>
 
-                            {activeTab === "trajectory" ? <SectionReveal className="px-5 py-8 sm:px-8 sm:py-10 md:px-12 md:py-14" itemClassName="">
-                                <div className="mb-8 grid w-full max-w-4xl min-w-0">
+                            {/* Content column: panel + detached status/CTA boxes */}
+                            <div className="flex min-w-0 flex-col gap-4">
+                            <div ref={panelRef} className="relative overflow-hidden rounded-md border border-white/10 bg-[#141414] shadow-2xl shadow-black/20">
+                            <div className="flex items-center gap-1.5 border-b border-white/5 bg-[#111111] px-4 py-2 font-sfmono text-[10px] text-zinc-600">
+                                <span>~</span>
+                                <span className="text-zinc-700">›</span>
+                                <span>manthan</span>
+                                <span className="text-zinc-700">›</span>
+                                <span className="text-zinc-400">
+                                    {activeTab === "trajectory" ? "trajectory.md" : activeTab === "contact" ? "contact.txt" : "tech-lab.txt"}
+                                </span>
+                            </div>
+                            {panelInView && !prefersReducedMotionHero && (
+                                <div
+                                    aria-hidden="true"
+                                    className="pointer-events-none absolute inset-x-0 z-20 h-16 bg-gradient-to-b from-transparent via-white/[0.07] to-transparent [animation:scanline-sweep_1.3s_ease-out_1_forwards]"
+                                />
+                            )}
+
+                            {activeTab === "trajectory" ? <SectionReveal className="px-5 py-8 sm:px-8 sm:py-10 md:px-10 md:py-10" itemClassName="">
+                                <div className="grid w-full min-w-0">
                                     <div className="invisible col-start-1 row-start-1 w-full min-w-0" aria-hidden="true">
                                         <div className="flex flex-wrap items-center gap-2 font-mono text-sm break-all" aria-hidden="true">
                                             <span>manthan@portfolio:~$</span>
                                             <span>{command}</span>
                                             <span>█</span>
                                         </div>
-                                        <div className="mt-7 space-y-7">
+                                        <div className="mt-7 grid grid-cols-[1.5rem_1fr] gap-x-3 gap-y-7 sm:grid-cols-[1.75rem_1fr]">
                                             {trajectorySegments.map((segment, idx) => (
-                                                <p key={idx} className={`${segment.className} break-words`}>
-                                                    {segment.chunks.map((chunk) => chunk.text).join("")}
-                                                </p>
+                                                <React.Fragment key={idx}>
+                                                    <span className="pt-[2px] text-right font-sfmono text-[11px] text-zinc-700">{String(idx + 1).padStart(2, "0")}</span>
+                                                    <p className={`${segment.className} break-words`}>
+                                                        <span className="mr-2 select-none text-[#6a9955]/80">{idx === 0 ? "#" : "//"}</span>
+                                                        {segment.chunks.map((chunk) => chunk.text).join("")}
+                                                    </p>
+                                                </React.Fragment>
                                             ))}
                                         </div>
                                     </div>
@@ -484,13 +555,20 @@ function About() {
                                             <span className="text-zinc-400">{command.slice(0, commandVisible)}</span>
                                             <span className="terminal-cursor ml-1 text-zinc-500">█</span>
                                         </div>
-                                        <div className="mt-7 space-y-7">
+                                        <div className="mt-7 grid grid-cols-[1.5rem_1fr] gap-x-3 gap-y-7 sm:grid-cols-[1.75rem_1fr]">
                                             {trajectorySegments.map((segment, idx) => {
                                                 const visibleChars = getVisibleCharsForSegment(idx);
+                                                const started = visibleChars > 0;
                                                 return (
-                                                    <p key={idx} className={`${segment.className} break-words`}>
-                                                        {renderTypedChunks(segment.chunks, visibleChars)}
-                                                    </p>
+                                                    <React.Fragment key={idx}>
+                                                        <span className={`pt-[2px] text-right font-sfmono text-[11px] text-zinc-700 transition-opacity duration-300 ${started ? "opacity-100" : "opacity-0"}`}>
+                                                            {String(idx + 1).padStart(2, "0")}
+                                                        </span>
+                                                        <p className={`${segment.className} break-words`}>
+                                                            {started && <span className="mr-2 select-none text-[#6a9955]/80">{idx === 0 ? "#" : "//"}</span>}
+                                                            {renderTypedChunks(segment.chunks, visibleChars)}
+                                                        </p>
+                                                    </React.Fragment>
                                                 );
                                             })}
                                         </div>
@@ -498,7 +576,7 @@ function About() {
                                 </div>
 
                                 {/* Hand-signed sign-off; space is reserved so nothing jumps when it draws in */}
-                                <div aria-hidden="true" className="flex h-24 items-end justify-end">
+                                <div aria-hidden="true" className="mt-8 flex h-24 items-end justify-end">
                                     {typedUnits >= totalUnits && (
                                         <div className="text-right">
                                             <Signature className="ml-auto h-12 w-36" />
@@ -509,21 +587,19 @@ function About() {
                                     )}
                                 </div>
 
-                                <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-white/5 pt-5 font-mono text-xs text-zinc-600">
-                                    <span>status: <span className="text-[#fde047]">online</span></span>
+                                <div className="mt-6 flex flex-wrap items-center justify-end gap-3 border-t border-white/5 pt-5 font-mono text-xs text-zinc-600">
                                     <span>process: trajectory_initialized</span>
                                 </div>
                             </SectionReveal> : activeTab === "contact" ? <ContactTerminal /> : <TechLabTerminal />}
+                            </div>
+                            </div>
                         </div>
                         </div>
                     </section>
 
                     {/* Terminal-style Experience Section */}
                     <div className="relative mt-2 mb-6">
-                        <div aria-hidden="true" className="pointer-events-none absolute bottom-2 right-full top-20 mr-6 hidden xl:flex">
-                            <MeasureVertical label="2025 — 2026" />
-                        </div>
-                        <div aria-hidden="true" className="pointer-events-none absolute left-full top-24 ml-4 hidden w-44 xl:block">
+                        <div aria-hidden="true" className="pointer-events-none absolute left-full top-24 ml-4 hidden overflow-hidden lg:block lg:w-[clamp(0rem,calc(50vw-33rem),11rem)]">
                             <Note rotate={-5}>same guy, more commits now.</Note>
                             <Arrow variant="swoop" flip className="mt-1 h-12 w-24" rotate={12} delay={0.4} />
                         </div>

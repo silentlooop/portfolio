@@ -5,7 +5,7 @@ import { useEffect } from "react"
 import { ProjectsGrid } from "./components/ui/Projects2"
 import { About, NavBar } from "./pages/about"
 import { SectionPrompt } from "./components/ui/terminal-effects"
-import { Arrow, MarginFrame, MeasureVertical, Note, Signature } from "./components/ui/annotations"
+import { Arrow, Note, Signature } from "./components/ui/annotations"
 import { OPEN_TERMINAL_EVENT } from "./components/ui/command-terminal"
 import { TerminalHint } from "./components/ui/terminal-hint"
 
@@ -66,11 +66,6 @@ function App() {
 
         {/* Projects */}
         <div id="work" className="relative z-15 w-full">
-          <MarginFrame className="hidden xl:block">
-            <div className="absolute bottom-10 right-full top-20 mr-6 flex">
-              <MeasureVertical label="06 projects" />
-            </div>
-          </MarginFrame>
           <div className="relative w-full px-5 mt-4 max-w-5xl mx-auto">
             <SectionPrompt command="cd ./selected-work" className="mb-6" />
             <div aria-hidden="true" className="pointer-events-none absolute -top-1 right-8 hidden items-start gap-1 md:flex">
@@ -98,8 +93,8 @@ function App() {
         <div className="z-15 mt-12">
           <footer className="flex flex-col items-center body bg-[#1C1C1C] dot-grid z-[1] w-full sticky bottom-0 text-zinc-100 font-sfmono">
             <section className="w-full max-w-8xl relative z-10 pb-6 pt-6 px-3" style={{ opacity: 1 }}>
-              <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 font-sfmono text-[14px] leading-none">
-                <span className="flex flex-row items-center gap-2">
+              <div className="flex flex-col items-start gap-3 font-sfmono text-[14px] leading-none sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-x-6">
+                <span className="flex flex-wrap items-center gap-2">
                   <p className="self-center w-min px-2 pt-1 pb-[2px] font-sfmono lowercase text-zinc-400 border-zinc-400 border border-solid rounded-full">v5.0.0</p>
                   <p className="self-center px-2 pt-1 pb-[2px] font-sfmono uppercase text-zinc-500">updated 2026.08</p>
                   <button
@@ -111,7 +106,7 @@ function App() {
                     <TerminalHint text="$ help" placement="below" className="!top-auto bottom-full mb-2 !mt-0" />
                   </button>
                 </span>
-                <span className="ml-auto flex items-center gap-2 text-right text-xs uppercase tracking-wider text-zinc-600">
+                <span className="flex items-center gap-2 text-left text-xs uppercase tracking-wider text-zinc-600 sm:ml-auto sm:text-right">
                   <span>built + designed by</span>
                   <span className="text-zinc-400">manthan</span>
                   <span className="text-[#fde047]">/ silentlooop</span>

@@ -5,28 +5,16 @@ import Shaped from "./pages/shaped";
 import Blogs from "./pages/blogs";
 import NotFound from "./pages/not_found";
 import { CommandTerminal } from "./components/ui/command-terminal";
+import { Intro } from "./components/ui/intro";
+import { FilmGrain } from "./components/ui/film-grain";
+import { Timecode } from "./components/ui/timecode";
+import { CustomCursor } from "./components/ui/custom-cursor";
+import { useSmoothScroll } from "./lib/smooth-scroll";
 import App from "./App";
 
-function Loading({ exiting }: { exiting: boolean }) {
-  return (
-    <div
-      className={`fixed inset-0 z-50 flex items-center justify-center bg-[#111] transition-opacity duration-300 ${exiting ? "opacity-0" : "opacity-100"}`}
-    >
-      <div className="font-mono text-sm text-zinc-400 select-none" aria-live="polite">
-        <span className="text-zinc-600">manthan@portfolio:~$</span>{" "}
-        ./boot.sh
-        <span
-          className="ml-1 inline-block h-4 w-2 align-middle bg-zinc-400 animate-pulse"
-          style={{ animationDuration: "1.1s" }}
-        />
-      </div>
-    </div>
-  );
-}
-
 export default function Root() {
-  const [loading, setLoading] = useState(true);
-  const [exiting, setExiting] = useState(false);
+  const [introDone, setIntroDone] = useState(false);
+  useSmoothScroll(introDone);
 
   // Easter egg: the tab title calls you back when you switch away.
   useEffect(() => {
@@ -38,34 +26,28 @@ export default function Root() {
     return () => document.removeEventListener("visibilitychange", onVisibilityChange);
   }, []);
 
-  useEffect(() => {
-    const startExitTimer = setTimeout(() => setExiting(true), 800);
-    const doneTimer = setTimeout(() => setLoading(false), 1100);
-
-    return () => {
-      clearTimeout(startExitTimer);
-      clearTimeout(doneTimer);
-    };
-  }, []);
-
-  if (loading) {
-    return <Loading exiting={exiting} />;
-  }
-
   return (
-    <BrowserRouter>
-      <div className="cursor-default top-5">
-        <main>
-          <Routes>
-            <Route path="/" element={<App />} />
-            <Route path="/projects/:slug" element={<ProjectDetail />} />
-            <Route path="/shaped" element={<Shaped />} />
-            <Route path="/blogs" element={<Blogs />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </main>
-        <CommandTerminal />
-      </div>
-    </BrowserRouter>
+    <>
+      {!introDone && <Intro onDone={() => setIntroDone(true)} />}
+      {introDone && (
+        <BrowserRouter>
+          <FilmGrain />
+          <Timecode />
+          <CustomCursor />
+          <div className="cursor-default top-5">
+            <main>
+              <Routes>
+                <Route path="/" element={<App />} />
+                <Route path="/projects/:slug" element={<ProjectDetail />} />
+                <Route path="/shaped" element={<Shaped />} />
+                <Route path="/blogs" element={<Blogs />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </main>
+            <CommandTerminal />
+          </div>
+        </BrowserRouter>
+      )}
+    </>
   );
 }

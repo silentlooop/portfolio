@@ -2,6 +2,9 @@ import { useEffect } from "react";
 import { NavBar } from "./about";
 import { SectionPrompt, SectionReveal } from "../components/ui/terminal-effects";
 import { Arrow, Measure, Note, RegMark, Signature } from "../components/ui/annotations";
+import { TerminalHint } from "../components/ui/terminal-hint";
+import { ScrambleText } from "../components/ui/scramble-text";
+import { useInViewOnce, usePrefersReducedMotion } from "../components/ui/use-terminal-effects";
 
 // --- TYPES ---
 
@@ -98,18 +101,33 @@ function CardMedia({ media, mediaType, title }: { media: string; mediaType?: "im
 // --- ShapedCard Component ---
 
 function ShapedCard({ item }: { item: ShapedItem }) {
+    const slug = item.title.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+    const [ref, isInView] = useInViewOnce();
+    const prefersReducedMotion = usePrefersReducedMotion();
+    const revealed = isInView || prefersReducedMotion;
+
     return (
-        <div className={`${item.span}`}>
+        <div
+            ref={ref}
+            className={`${item.span} transition-[opacity,transform] duration-500 ease-out`}
+            style={{
+                opacity: revealed ? 1 : 0,
+                transform: revealed ? "translateY(0)" : "translateY(12px)",
+            }}
+        >
             <div
-                className="shaped-card h-full overflow-hidden rounded-md border border-white/10 bg-[#141414] shadow-2xl shadow-black/20"
+                className="group/shaped shaped-card relative h-full overflow-hidden rounded-md border border-edge bg-[#141414] shadow-2xl shadow-black/20 transition-colors duration-250 ease-out hover:border-edge-hover"
                 style={{
                     "--card-rotation": `${item.rotation}deg`,
                 } as React.CSSProperties}
             >
+                <TerminalHint text={`$ cat ./me/${slug}`} />
                 <div className="p-5 md:p-6">
                     {item.media && <CardMedia media={item.media} mediaType={item.mediaType} title={item.title} />}
                     <span className="text-[11px] font-sfmono uppercase tracking-wider text-gray-500">{item.type}</span>
-                    <h3 className="text-xl font-bold leading-snug tracking-tight text-white md:text-2xl">{item.title}</h3>
+                    <h3 className="text-xl font-bold leading-snug tracking-tight text-white md:text-2xl">
+                        <ScrambleText text={item.title} />
+                    </h3>
                     <p className="mt-2.5 font-sfmono text-[15px] leading-relaxed text-gray-400">{item.description}</p>
                 </div>
             </div>
@@ -130,11 +148,10 @@ export default function Shaped() {
             <style>{`
                 .shaped-card {
                     transform: rotate(var(--card-rotation, 0deg));
-                    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+                    transition: transform 0.25s ease, box-shadow 0.25s ease;
                 }
                 .shaped-card:hover {
                     transform: rotate(0deg) translateY(-4px);
-                    border-color: rgba(75, 85, 99, 0.9);
                 }
                 @media (max-width: 767px) {
                     .shaped-card { transform: none !important; }
@@ -187,15 +204,15 @@ export default function Shaped() {
 
                 {/* Margin notes */}
                 <RegMark className="pointer-events-none absolute left-0 top-[8.5rem] hidden -translate-x-7 md:block" />
-                <div aria-hidden="true" className="pointer-events-none absolute right-full top-64 mr-2 hidden w-40 xl:block">
+                <div aria-hidden="true" className="pointer-events-none absolute right-full top-64 mr-2 hidden overflow-hidden lg:block lg:w-[clamp(0rem,calc(50vw-32.5rem),10rem)]">
                     <Note rotate={-8}>the unfiltered version.</Note>
                     <Arrow variant="swoop" className="ml-12 mt-1 h-12 w-24" rotate={8} delay={0.4} />
                 </div>
-                <div aria-hidden="true" className="pointer-events-none absolute left-full top-[32rem] ml-2 hidden w-44 xl:block">
+                <div aria-hidden="true" className="pointer-events-none absolute left-full top-[32rem] ml-2 hidden overflow-hidden lg:block lg:w-[clamp(0rem,calc(50vw-32.5rem),11rem)]">
                     <Arrow variant="hook" flip className="h-14 w-14" rotate={-20} />
                     <Note rotate={5} size="sm" className="mt-1">yes, all of these are true.</Note>
                 </div>
-                <div aria-hidden="true" className="pointer-events-none absolute left-full top-[58rem] ml-2 hidden w-44 xl:block">
+                <div aria-hidden="true" className="pointer-events-none absolute left-full top-[58rem] ml-2 hidden overflow-hidden lg:block lg:w-[clamp(0rem,calc(50vw-32.5rem),11rem)]">
                     <Note rotate={-4} size="sm">rewatched hyouka 3 times. zero regrets.</Note>
                     <Arrow variant="swoop" flip className="mt-1 h-12 w-24" rotate={14} delay={0.4} />
                 </div>
@@ -208,8 +225,19 @@ export default function Shaped() {
                         <span className="w-3 h-3 rounded-full bg-[#28C840] shrink-0" />
                         <span className="ml-3 text-sm text-gray-400 font-sfmono truncate">
                             manthan@life ~ % things-that-shaped-me
-
                         </span>
+                    </div>
+                    <div className="px-5 py-6 font-sfmono text-sm sm:px-7 sm:py-7 md:px-10 md:py-8">
+                        <p className="flex items-center gap-2 text-gray-500">
+                            <span className="text-gray-600">$</span> cat manifest.txt
+                        </p>
+                        <p className="mt-3 max-w-xl text-[13px] leading-relaxed text-gray-400 sm:text-[15px]">
+                            a running log of things that left a mark — some serious, some not, all true.
+                        </p>
+                        <div className="mt-6 flex items-center justify-between border-t border-white/5 pt-4 text-xs text-zinc-600">
+                            <span>status: <span className="text-[#fde047]">online</span></span>
+                            <span>process: profile_loaded</span>
+                        </div>
                     </div>
                 </SectionReveal>
 
