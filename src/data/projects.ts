@@ -15,7 +15,11 @@ export const projects = [
     impact: "Achieved a Dice Coefficient of 0.85 on the validation set, successfully segmenting core tumor regions in under 2 seconds per scan.",
     nextProject: "resume-rater",
     nextProjectTitle: "Resume Rater",
-    sourceLink: "https://github.com/silentlooop/Brain_Tumor_Segmentation_BCP"
+    sourceLink: "https://github.com/silentlooop/Brain_Tumor_Segmentation_BCP",
+    metrics: [
+      { value: "0.85", label: "dice coeff" },
+      { value: "<2s", label: "per scan" },
+    ]
   },
   {
     slug: "probabilistic-graphic-model",
@@ -51,7 +55,10 @@ export const projects = [
     impact: "Reduced initial screening time by 40% in mock trials, providing instant feedback scores and keyword optimization suggestions to users.",
     nextProject: "instigpt",
     nextProjectTitle: "InstiGPT",
-    sourceLink: ""
+    sourceLink: "",
+    metrics: [
+      { value: "40%", label: "faster screening" },
+    ]
   },
   {
     slug: "instigpt",
@@ -70,7 +77,11 @@ export const projects = [
     impact: "Deployed to a test group of 500+ students, successfully handling queries about academic calendars and mess menus with <5% hallucination rate.",
     nextProject: "wids-25",
     nextProjectTitle: "WiDS'25",
-    sourceLink: "https://github.com/AiCommunityIITB/InstiGPT"
+    sourceLink: "https://github.com/AiCommunityIITB/InstiGPT",
+    metrics: [
+      { value: "500+", label: "students" },
+      { value: "<5%", label: "hallucination" },
+    ]
   },
   {
     slug: "wids-25",
@@ -88,7 +99,10 @@ export const projects = [
     impact: "Outperformed the baseline 'Buy and Hold' strategy by 15% in backtesting on historical NIFTY 50 data during high-volatility periods.",
     nextProject: "karyogram",
     nextProjectTitle: "Karyogram",
-    sourceLink: "https://github.com/silentlooop/Kalman-Filtered-Trend-Trader-A-Deep-Reinforcement-Learning-Agent-for-Portfolio-Optimization"
+    sourceLink: "https://github.com/silentlooop/Kalman-Filtered-Trend-Trader-A-Deep-Reinforcement-Learning-Agent-for-Portfolio-Optimization",
+    metrics: [
+      { value: "+15%", label: "vs buy & hold" },
+    ]
   },
   {
     slug: "karyogram",
@@ -106,6 +120,9 @@ export const projects = [
     impact: "Automated the sorting process with 92% accuracy, significantly reducing the time required for genetic disorder screening.",
     nextProject: "btsp",
     nextProjectTitle: "BTSP",
-    sourceLink: ""
+    sourceLink: "",
+    metrics: [
+      { value: "92%", label: "accuracy" },
+    ]
   }
 ];

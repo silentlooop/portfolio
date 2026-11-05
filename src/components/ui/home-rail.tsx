@@ -52,7 +52,7 @@ export function HomeRail({ activeSlug, onHoverIndex, onSelectIndex }: HomeRailPr
           })}
         </nav>
 
-        <div className="flex flex-col gap-2.5 border-t border-white/5 pt-5 text-sm text-[#6a9955]/80">
+        <div className="flex flex-col gap-2.5 border-t border-white/5 pt-5 text-sm text-ink-secondary">
           <a
             href="https://github.com/silentlooop"
             target="_blank"

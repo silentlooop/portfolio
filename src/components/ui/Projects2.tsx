@@ -96,7 +96,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     >
       <TerminalHint text={`$ open ./projects/${projectSlug}`} />
       <article
-        className={`overflow-hidden rounded-sm border transition-colors duration-250 ease-out group-hover/card:border-edge-hover ${
+        className={`overflow-hidden rounded-sm border transition-colors duration-150 ease-out group-hover/card:border-white group-focus-visible/card:border-white ${
           isHighlighted ? "border-edge-hover" : "border-edge"
         }`}
       >
@@ -123,7 +123,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         </div>
       </article>
       <div className="pt-2 pb-3 px-3">
-        <div className="font-semibold text-white text-base">{title}</div>
+        <div className="inline-flex items-baseline">
+          <span className="font-semibold text-base text-white transition-colors duration-150 ease-out group-hover/card:bg-white group-hover/card:px-1 group-hover/card:-mx-1 group-hover/card:text-black group-focus-visible/card:bg-white group-focus-visible/card:px-1 group-focus-visible/card:-mx-1 group-focus-visible/card:text-black">
+            {title}
+          </span>
+          <span className="terminal-cursor ml-1 text-white opacity-0 transition-opacity duration-150 ease-out group-hover/card:opacity-100 group-focus-visible/card:opacity-100">
+            █
+          </span>
+        </div>
         <div className="text-zinc-500 text-xs mt-[2px]">{category}</div>
       </div>
     </Wrapper>
