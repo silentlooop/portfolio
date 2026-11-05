@@ -3,6 +3,7 @@ import { NavBar } from "./about";
 import { SectionPrompt, SectionReveal } from "../components/ui/terminal-effects";
 import { Arrow, Measure, Note, RegMark, Signature } from "../components/ui/annotations";
 import { TerminalHint } from "../components/ui/terminal-hint";
+import { ScrambleText } from "../components/ui/scramble-text";
 import { useInViewOnce, usePrefersReducedMotion } from "../components/ui/use-terminal-effects";
 
 // --- TYPES ---
@@ -185,7 +186,7 @@ export default function Shaped() {
                         <span className="w-3 h-3 rounded-full bg-[#FFBD2E] shrink-0" />
                         <span className="w-3 h-3 rounded-full bg-[#28C840] shrink-0" />
                         <span className="ml-3 text-sm text-gray-400 font-sfmono truncate">
-                            manthan@life ~ % things-that-shaped-me
+                            <ScrambleText text="manthan@life ~ % things-that-shaped-me" />
                         </span>
                     </div>
                     <div className="px-5 py-6 font-sfmono text-sm sm:px-7 sm:py-7 md:px-10 md:py-8">

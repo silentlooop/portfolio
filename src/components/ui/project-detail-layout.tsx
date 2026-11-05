@@ -86,8 +86,8 @@ export function ProjectDetailLayout({ project }: { project: Project }) {
 
   const title = toTitleCase(project.title);
   const links = [
-    { label: "View Source", href: project.sourceLink, hint: "$ cat ./src --judge-gently" },
-    ...(("liveLink" in project && project.liveLink) ? [{ label: "Live", href: project.liveLink as string, hint: "$ open --live" }] : []),
+    { label: "View Source", href: project.sourceLink, hint: "$ cat ./src judge-gently" },
+    ...(("liveLink" in project && project.liveLink) ? [{ label: "Live", href: project.liveLink as string, hint: "$ open live" }] : []),
     ...(("paperLink" in project && project.paperLink) ? [{ label: "Paper", href: project.paperLink as string, hint: "$ cat ./paper.pdf" }] : []),
   ].filter((l) => l.href);
 
@@ -296,7 +296,7 @@ export function ProjectDetailLayout({ project }: { project: Project }) {
               <div className="h-14 w-20 shrink-0 overflow-hidden rounded-lg border border-edge bg-[#161616] p-2">
                 <img src={nextProject.image || undefined} alt="" className="h-full w-full object-contain" />
               </div>
-              <TerminalHint text="$ next --one-more" placement="below-start" />
+              <TerminalHint text="$ next one-more" placement="below-start" />
             </Link>
           )}
         </div>

@@ -38,7 +38,7 @@ function TerminalExperience() {
     const visibleExperiences = experiences.filter((experience) => experience.type === activeType);
     const categories = [
         { key: "college" as const, hint: "$ make learn && make ship" },
-        { key: "industry" as const, hint: "$ hire manthan --vacancy=open" },
+        { key: "industry" as const, hint: "$ hire manthan vacancy=open" },
     ];
 
     return (
@@ -134,7 +134,7 @@ function ContactTerminal() {
                         rel="noreferrer"
                         className="group relative flex items-center gap-3 rounded-md border border-white/5 bg-[#111111] px-3 py-2.5 transition-colors hover:border-white/20 hover:bg-[#181818] sm:px-4 sm:py-3"
                     >
-                        <TerminalHint text="$ open ./me --in-a-blazer" placement="below-start" />
+                        <TerminalHint text="$ open ./me in-a-blazer" placement="below-start" />
                         <FaLinkedin className="h-5 w-5 shrink-0 text-zinc-600 transition-all duration-250 ease-out group-hover:scale-110 group-hover:text-[#0A66C2]" />
                         <span className="min-w-0">
                             <span className="block text-[10px] text-[#6a9955]/80 sm:text-xs">network</span>
@@ -164,7 +164,7 @@ function ContactTerminal() {
                             rel="noreferrer"
                             className="group relative flex items-center gap-3 rounded-md border border-white/5 bg-[#111111] px-3 py-2.5 transition-colors hover:border-white/20 hover:bg-[#181818] sm:px-4 sm:py-3"
                         >
-                            <TerminalHint text="$ git log --since=3am" placement="below-start" />
+                            <TerminalHint text="$ git log since=3am" placement="below-start" />
                             <FaGithub className="h-5 w-5 shrink-0 text-zinc-600 transition-all duration-250 ease-out group-hover:scale-110 group-hover:text-white" />
                             <span className="min-w-0">
                                 <span className="block text-[10px] text-[#6a9955]/80 sm:text-xs">source</span>
@@ -200,7 +200,7 @@ function TechLabTerminal() {
                         rel="noreferrer"
                         className="group relative flex items-center gap-3 rounded-md border border-white/5 bg-[#111111] px-4 py-3 transition-colors hover:border-white/20 hover:bg-[#181818]"
                     >
-                        <TerminalHint text="$ sudo solve --daily-humility" placement="below-start" />
+                        <TerminalHint text="$ sudo solve daily-humility" placement="below-start" />
                         <SiLeetcode className="h-5 w-5 shrink-0 text-zinc-600 transition-all duration-250 ease-out group-hover:scale-110 group-hover:text-[#FFA116]" />
                         <span className="min-w-0">
                             <span className="block text-xs text-[#6a9955]/80">problem solving</span>
@@ -213,7 +213,7 @@ function TechLabTerminal() {
                         rel="noreferrer"
                         className="group relative flex items-center gap-3 rounded-md border border-white/5 bg-[#111111] px-4 py-3 transition-colors hover:border-white/20 hover:bg-[#181818]"
                     >
-                        <TerminalHint text="$ wpm --check --again" placement="below-start" />
+                        <TerminalHint text="$ wpm check again" placement="below-start" />
                         <SiMonkeytype className="h-5 w-5 shrink-0 text-zinc-600 transition-all duration-250 ease-out group-hover:scale-110 group-hover:text-[#E2B714]" />
                         <span className="min-w-0">
                             <span className="block text-xs text-[#6a9955]/80">typing practice</span>
@@ -282,8 +282,8 @@ function NavBar() {
                 {/* Desktop Links */}
                 <div className="hidden md:flex items-center gap-8 text-sm font-sfmono text-gray-400">
                     <a href="/#work" onClick={(e) => scrollToSection(e, 'work')} className={`relative transition-colors cursor-pointer ${isActive("/") ? "text-[#fde047]" : "hover:text-white"}`}>work<TerminalHint text="$ ls ./proof-i-dont-just-talk" placement="below" /></a>
-                    <a href="/blogs" className={`relative transition-colors cursor-pointer ${isActive("/blogs") ? "text-[#fde047]" : "hover:text-white"}`}>blogs<TerminalHint text="$ cat ./thoughts --uncompiled" placement="below" /></a>
-                    <a href="/shaped" className={`relative transition-colors cursor-pointer ${isActive("/shaped") ? "text-[#fde047]" : "hover:text-white"}`}>~/me<TerminalHint text="$ whoami --the-human-behind-it" placement="below" /></a>
+                    <a href="/blogs" className={`relative transition-colors cursor-pointer ${isActive("/blogs") ? "text-[#fde047]" : "hover:text-white"}`}>blogs<TerminalHint text="$ cat ./thoughts uncompiled" placement="below" /></a>
+                    <a href="/shaped" className={`relative transition-colors cursor-pointer ${isActive("/shaped") ? "text-[#fde047]" : "hover:text-white"}`}>~/me<TerminalHint text="$ whoami the-human-behind-it" placement="below" /></a>
                     <MuteToggle className="relative text-gray-400" />
                 </div>
 
@@ -483,8 +483,8 @@ function About() {
                                 <div role="tablist" aria-label="Portfolio views" className="flex gap-1 overflow-x-auto p-2 md:flex-col md:overflow-visible">
                                     {([
                                         { key: "trajectory" as const, label: "trajectory.md", hint: "$ cat ./how-i-got-here.log" },
-                                        { key: "contact" as const, label: "contact.txt", hint: "$ ping manthan --say-hi" },
-                                        { key: "tech-lab" as const, label: "tech-lab.txt", hint: "$ ./break-things --on-purpose" },
+                                        { key: "contact" as const, label: "contact.txt", hint: "$ ping manthan say-hi" },
+                                        { key: "tech-lab" as const, label: "tech-lab.txt", hint: "$ ./break-things on-purpose" },
                                     ]).map((tab) => (
                                         <button
                                             key={tab.key}

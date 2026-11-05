@@ -61,7 +61,7 @@ export function HomeRail({ activeSlug, onHoverIndex, onSelectIndex }: HomeRailPr
           >
             <FaGithub className="h-4 w-4 shrink-0 text-ink-muted transition-colors group-hover:text-white" />
             github ↗
-            <TerminalHint text="$ git log --since=3am" placement="below-start" />
+            <TerminalHint text="$ git log since=3am" placement="below-start" />
           </a>
           <a
             href="https://www.linkedin.com/in/manthan-p-6457b3313"
@@ -71,7 +71,7 @@ export function HomeRail({ activeSlug, onHoverIndex, onSelectIndex }: HomeRailPr
           >
             <FaLinkedin className="h-4 w-4 shrink-0 text-ink-muted transition-colors group-hover:text-[#0A66C2]" />
             linkedin ↗
-            <TerminalHint text="$ open ./me --in-a-blazer" placement="below-start" />
+            <TerminalHint text="$ open ./me in-a-blazer" placement="below-start" />
           </a>
           <a
             href="https://leetcode.com/u/silentlooop/"
@@ -81,7 +81,7 @@ export function HomeRail({ activeSlug, onHoverIndex, onSelectIndex }: HomeRailPr
           >
             <SiLeetcode className="h-4 w-4 shrink-0 text-ink-muted transition-colors group-hover:text-[#FFA116]" />
             leetcode ↗
-            <TerminalHint text="$ sudo solve --daily-humility" placement="below-start" />
+            <TerminalHint text="$ sudo solve daily-humility" placement="below-start" />
           </a>
           <a
             href="https://monkeytype.com/account"
@@ -91,7 +91,7 @@ export function HomeRail({ activeSlug, onHoverIndex, onSelectIndex }: HomeRailPr
           >
             <SiMonkeytype className="h-4 w-4 shrink-0 text-ink-muted transition-colors group-hover:text-[#E2B714]" />
             monkeytype ↗
-            <TerminalHint text="$ wpm --check --again" placement="below-start" />
+            <TerminalHint text="$ wpm check again" placement="below-start" />
           </a>
         </div>
       </div>

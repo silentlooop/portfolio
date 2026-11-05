@@ -288,7 +288,7 @@ export function CommandTerminal() {
                     transition={{ duration: 0.3, ease: "easeOut" }}
                 >
                     &gt;<span className="terminal-cursor">_</span>
-                    <TerminalHint text="$ ./terminal --open" placement="below-start" className="!left-auto right-full mr-2 !top-1/2 !mt-0 -translate-y-1/2" />
+                    <TerminalHint text="$ ./terminal open" placement="below-start" className="!left-auto right-full mr-2 !top-1/2 !mt-0 -translate-y-1/2" />
                 </motion.button>
             )}
         </AnimatePresence>
