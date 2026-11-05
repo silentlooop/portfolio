@@ -7,8 +7,6 @@ import { HomeRail } from "./components/ui/home-rail"
 import { NavBar, TerminalExperience } from "./pages/about"
 import { SectionPrompt } from "./components/ui/terminal-effects"
 import { Note, Signature } from "./components/ui/annotations"
-import { OPEN_TERMINAL_EVENT } from "./components/ui/command-terminal"
-import { TerminalHint } from "./components/ui/terminal-hint"
 import { projects } from "./data/projects"
 
 function App() {
@@ -114,34 +112,6 @@ function App() {
             </Note>
           </div>
         </div>
-
-        {/* Footer */}
-        <div className="z-15 mt-12">
-          <footer className="flex flex-col items-center body bg-[#1C1C1C] dot-grid z-[1] w-full sticky bottom-0 text-zinc-100 font-sfmono">
-            <section className="w-full max-w-8xl relative z-10 pb-6 pt-6 px-3" style={{ opacity: 1 }}>
-              <div className="flex flex-col items-start gap-3 font-sfmono text-[14px] leading-none sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-x-6">
-                <span className="flex flex-wrap items-center gap-2">
-                  <p className="self-center w-min px-2 pt-1 pb-[2px] font-sfmono lowercase text-zinc-400 border-zinc-400 border border-solid rounded-full">v5.0.0</p>
-                  <p className="self-center px-2 pt-1 pb-[2px] font-sfmono uppercase text-zinc-500">updated 2026.08</p>
-                  <button
-                    type="button"
-                    onClick={() => window.dispatchEvent(new Event(OPEN_TERMINAL_EVENT))}
-                    className="relative self-center px-2 pt-1 pb-[2px] font-sfmono lowercase text-zinc-500 transition-colors hover:text-[#fde047]"
-                  >
-                    <kbd className="mr-1.5 rounded border border-zinc-700 px-1 text-[11px] text-zinc-400">/</kbd>open terminal
-                    <TerminalHint text="$ help" placement="below" className="!top-auto bottom-full mb-2 !mt-0" />
-                  </button>
-                </span>
-                <span className="flex items-center gap-2 text-left text-xs uppercase tracking-wider text-zinc-600 sm:ml-auto sm:text-right">
-                  <span>built + designed by</span>
-                  <span className="text-zinc-400">manthan</span>
-                  <span className="text-zinc-400">/ silentlooop</span>
-                </span>
-              </div>
-            </section>
-          </footer>
-        </div>
-
 
       </div>
     </>

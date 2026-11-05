@@ -17,6 +17,9 @@
 
     /* accent (existing yellow) */
     --accent: #fde047;
+
+    /* live-measured footer height, set by ResizeObserver; this is just the pre-JS fallback */
+    --footer-h: 280px;
   }
 
   html, body {
