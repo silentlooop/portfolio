@@ -64,7 +64,7 @@ const staggerContainer: Variants = {
 
 function TechBadge({ text }: { text: string }) {
   return (
-    <span className="px-3 py-1 text-[12px] text-[#fde047] border border-[#fde047]/20 bg-[#fde047]/5" style={monoFont}>
+    <span className="px-3 py-1 text-[12px] text-ink-secondary border border-edge bg-white/[0.03]" style={monoFont}>
       {text}
     </span>
   );
@@ -86,7 +86,7 @@ export default function ProjectDetail() {
   }
 
   return (
-    <div className="min-h-screen bg-[#111111] text-white selection:bg-[#fde047]/30">
+    <div className="min-h-screen bg-[#111111] text-white selection:bg-white/20">
 
       <NavBar />
 

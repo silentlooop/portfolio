@@ -1,9 +1,8 @@
 import { useEffect } from "react";
 import { NavBar } from "./about";
 import { SectionPrompt, SectionReveal } from "../components/ui/terminal-effects";
-import { Arrow, Measure, Note, RegMark, Signature } from "../components/ui/annotations";
+import { Measure, RegMark, Signature } from "../components/ui/annotations";
 import { TerminalHint } from "../components/ui/terminal-hint";
-import { ScrambleText } from "../components/ui/scramble-text";
 import { useInViewOnce, usePrefersReducedMotion } from "../components/ui/use-terminal-effects";
 
 // --- TYPES ---
@@ -115,18 +114,13 @@ function ShapedCard({ item }: { item: ShapedItem }) {
                 transform: revealed ? "translateY(0)" : "translateY(12px)",
             }}
         >
-            <div
-                className="group/shaped shaped-card relative h-full overflow-hidden rounded-md border border-edge bg-[#141414] shadow-2xl shadow-black/20 transition-colors duration-250 ease-out hover:border-edge-hover"
-                style={{
-                    "--card-rotation": `${item.rotation}deg`,
-                } as React.CSSProperties}
-            >
+            <div className="group/shaped relative h-full overflow-hidden rounded-md border border-edge bg-[#141414] shadow-2xl shadow-black/20 transition-[color,background-color,border-color,transform] duration-250 ease-out hover:-translate-y-1 hover:border-edge-hover">
                 <TerminalHint text={`$ cat ./me/${slug}`} />
                 <div className="p-5 md:p-6">
                     {item.media && <CardMedia media={item.media} mediaType={item.mediaType} title={item.title} />}
                     <span className="text-[11px] font-sfmono uppercase tracking-wider text-gray-500">{item.type}</span>
                     <h3 className="text-xl font-bold leading-snug tracking-tight text-white md:text-2xl">
-                        <ScrambleText text={item.title} />
+                        {item.title}
                     </h3>
                     <p className="mt-2.5 font-sfmono text-[15px] leading-relaxed text-gray-400">{item.description}</p>
                 </div>
@@ -144,20 +138,6 @@ export default function Shaped() {
 
     return (
         <div className="relative min-h-screen bg-[#111111]">
-            {/* Scoped styles */}
-            <style>{`
-                .shaped-card {
-                    transform: rotate(var(--card-rotation, 0deg));
-                    transition: transform 0.25s ease, box-shadow 0.25s ease;
-                }
-                .shaped-card:hover {
-                    transform: rotate(0deg) translateY(-4px);
-                }
-                @media (max-width: 767px) {
-                    .shaped-card { transform: none !important; }
-                }
-            `}</style>
-
             <NavBar />
 
             <main className="pt-24 pb-20 px-5 max-w-5xl mx-auto relative text-white font-sfmono">
@@ -202,20 +182,7 @@ export default function Shaped() {
                     <Measure className="flex-1" label={`${shapedItems.length} entries`} note="fig. 02 — the person" />
                 </div>
 
-                {/* Margin notes */}
                 <RegMark className="pointer-events-none absolute left-0 top-[8.5rem] hidden -translate-x-7 md:block" />
-                <div aria-hidden="true" className="pointer-events-none absolute right-full top-64 mr-2 hidden overflow-hidden lg:block lg:w-[clamp(0rem,calc(50vw-32.5rem),10rem)]">
-                    <Note rotate={-8}>the unfiltered version.</Note>
-                    <Arrow variant="swoop" className="ml-12 mt-1 h-12 w-24" rotate={8} delay={0.4} />
-                </div>
-                <div aria-hidden="true" className="pointer-events-none absolute left-full top-[32rem] ml-2 hidden overflow-hidden lg:block lg:w-[clamp(0rem,calc(50vw-32.5rem),11rem)]">
-                    <Arrow variant="hook" flip className="h-14 w-14" rotate={-20} />
-                    <Note rotate={5} size="sm" className="mt-1">yes, all of these are true.</Note>
-                </div>
-                <div aria-hidden="true" className="pointer-events-none absolute left-full top-[58rem] ml-2 hidden overflow-hidden lg:block lg:w-[clamp(0rem,calc(50vw-32.5rem),11rem)]">
-                    <Note rotate={-4} size="sm">rewatched hyouka 3 times. zero regrets.</Note>
-                    <Arrow variant="swoop" flip className="mt-1 h-12 w-24" rotate={14} delay={0.4} />
-                </div>
 
 
                 <SectionReveal className="relative z-[1] mb-10 overflow-hidden rounded-md border border-white/10 bg-[#141414] shadow-2xl shadow-black/20">
@@ -273,28 +240,28 @@ export default function Shaped() {
                         <div>
                             <span className="text-gray-500">$</span> Anime Series (Top 10)
                             <br />
-                            <span className="text-[#fde047]/80">BLACK CLOVER</span><br />
-                            <span className="text-[#fde047]/80">HYOUKA</span><br />
-                            <span className="text-[#fde047]/80">FRIEREN</span><br />
-                            <span className="text-[#fde047]/80">TOKYO GHOUL</span><br />
-                            <span className="text-[#fde047]/80">NARUTO</span><br />
-                            <span className="text-[#fde047]/80">ONE PIECE</span><br />
-                            <span className="text-[#fde047]/80">BLEACH</span><br />
-                            <span className="text-[#fde047]/80">DEMON SLAYER</span><br />
-                            <span className="text-[#fde047]/80">BUNGO STRAY DOGS</span><br />
-                            <span className="text-[#fde047]/80">AOT</span><br />
+                            <span className="text-ink-primary">BLACK CLOVER</span><br />
+                            <span className="text-ink-primary">HYOUKA</span><br />
+                            <span className="text-ink-primary">FRIEREN</span><br />
+                            <span className="text-ink-primary">TOKYO GHOUL</span><br />
+                            <span className="text-ink-primary">NARUTO</span><br />
+                            <span className="text-ink-primary">ONE PIECE</span><br />
+                            <span className="text-ink-primary">BLEACH</span><br />
+                            <span className="text-ink-primary">DEMON SLAYER</span><br />
+                            <span className="text-ink-primary">BUNGO STRAY DOGS</span><br />
+                            <span className="text-ink-primary">AOT</span><br />
                         </div>
                         <div>
                             <span className="text-gray-500">$</span> Anime Movies
                             <br />
-                            <span className="text-[#fde047]/80">THE LIGHT OF FIREFLY FOREST</span><br />
-                            <span className="text-[#fde047]/80">YOUR NAME</span><br />
-                            <span className="text-[#fde047]/80">SUZUME</span><br />
-                            <span className="text-[#fde047]/80">A SILENT VOICE</span><br />
-                            <span className="text-[#fde047]/80">5CM PER SECOND</span><br />
-                            <span className="text-[#fde047]/80">GARDEN OF WORDS</span><br />
-                            <span className="text-[#fde047]/80">NARUTO MOVIES</span><br />
-                            <span className="text-[#fde047]/80">SPY FAMILY : CODE WHITE</span><br />
+                            <span className="text-ink-primary">THE LIGHT OF FIREFLY FOREST</span><br />
+                            <span className="text-ink-primary">YOUR NAME</span><br />
+                            <span className="text-ink-primary">SUZUME</span><br />
+                            <span className="text-ink-primary">A SILENT VOICE</span><br />
+                            <span className="text-ink-primary">5CM PER SECOND</span><br />
+                            <span className="text-ink-primary">GARDEN OF WORDS</span><br />
+                            <span className="text-ink-primary">NARUTO MOVIES</span><br />
+                            <span className="text-ink-primary">SPY FAMILY : CODE WHITE</span><br />
                         </div>
                     </div>
                 </div>
@@ -303,7 +270,6 @@ export default function Shaped() {
                 <div aria-hidden="true" className="pointer-events-none relative z-[1] mt-16 hidden justify-end md:flex">
                     <div className="text-right">
                         <Signature className="ml-auto h-12 w-36" />
-                        <Note rotate={-2} size="sm" ink="faint">— manthan, {new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}. still figuring it out.</Note>
                     </div>
                 </div>
 

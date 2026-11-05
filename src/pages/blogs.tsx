@@ -1,7 +1,7 @@
 import { NavBar } from "./about";
 import { SectionPrompt, SectionReveal } from "../components/ui/terminal-effects";
 import { TerminalHint } from "../components/ui/terminal-hint";
-import { Arrow, Measure, Note, RegMark, Signature } from "../components/ui/annotations";
+import { Measure, RegMark, Signature } from "../components/ui/annotations";
 
 const BLOGS = [
     {
@@ -20,20 +20,12 @@ const Blogs = () => {
             <NavBar />
             <div className="relative min-h-screen bg-[#111111] text-white font-sfmono pt-24 pb-20">
                 <div className="relative w-full px-5 max-w-5xl mx-auto">
-                    <div aria-hidden="true" className="pointer-events-none absolute left-full top-24 ml-2 hidden overflow-hidden lg:block lg:w-[clamp(0rem,calc(50vw-32.5rem),11rem)]">
-                        <Arrow variant="swoop" flip className="h-12 w-24" rotate={-10} />
-                        <Note rotate={4} size="sm" className="mt-1">only one so far. more are brewing.</Note>
-                    </div>
                     <SectionPrompt command="cat ./blogs" className="mb-6" />
                     <div aria-hidden="true" className="pointer-events-none mb-4 hidden items-center gap-3 md:flex">
                         <span className="font-sfmono text-[10px] text-zinc-600">03</span>
                         <Measure className="flex-1" label={`${sortedBlogs.length} post${sortedBlogs.length === 1 ? "" : "s"}`} note="fig. 03 — the archive" />
                     </div>
-                    <div aria-hidden="true" className="pointer-events-none absolute right-full top-28 mr-4 hidden overflow-hidden lg:block lg:w-[clamp(0rem,calc(50vw-33rem),10rem)]">
-                        <Note rotate={-7}>written at 3am, edited at 4am.</Note>
-                        <Arrow variant="swoop" className="ml-12 mt-1 h-12 w-24" rotate={10} delay={0.4} />
-                    </div>
-                    
+
 
                     <div className="relative bg-[#111111] rounded-md p-6 border border-white/10 shadow-sm shadow-white/5">
                         <RegMark className="pointer-events-none absolute -left-7 -top-7 hidden md:block" />
@@ -84,7 +76,6 @@ const Blogs = () => {
                     <div aria-hidden="true" className="pointer-events-none mt-16 hidden justify-end md:flex">
                         <div className="text-right">
                             <Signature className="ml-auto h-12 w-36" />
-                            <Note rotate={-2} size="sm" ink="faint">— manthan, {new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}. more soon, promise.</Note>
                         </div>
                     </div>
                 </div>

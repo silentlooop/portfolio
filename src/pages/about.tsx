@@ -125,7 +125,7 @@ function ContactTerminal() {
                     <span className="text-zinc-300 truncate">cat contact.txt</span>
                 </div>
                 <div className="space-y-3 text-[13px] leading-6 text-gray-400 sm:text-[15px] md:text-base">
-                    <p className="text-lg font-bold tracking-tight text-white sm:text-xl md:text-2xl break-words"><ScrambleText text="Let's connect." /></p>
+                    <p className="text-lg font-bold tracking-tight text-white sm:text-xl md:text-2xl break-words">Let's connect.</p>
                     <p className="break-words sm:text-base">Open channels for thoughtful work, curious conversations, and ambitious ideas.</p>
                 </div>
                 <div className="grid gap-2 border-t border-white/5 pt-4 sm:gap-3 sm:border-t sm:pt-6 sm:grid-cols-2">
@@ -191,7 +191,7 @@ function TechLabTerminal() {
                     <span className="text-zinc-300">cat tech-lab.txt</span>
                 </div>
                 <div className="space-y-3 text-[15px] leading-7 text-gray-400 md:text-base">
-                    <p className="text-xl font-bold tracking-tight text-white sm:text-2xl md:text-3xl break-words"><ScrambleText text="The tech lab." /></p>
+                    <p className="text-xl font-bold tracking-tight text-white sm:text-2xl md:text-3xl break-words">The tech lab.</p>
                     <p className="break-words sm:text-base">Places where I practice, experiment, and keep the feedback loop moving.</p>
                 </div>
                 <div className="grid gap-3 border-t border-white/5 pt-6 sm:grid-cols-2">
@@ -276,7 +276,7 @@ function NavBar() {
             <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-5 py-3 md:px-6 md:py-4 bg-[#111111]/80 backdrop-blur-md border-b border-white/5 transition-all duration-300">
                 {/* Logo */}
                 <a href="/" className="text-white font-sfmono text-base md:text-lg font-bold tracking-tight hover:opacity-80 transition-opacity z-50 relative">
-                    silentlooop<span className="terminal-cursor text-zinc-500">_</span>
+                    <ScrambleText text="silentlooop" /><span className="terminal-cursor text-zinc-500">_</span>
                     <TerminalHint text="$ cd ~/home-sweet-home" placement="below" />
                 </a>
 
@@ -466,10 +466,6 @@ function About() {
                         </div>
                         <RegMark className="pointer-events-none absolute -left-7 -top-7 hidden md:block" />
                         <RegMark className="pointer-events-none absolute -bottom-7 -right-7 hidden md:block" />
-                        <div aria-hidden="true" className="pointer-events-none absolute right-full top-14 mr-4 hidden overflow-hidden lg:block lg:w-[clamp(0rem,calc(50vw-33rem),10rem)]">
-                            <Note rotate={-8} className="pl-2">who wrote this?</Note>
-                            <Arrow variant="swoop" className="ml-10 mt-1 h-14 w-24" rotate={6} />
-                        </div>
                         <div aria-hidden="true" className="pointer-events-none absolute bottom-10 left-full ml-4 hidden overflow-hidden lg:block lg:w-[clamp(0rem,calc(50vw-33rem),11rem)]">
                             <Arrow variant="hook" flip className="h-14 w-14" rotate={-20} />
                             <Note rotate={5} size="sm" className="mt-1">still figuring it out… and probably always will.</Note>
@@ -599,10 +595,6 @@ function About() {
 
                     {/* Terminal-style Experience Section */}
                     <div className="relative mt-2 mb-6">
-                        <div aria-hidden="true" className="pointer-events-none absolute left-full top-24 ml-4 hidden overflow-hidden lg:block lg:w-[clamp(0rem,calc(50vw-33rem),11rem)]">
-                            <Note rotate={-5}>same guy, more commits now.</Note>
-                            <Arrow variant="swoop" flip className="mt-1 h-12 w-24" rotate={12} delay={0.4} />
-                        </div>
                         <SectionPrompt command="cd ./deep-dive/experience" className="mb-8" startOnMount />
                         <TerminalExperience />
                     </div>

@@ -111,7 +111,7 @@ export function SectionReveal({
                     return (
                         <div
                             key={index}
-                            className={`transition-[opacity,transform] duration-500 ease-out ${itemClassName}`}
+                            className={`transition-[opacity,transform] duration-400 ease-out ${itemClassName}`}
                             style={{
                                 opacity: isInView || prefersReducedMotion ? 1 : 0,
                                 transform: isInView || prefersReducedMotion ? "translateY(0)" : "translateY(12px)",
@@ -134,7 +134,7 @@ export function SectionReveal({
                 return (
                     <div
                         key={index}
-                        className={`transition-[opacity,transform] duration-500 ease-out ${itemClassName}`}
+                        className={`transition-[opacity,transform] duration-400 ease-out ${itemClassName}`}
                         style={{
                             opacity: isInView || prefersReducedMotion ? 1 : 0,
                             transform: isInView || prefersReducedMotion ? "translateY(0)" : "translateY(12px)",

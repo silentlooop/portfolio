@@ -5,7 +5,7 @@ import { useEffect } from "react"
 import { ProjectsGrid } from "./components/ui/Projects2"
 import { About, NavBar } from "./pages/about"
 import { SectionPrompt } from "./components/ui/terminal-effects"
-import { Arrow, Note, Signature } from "./components/ui/annotations"
+import { Note, Signature } from "./components/ui/annotations"
 import { OPEN_TERMINAL_EVENT } from "./components/ui/command-terminal"
 import { TerminalHint } from "./components/ui/terminal-hint"
 
@@ -68,17 +68,12 @@ function App() {
         <div id="work" className="relative z-15 w-full">
           <div className="relative w-full px-5 mt-4 max-w-5xl mx-auto">
             <SectionPrompt command="cd ./selected-work" className="mb-6" />
-            <div aria-hidden="true" className="pointer-events-none absolute -top-1 right-8 hidden items-start gap-1 md:flex">
-              <Note rotate={4}>pick one. they're real.</Note>
-              <Arrow variant="down" className="h-14 w-10" rotate={18} delay={0.5} />
-            </div>
           </div>
           <ProjectsGrid />
         </div>
 
         {/* Sign-off */}
-        <div aria-hidden="true" className="pointer-events-none mx-auto mt-14 hidden w-full max-w-5xl items-end justify-between px-5 md:flex">
-          <Note rotate={-3} size="sm" ink="faint" className="max-w-[16rem]">please don't steal the code without credit…</Note>
+        <div aria-hidden="true" className="pointer-events-none mx-auto mt-14 hidden w-full max-w-5xl items-end justify-end px-5 md:flex">
           <div className="text-right">
             <Signature className="ml-auto h-14 w-40" />
             <Note rotate={-2} size="sm" ink="faint">
@@ -109,7 +104,7 @@ function App() {
                 <span className="flex items-center gap-2 text-left text-xs uppercase tracking-wider text-zinc-600 sm:ml-auto sm:text-right">
                   <span>built + designed by</span>
                   <span className="text-zinc-400">manthan</span>
-                  <span className="text-[#fde047]">/ silentlooop</span>
+                  <span className="text-zinc-400">/ silentlooop</span>
                 </span>
               </div>
             </section>
