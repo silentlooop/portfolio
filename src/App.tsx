@@ -1,15 +1,21 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 import { ProjectsGrid } from "./components/ui/Projects2"
-import { About, NavBar } from "./pages/about"
+import { HomeRail } from "./components/ui/home-rail"
+import { NavBar, TerminalExperience } from "./pages/about"
 import { SectionPrompt } from "./components/ui/terminal-effects"
 import { Note, Signature } from "./components/ui/annotations"
 import { OPEN_TERMINAL_EVENT } from "./components/ui/command-terminal"
 import { TerminalHint } from "./components/ui/terminal-hint"
+import { projects } from "./data/projects"
 
 function App() {
+  const [activeSlug, setActiveSlug] = useState<string | null>(projects[0]?.slug ?? null);
+  const [hoveredSlug, setHoveredSlug] = useState<string | null>(null);
+  const highlightedSlug = hoveredSlug ?? activeSlug;
+
   useEffect(() => {
     const scrollToWorkFromHash = () => {
       if (window.location.hash !== "#work") return;
@@ -53,27 +59,54 @@ function App() {
     };
   }, []);
 
+  // Tracks which project tile is currently in view, to highlight the matching rail index item.
+  useEffect(() => {
+    const elements = projects
+      .map((p) => document.getElementById(`project-${p.slug}`))
+      .filter((el): el is HTMLElement => !!el);
+    if (elements.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const mostVisible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        const slug = mostVisible?.target.getAttribute("data-project-slug");
+        if (slug) setActiveSlug(slug);
+      },
+      { rootMargin: "-15% 0px -55% 0px", threshold: [0, 0.25, 0.5, 0.75, 1] }
+    );
+
+    elements.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
+  const scrollToProject = (slug: string) => {
+    document.getElementById(`project-${slug}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
 
   return (
     <>
       <NavBar />
       <div className="flex flex-col bg-[#111111] text-gray-200 scale-100 relative">
 
-        {/* About section */}
-        <div className="z-15 mb-0">
-          <About />
+        {/* Rail + projects */}
+        <div id="work" className="relative z-15 mx-auto w-full max-w-[1440px] px-5 pt-28 md:px-10">
+          <SectionPrompt command="cd ./selected-work" className="mb-6 lg:hidden" />
+          <div className="lg:grid lg:grid-cols-[280px_1fr] lg:gap-12">
+            <HomeRail activeSlug={highlightedSlug} onHoverIndex={setHoveredSlug} onSelectIndex={scrollToProject} />
+            <ProjectsGrid highlightedSlug={highlightedSlug} onHoverProject={setHoveredSlug} />
+          </div>
         </div>
 
-        {/* Projects */}
-        <div id="work" className="relative z-15 w-full">
-          <div className="relative w-full px-5 mt-4 max-w-5xl mx-auto">
-            <SectionPrompt command="cd ./selected-work" className="mb-6" />
-          </div>
-          <ProjectsGrid />
+        {/* Experience */}
+        <div className="relative z-15 mx-auto mt-24 w-full max-w-[1440px] px-5 md:px-10">
+          <SectionPrompt command="cd ./deep-dive/experience" className="mb-8" startOnMount />
+          <TerminalExperience />
         </div>
 
         {/* Sign-off */}
-        <div aria-hidden="true" className="pointer-events-none mx-auto mt-14 hidden w-full max-w-5xl items-end justify-end px-5 md:flex">
+        <div aria-hidden="true" className="pointer-events-none mx-auto mt-14 hidden w-full max-w-[1440px] items-end justify-end px-5 md:flex md:px-10">
           <div className="text-right">
             <Signature className="ml-auto h-14 w-40" />
             <Note rotate={-2} size="sm" ink="faint">
@@ -81,8 +114,6 @@ function App() {
             </Note>
           </div>
         </div>
-
-        {/* Art */}
 
         {/* Footer */}
         <div className="z-15 mt-12">

@@ -606,4 +606,4 @@ function About() {
     )
 }
 
-export { About, NavBar }
+export { About, NavBar, TerminalExperience }

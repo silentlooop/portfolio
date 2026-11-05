@@ -15,7 +15,15 @@ function isVideoUrl(url: string) {
 
 type Project = (typeof projects)[number];
 
-function ProjectCard({ project }: { project: Project }) {
+function ProjectCard({
+  project,
+  isHighlighted,
+  onHover,
+}: {
+  project: Project;
+  isHighlighted: boolean;
+  onHover: (slug: string | null) => void;
+}) {
   const ratio = PROJECT_TILE_RATIO[project.slug] ?? "standard";
   const media = ("video" in project && project.video) || project.image;
   const isVideo = ("video" in project && !!project.video) || isVideoUrl(media);
@@ -25,13 +33,24 @@ function ProjectCard({ project }: { project: Project }) {
   return (
     <a
       href={`/projects/${project.slug}`}
-      onMouseEnter={() => playReelClick()}
-      className="group/card mb-6 block break-inside-avoid"
+      id={`project-${project.slug}`}
+      data-project-slug={project.slug}
+      onMouseEnter={() => {
+        playReelClick();
+        onHover(project.slug);
+      }}
+      onMouseLeave={() => onHover(null)}
+      className="group/card mb-6 block scroll-mt-28 break-inside-avoid"
     >
       <TerminalHint text={`$ open ./projects/${project.slug}`} />
       <div
-        className={`relative overflow-hidden rounded-lg border border-edge bg-[#161616] p-6 transition-colors duration-250 ease-out group-hover/card:border-edge-hover ${RATIO_CLASS[ratio]}`}
+        className={`relative overflow-hidden rounded-lg border bg-[#161616] p-6 transition-colors duration-250 ease-out group-hover/card:border-edge-hover ${RATIO_CLASS[ratio]} ${
+          isHighlighted ? "border-edge-hover" : "border-edge"
+        }`}
       >
+        <span className="absolute left-3 top-3 z-10 font-sfmono text-[11px] text-ink-muted">
+          {String(projects.findIndex((p) => p.slug === project.slug) + 1).padStart(2, "0")}
+        </span>
         <div className="flex h-full w-full items-center justify-center">
           {isVideo ? (
             <video
@@ -61,20 +80,23 @@ function ProjectCard({ project }: { project: Project }) {
   );
 }
 
-const ProjectsGrid: React.FC = () => {
+type ProjectsGridProps = {
+  highlightedSlug?: string | null;
+  onHoverProject?: (slug: string | null) => void;
+};
+
+const ProjectsGrid: React.FC<ProjectsGridProps> = ({ highlightedSlug = null, onHoverProject = () => {} }) => {
   return (
-    <div className="w-full bg-[#111111] py-4 pt-2">
-      <div className="max-w-content mx-auto px-5">
-        <SectionReveal
-          className="columns-1 gap-6 lg:columns-2 min-[1600px]:columns-3"
-          itemClassName="break-inside-avoid"
-        >
-          {projects.map((project) => (
-            <ProjectCard key={project.slug} project={project} />
-          ))}
-        </SectionReveal>
-      </div>
-    </div>
+    <SectionReveal className="columns-1 gap-6 lg:columns-2 min-[1600px]:columns-3" itemClassName="break-inside-avoid">
+      {projects.map((project) => (
+        <ProjectCard
+          key={project.slug}
+          project={project}
+          isHighlighted={highlightedSlug === project.slug}
+          onHover={onHoverProject}
+        />
+      ))}
+    </SectionReveal>
   );
 };
 
