@@ -1,96 +1,42 @@
-import React, { useEffect, useRef, useState } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import React from "react";
 import { SectionReveal } from "./terminal-effects";
 import { TerminalHint } from "./terminal-hint";
-import { EFFECTS } from "../../lib/effects-config";
 import { playReelClick } from "../../lib/sound";
+import { projects } from "../../data/projects";
+import { PROJECT_TILE_RATIO, RATIO_CLASS } from "../../data/project-tiles";
 
-gsap.registerPlugin(ScrollTrigger);
-
-interface ProjectCardProps {
-  href?: string;
-  title: string;
-  category: string;
-  imageSrc: string;
-  imageAlt: string;
-  mediaType?: "image" | "video";
-  /** Intrinsic pixel dimensions, used to reserve layout space and avoid CLS. */
-  width?: number;
-  height?: number;
+function toTitleCase(text: string) {
+  return text.replace(/\S+/g, (word) => word.charAt(0).toUpperCase() + word.slice(1));
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({
-  href,
-  title,
-  category,
-  imageSrc,
-  imageAlt,
-  mediaType = "image",
-  width,
-  height,
-}) => {
-  const Wrapper: React.ElementType = href ? "a" : "div";
-  const projectSlug = href?.split("/").filter(Boolean).pop() ?? title.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+function isVideoUrl(url: string) {
+  return /\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(url);
+}
 
-  // Determine media type from file extension if not explicitly provided
-  const isVideo = mediaType === "video" ||
-    imageSrc.endsWith('.mp4') ||
-    imageSrc.endsWith('.webm') ||
-    imageSrc.endsWith('.ogg') ||
-    imageSrc.endsWith('.mov');
+type Project = (typeof projects)[number];
 
-  const parallaxRef = useRef<HTMLDivElement>(null);
-  const [centered, setCentered] = useState(false);
-
-  useEffect(() => {
-    if (!EFFECTS.imageParallax) return;
-    const el = parallaxRef.current;
-    if (!el) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        el,
-        { yPercent: -3 },
-        {
-          yPercent: 3,
-          ease: "none",
-          scrollTrigger: { trigger: el, start: "top bottom", end: "bottom top", scrub: true },
-        }
-      );
-
-      ScrollTrigger.create({
-        trigger: el,
-        start: "top center",
-        end: "bottom center",
-        onToggle: (self) => setCentered(self.isActive),
-      });
-    });
-
-    return () => ctx.revert();
-  }, []);
-
-  const colorGraded = centered ? "grayscale-0 saturate-100" : "grayscale saturate-50";
+function ProjectCard({ project }: { project: Project }) {
+  const ratio = PROJECT_TILE_RATIO[project.slug] ?? "standard";
+  const media = ("video" in project && project.video) || project.image;
+  const isVideo = ("video" in project && !!project.video) || isVideoUrl(media);
+  const title = toTitleCase(project.title);
+  const meta = `${project.year} · ${project.role} · ${project.stack[0]}`;
 
   return (
-    <Wrapper
-      href={href}
+    <a
+      href={`/projects/${project.slug}`}
       onMouseEnter={() => playReelClick()}
-      className="group/card block mb-4 break-inside-avoid bg-[#111111] transition-opacity duration-500 ease-in-out opacity-100 hover:opacity-75 relative px-0.5 py-0.5"
-      {...(href ? { target: "_self", rel: "noopener noreferrer" } : {})}
-      style={{
-        fontFamily:
-          '"SF Mono", "Space Mono", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", monospace',
-      }}
+      className="group/card mb-6 block break-inside-avoid"
     >
-      <TerminalHint text={`$ open ./projects/${projectSlug}`} />
-      <article className="overflow-hidden rounded-sm border border-edge transition-colors duration-250 ease-out group-hover/card:border-edge-hover">
-        <div ref={parallaxRef}>
+      <TerminalHint text={`$ open ./projects/${project.slug}`} />
+      <div
+        className={`relative overflow-hidden rounded-lg border border-edge bg-[#161616] p-6 transition-colors duration-250 ease-out group-hover/card:border-edge-hover ${RATIO_CLASS[ratio]}`}
+      >
+        <div className="flex h-full w-full items-center justify-center">
           {isVideo ? (
             <video
-              src={imageSrc}
-              className={`w-full h-auto object-contain transition-[filter,transform] duration-400 ease-out group-hover/card:scale-[1.02] group-hover/card:grayscale-0 group-hover/card:saturate-100 ${colorGraded}`}
+              src={media}
+              className="h-full w-full object-contain transition-transform duration-400 ease-out group-hover/card:scale-[1.02]"
               autoPlay
               loop
               muted
@@ -98,94 +44,34 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             />
           ) : (
             <img
-              src={imageSrc}
-              alt={imageAlt}
+              src={media}
+              alt={project.title}
               loading="lazy"
-              width={width}
-              height={height}
-              className={`w-full h-auto object-contain transition-[filter,transform] duration-400 ease-out group-hover/card:scale-[1.02] group-hover/card:grayscale-0 group-hover/card:saturate-100 ${colorGraded}`}
+              className="h-full w-full object-contain transition-transform duration-400 ease-out group-hover/card:scale-[1.02]"
             />
           )}
         </div>
-      </article>
-      <div className="pt-2 pb-3 px-3">
-        <div className="font-semibold text-white text-base">{title}</div>
-        <div className="text-zinc-500 text-xs mt-[2px]">{category}</div>
       </div>
-    </Wrapper>
+      <div className="pt-3">
+        <h3 className="text-[18px] font-semibold leading-snug text-ink-primary">{title}</h3>
+        <p className="mt-1 line-clamp-1 text-[14px] leading-relaxed text-ink-secondary">{project.description}</p>
+        <p className="mt-1.5 font-sfmono text-[12px] uppercase tracking-wide text-ink-muted">{meta}</p>
+      </div>
+    </a>
   );
-};
+}
 
 const ProjectsGrid: React.FC = () => {
-  const projectCards = [
-    <ProjectCard
-      key="btsp"
-      href="/projects/btsp"
-      title="BTSP"
-      category="BIOX-WNCC PROJECT"
-      imageSrc="/btsp.png"
-      imageAlt="btsp"
-      width={1920}
-      height={1080}
-    />,
-    <ProjectCard
-      key="pgm"
-      href="/projects/probabilistic-graphic-model"
-      title="PROBABILISTIC GRAPHIC MODEL"
-      category="CONSUMER PRODUCT"
-      imageSrc="/soc.jpeg"
-      imageAlt="currency converter"
-      width={736}
-      height={736}
-    />,
-    <ProjectCard
-      key="resume-rater"
-      href="/projects/resume-rater"
-      title="RESUME RATER"
-      category="AI MODEL"
-      imageSrc="/aic2.png"
-      mediaType="image"
-      imageAlt="resume rater"
-      width={1080}
-      height={1080}
-    />,
-    <ProjectCard
-      key="wids"
-      href="/projects/wids-25"
-      title="WiDS'25"
-      category="TRADING ALGORITHM"
-      imageSrc="/dqn2.png"
-      imageAlt="wids"
-      width={2696}
-      height={574}
-    />,
-    <ProjectCard
-      key="instigpt"
-      href="/projects/instigpt"
-      title="InstiGPT"
-      category="AIC NLP PROJECT"
-      imageSrc="/instigpt copy.mp4"
-      imageAlt="instigpt"
-      mediaType="video"
-    />,
-    <ProjectCard
-      key="karyogram"
-      href="/projects/karyogram"
-      title="Karyogram"
-      category="MEDICAL IMAGING PROJECT"
-      imageSrc="/karyo.png"
-      imageAlt="karyogram"
-      width={850}
-      height={496}
-    />,
-  ];
-
   return (
     <div className="w-full bg-[#111111] py-4 pt-2">
-      <div className="max-w-5xl mx-auto px-5">
-        <SectionReveal className="columns-1 sm:columns-2 md:columns-2 gap-4 group/grid" itemClassName="break-inside-avoid">
-          {projectCards}
-          {/* Add more ProjectCard components as needed */}
+      <div className="max-w-content mx-auto px-5">
+        <SectionReveal
+          className="columns-1 gap-6 lg:columns-2 min-[1600px]:columns-3"
+          itemClassName="break-inside-avoid"
+        >
+          {projects.map((project) => (
+            <ProjectCard key={project.slug} project={project} />
+          ))}
         </SectionReveal>
       </div>
     </div>
