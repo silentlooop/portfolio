@@ -87,22 +87,24 @@ export function ProjectDetailLayout({ project }: { project: Project }) {
       <NavBar />
       <main className="w-full min-w-0 px-5 pb-24 pt-28 mx-auto max-w-[1280px] md:px-8">
         {/* --- Window chrome --- */}
-        <div className="flex items-end gap-3 overflow-hidden rounded-t-md border border-b-0 border-white/10 bg-[#111111] px-3 pt-2 md:px-5">
-          <div className="flex shrink-0 items-center gap-2 px-2 pb-3">
-            <span className="h-2.5 w-2.5 rounded-full bg-red-500" />
-            <span className="h-2.5 w-2.5 rounded-full bg-yellow-500" />
-            <span className="h-2.5 w-2.5 rounded-full bg-green-500" />
+        <div className="overflow-hidden rounded-md border border-white/10 bg-[#111111]">
+          <div className="flex items-end gap-3 border-b border-white/10 px-3 pt-2 md:px-5">
+            <div className="flex shrink-0 items-center gap-2 px-2 pb-3">
+              <span className="h-2.5 w-2.5 rounded-full bg-red-500" />
+              <span className="h-2.5 w-2.5 rounded-full bg-yellow-500" />
+              <span className="h-2.5 w-2.5 rounded-full bg-green-500" />
+            </div>
+            <div className="-mb-px flex min-w-0 max-w-full items-center rounded-t-md border-x border-t border-white/10 bg-[#181818] px-4 py-2.5 md:px-5">
+              <span className="truncate font-mono text-xs text-zinc-400">./projects/{project.slug}</span>
+            </div>
           </div>
-          <div className="-mb-px flex min-w-0 max-w-full items-center rounded-t-md border-x border-t border-white/10 bg-[#181818] px-4 py-2.5 md:px-5">
-            <span className="truncate font-mono text-xs text-zinc-400">./projects/{project.slug}</span>
+          <div className="flex items-center gap-1.5 bg-[#141414] px-4 py-2.5 font-sfmono text-[12px] text-ink-muted md:px-5">
+            <Link to="/" className="hover:text-ink-secondary transition-colors">~</Link>
+            <span>›</span>
+            <Link to="/#work" className="hover:text-ink-secondary transition-colors">projects</Link>
+            <span>›</span>
+            <span className="text-ink-secondary">{project.slug}.md</span>
           </div>
-        </div>
-        <div className="flex items-center gap-1.5 rounded-b-md border border-t-0 border-white/10 bg-[#141414] px-4 py-2.5 font-sfmono text-[12px] text-ink-muted md:px-5">
-          <Link to="/" className="hover:text-ink-secondary transition-colors">~</Link>
-          <span>›</span>
-          <Link to="/#work" className="hover:text-ink-secondary transition-colors">projects</Link>
-          <span>›</span>
-          <span className="text-ink-secondary">{project.slug}.md</span>
         </div>
 
         <motion.h1
