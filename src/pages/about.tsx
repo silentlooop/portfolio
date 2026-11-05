@@ -281,7 +281,7 @@ function NavBar() {
 
                 {/* Desktop Links */}
                 <div className="hidden md:flex items-center gap-8 text-sm font-sfmono text-gray-400">
-                    <a href="/#work" onClick={(e) => scrollToSection(e, 'work')} className={`relative transition-colors cursor-pointer ${isActive("/") ? "text-[#fde047]" : "hover:text-white"}`}>work<TerminalHint text="$ ls ./proof-i-dont-just-talk" placement="below" /></a>
+                    <a href="/#work" onClick={(e) => scrollToSection(e, 'work')} className={`relative transition-colors cursor-pointer ${isActive("/") ? "text-[#fde047]" : "hover:text-white"}`}>projects<TerminalHint text="$ ls ./proof-i-dont-just-talk" placement="below" /></a>
                     <a href="/blogs" className={`relative transition-colors cursor-pointer ${isActive("/blogs") ? "text-[#fde047]" : "hover:text-white"}`}>blogs<TerminalHint text="$ cat ./thoughts uncompiled" placement="below" /></a>
                     <a href="/shaped" className={`relative transition-colors cursor-pointer ${isActive("/shaped") ? "text-[#fde047]" : "hover:text-white"}`}>~/me<TerminalHint text="$ whoami the-human-behind-it" placement="below" /></a>
                     <MuteToggle className="relative text-gray-400" />
@@ -317,7 +317,7 @@ function NavBar() {
                                 onClick={(e) => scrollToSection(e, 'work')}
                                 className="text-xl font-semibold text-gray-500 tracking-tight font-sfmono"
                             >
-                                work
+                                projects
                             </motion.a>
                             <motion.a
                                 custom={1}
