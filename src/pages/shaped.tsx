@@ -167,15 +167,15 @@ export default function Shaped() {
                 </div>
 
                 <RegMark className="pointer-events-none absolute left-0 top-[8.5rem] hidden -translate-x-7 md:block" />
-                <div aria-hidden="true" className="pointer-events-none absolute right-full top-64 mr-2 hidden overflow-hidden lg:block lg:w-[clamp(0rem,calc(50vw-32.5rem),10rem)]">
+                <div aria-hidden="true" className="pointer-events-none absolute right-full top-64 mr-2 hidden overflow-hidden lg:block lg:w-[clamp(0rem,calc(50vw-34.875rem),10rem)]">
                     <Note rotate={-8}>the unfiltered version.</Note>
                     <Arrow variant="swoop" className="ml-12 mt-1 h-12 w-24" rotate={8} delay={0.4} />
                 </div>
-                <div aria-hidden="true" className="pointer-events-none absolute left-full top-[32rem] ml-2 hidden overflow-hidden lg:block lg:w-[clamp(0rem,calc(50vw-32.5rem),11rem)]">
+                <div aria-hidden="true" className="pointer-events-none absolute left-full top-[32rem] ml-2 hidden overflow-hidden lg:block lg:w-[clamp(0rem,calc(50vw-34.875rem),11rem)]">
                     <Arrow variant="hook" flip className="h-14 w-14" rotate={-20} />
                     <Note rotate={5} size="sm" className="mt-1">yes, all of these are true.</Note>
                 </div>
-                <div aria-hidden="true" className="pointer-events-none absolute left-full top-[58rem] ml-2 hidden overflow-hidden lg:block lg:w-[clamp(0rem,calc(50vw-32.5rem),11rem)]">
+                <div aria-hidden="true" className="pointer-events-none absolute left-full top-[58rem] ml-2 hidden overflow-hidden lg:block lg:w-[clamp(0rem,calc(50vw-34.875rem),11rem)]">
                     <Note rotate={-4} size="sm">rewatched hyouka 3 times. zero regrets.</Note>
                     <Arrow variant="swoop" flip className="mt-1 h-12 w-24" rotate={14} delay={0.4} />
                 </div>
