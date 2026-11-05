@@ -110,7 +110,7 @@ function ShapedCard({ item, spanClass }: { item: ShapedItem; spanClass: string }
                     {item.media && <CardMedia media={item.media} mediaType={item.mediaType} title={item.title} />}
                     <span className="text-[11px] font-sfmono uppercase tracking-wider text-gray-500">{item.type}</span>
                     <h3 className="text-xl font-bold leading-snug tracking-tight text-white md:text-2xl">
-                        {item.title}
+                        <ScrambleText text={item.title} />
                     </h3>
                     <p className="mt-2.5 font-sfmono text-[15px] leading-relaxed text-gray-400">{item.description}</p>
                 </div>
