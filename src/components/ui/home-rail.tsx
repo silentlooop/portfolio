@@ -1,10 +1,7 @@
 import { TerminalHint } from "./terminal-hint";
 import { projects } from "../../data/projects";
-import { TILE_ORDER } from "../../data/project-tiles";
-
-const orderedProjects = TILE_ORDER.map((slug) => projects.find((p) => p.slug === slug)).filter(
-  (p): p is (typeof projects)[number] => !!p
-);
+import { FaLinkedin, FaXTwitter, FaGithub } from "react-icons/fa6";
+import { SiLeetcode, SiMonkeytype } from "react-icons/si";
 
 function toTitleCase(text: string) {
   return text.replace(/\S+/g, (word) => word.charAt(0).toUpperCase() + word.slice(1));
@@ -42,7 +39,7 @@ export function HomeRail({ activeSlug, onHoverIndex, onSelectIndex }: HomeRailPr
           aria-label="Projects index"
           className="flex gap-4 overflow-x-auto border-t border-white/5 pt-5 text-base lg:flex-col lg:gap-1.5 lg:overflow-visible"
         >
-          {orderedProjects.map((project, i) => {
+          {projects.map((project, i) => {
             const isActive = activeSlug === project.slug;
             return (
               <button
@@ -67,8 +64,9 @@ export function HomeRail({ activeSlug, onHoverIndex, onSelectIndex }: HomeRailPr
             href="https://github.com/silentlooop"
             target="_blank"
             rel="noreferrer"
-            className="group relative w-fit transition-colors hover:text-white"
+            className="group relative flex w-fit items-center gap-2 transition-colors hover:text-white"
           >
+            <FaGithub className="h-4 w-4 shrink-0 text-ink-muted transition-colors group-hover:text-white" />
             github ↗
             <TerminalHint text="$ git log --since=3am" placement="below-start" />
           </a>
@@ -76,10 +74,41 @@ export function HomeRail({ activeSlug, onHoverIndex, onSelectIndex }: HomeRailPr
             href="https://www.linkedin.com/in/manthan-p-6457b3313"
             target="_blank"
             rel="noreferrer"
-            className="group relative w-fit transition-colors hover:text-white"
+            className="group relative flex w-fit items-center gap-2 transition-colors hover:text-white"
           >
+            <FaLinkedin className="h-4 w-4 shrink-0 text-ink-muted transition-colors group-hover:text-[#0A66C2]" />
             linkedin ↗
             <TerminalHint text="$ open ./me --in-a-blazer" placement="below-start" />
+          </a>
+          <a
+            href="https://x.com/null_rejected"
+            target="_blank"
+            rel="noreferrer"
+            className="group relative flex w-fit items-center gap-2 transition-colors hover:text-white"
+          >
+            <FaXTwitter className="h-4 w-4 shrink-0 text-ink-muted transition-colors group-hover:text-white" />
+            twitter ↗
+            <TerminalHint text="$ tail -f ./unfiltered-thoughts" placement="below-start" />
+          </a>
+          <a
+            href="https://leetcode.com/u/silentlooop/"
+            target="_blank"
+            rel="noreferrer"
+            className="group relative flex w-fit items-center gap-2 transition-colors hover:text-white"
+          >
+            <SiLeetcode className="h-4 w-4 shrink-0 text-ink-muted transition-colors group-hover:text-[#FFA116]" />
+            leetcode ↗
+            <TerminalHint text="$ sudo solve --daily-humility" placement="below-start" />
+          </a>
+          <a
+            href="https://monkeytype.com/account"
+            target="_blank"
+            rel="noreferrer"
+            className="group relative flex w-fit items-center gap-2 transition-colors hover:text-white"
+          >
+            <SiMonkeytype className="h-4 w-4 shrink-0 text-ink-muted transition-colors group-hover:text-[#E2B714]" />
+            monkeytype ↗
+            <TerminalHint text="$ wpm --check --again" placement="below-start" />
           </a>
           <a
             href="/resume.pdf"
@@ -90,11 +119,6 @@ export function HomeRail({ activeSlug, onHoverIndex, onSelectIndex }: HomeRailPr
             resume ↗
             <TerminalHint text="$ cat resume.pdf" placement="below-start" />
           </a>
-        </div>
-
-        <div className="flex items-center gap-2 border-t border-white/5 pt-5 text-xs text-ink-muted">
-          <span className="rounded-full border border-zinc-700 px-2 py-0.5 lowercase">v5.0.0</span>
-          <span className="uppercase">updated 2026.08</span>
         </div>
       </div>
     </aside>

@@ -36,45 +36,80 @@ function TerminalExperience() {
     ];
 
     const visibleExperiences = experiences.filter((experience) => experience.type === activeType);
+    const categories = [
+        { key: "college" as const, hint: "$ make learn && make ship" },
+        { key: "industry" as const, hint: "$ hire manthan --vacancy=open" },
+    ];
 
     return (
-        <div className="w-full max-w-content mx-auto">
-            <div className="mb-6 inline-flex gap-1 rounded-full border border-edge bg-[#161616] p-1 font-sfmono text-xs shadow-xl shadow-black/20">
-                {(["college", "industry"] as const).map((type) => (
-                    <button
-                        key={type}
-                        type="button"
-                        role="tab"
-                        aria-selected={activeType === type}
-                        onClick={() => setActiveType(type)}
-                        className={`relative rounded-full px-4 py-1.5 capitalize transition-colors duration-250 ease-out ${activeType === type ? "text-black" : "text-ink-muted hover:text-ink-secondary"}`}
-                    >
-                        {activeType === type && (
-                            <motion.span layoutId="experience-pill" className="absolute inset-0 rounded-full bg-white" transition={{ type: "spring", stiffness: 300, damping: 30 }} />
+        <div className="w-full max-w-content mx-auto font-mono text-[14px] text-gray-300 md:text-[15px]">
+            <div className="grid gap-4 md:grid-cols-[13rem_1fr]">
+                <nav aria-label="Experience categories" className="overflow-hidden rounded-md border border-white/10 bg-[#141414] shadow-2xl shadow-black/20 md:self-start">
+                    <div className="flex items-center gap-2 border-b border-white/10 bg-[#111111] px-4 py-3">
+                        <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-red-500" />
+                        <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-yellow-500" />
+                        <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-green-500" />
+                        <span className="ml-2 truncate text-[11px] text-zinc-600">~/experience</span>
+                    </div>
+                    <div className="px-3 pt-2.5 text-[10px] font-semibold uppercase tracking-wider text-zinc-600">Explorer</div>
+                    <div role="tablist" aria-label="Experience categories" className="flex gap-1 overflow-x-auto p-2 md:flex-col md:overflow-visible">
+                        {categories.map((cat) => {
+                            const isActive = activeType === cat.key;
+                            return (
+                                <button
+                                    key={cat.key}
+                                    type="button"
+                                    role="tab"
+                                    aria-selected={isActive}
+                                    onClick={() => setActiveType(cat.key)}
+                                    className={`relative flex w-full shrink-0 items-center gap-2 rounded px-3 py-2.5 text-left text-[11px] font-sfmono transition-colors md:text-xs ${isActive ? "bg-white/5 text-zinc-200" : "text-zinc-600 hover:bg-white/[0.03] hover:text-zinc-400"}`}
+                                >
+                                    {isActive && (
+                                        <motion.span layoutId="experience-sidebar-active" className="absolute inset-y-1 left-0 hidden w-0.5 rounded-full bg-zinc-300 md:block" transition={{ type: "spring", stiffness: 300, damping: 30 }} />
+                                    )}
+                                    <span className="truncate">{cat.key}.log</span>
+                                    <TerminalHint text={cat.hint} placement="below-start" />
+                                </button>
+                            );
+                        })}
+                    </div>
+                </nav>
+
+                <div className="min-w-0 overflow-hidden rounded-md border border-white/10 bg-[#141414] shadow-2xl shadow-black/20">
+                    <div className="flex items-center gap-1.5 border-b border-white/5 bg-[#111111] px-4 py-2 font-sfmono text-[10px] text-zinc-600">
+                        <span>~</span>
+                        <span className="text-zinc-700">›</span>
+                        <span>experience</span>
+                        <span className="text-zinc-700">›</span>
+                        <span className="text-zinc-400">{activeType}.log</span>
+                    </div>
+                    <div className="space-y-6 px-5 py-5 sm:px-7 sm:py-6">
+                        {visibleExperiences.length > 0 ? visibleExperiences.map((exp, idx) => (
+                            <div key={exp.company}>
+                                <div className="flex flex-wrap items-center gap-2 leading-relaxed">
+                                    <span className="text-[#6a9955]/80">$</span>
+                                    <span className="text-gray-400">cat</span>
+                                    <span className="break-all text-white">./experience/{exp.company.replace(/\s/g, '').toLowerCase()}</span>
+                                    <span className="shrink-0 text-xs text-gray-700">[{exp.period}]</span>
+                                </div>
+                                <div className="mt-2 break-words leading-relaxed">
+                                    <span className="text-[#6a9955]/80">role:</span> <span className="text-white">{exp.role}</span><br />
+                                    <span className="text-[#6a9955]/80">desc:</span> <span className="text-gray-400 break-words">{exp.desc}</span>
+                                </div>
+                                {idx !== visibleExperiences.length - 1 && <div className="mt-6 border-b border-white/5" />}
+                            </div>
+                        )) : (
+                            <div className="flex items-center gap-2 text-sm text-zinc-500">
+                                <span className="text-gray-500">$</span>
+                                <span>looking for one...</span>
+                            </div>
                         )}
-                        <span className="relative z-10">{type}</span>
-                    </button>
-                ))}
+                    </div>
+                </div>
             </div>
 
-            <div className="space-y-4">
-                {visibleExperiences.length > 0 ? (
-                    visibleExperiences.map((exp) => (
-                        <div
-                            key={exp.company}
-                            className="rounded-lg border border-edge bg-[#161616] p-6 transition-colors duration-250 ease-out hover:border-edge-hover"
-                        >
-                            <div className="flex flex-wrap items-baseline justify-between gap-2">
-                                <h3 className="text-[18px] font-semibold leading-snug text-ink-primary">{exp.role}</h3>
-                                <span className="font-sfmono text-[12px] text-ink-muted">{exp.period}</span>
-                            </div>
-                            <p className="mt-1 font-sfmono text-[12px] uppercase tracking-wide text-ink-muted">{exp.company}</p>
-                            <p className="mt-3 text-[14px] leading-relaxed text-ink-secondary">{exp.desc}</p>
-                        </div>
-                    ))
-                ) : (
-                    <div className="rounded-lg border border-edge bg-[#161616] p-6 text-sm text-ink-muted">looking for one...</div>
-                )}
+            <div className="mt-6 flex items-center justify-end gap-2 border-t border-white/5 pt-5 text-xs text-zinc-600">
+                <span>process: experience_loaded</span>
             </div>
         </div>
     );
