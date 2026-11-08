@@ -61,7 +61,7 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
           initial={{ opacity: 0, scale: 1.03 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
-          className="relative mt-6 aspect-video w-full overflow-hidden rounded-lg border border-edge bg-[#161616] p-6"
+          className="relative mt-5 aspect-video w-full overflow-hidden rounded-lg border border-edge bg-[#161616] p-6"
           style={{ viewTransitionName: `project-cover-${project.slug}` } as React.CSSProperties}
         >
           <div className="flex h-full w-full items-center justify-center">
@@ -81,32 +81,22 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
           </div>
         </motion.div>
 
-        {/* --- Title block --- */}
-        <div className="mt-10">
-          <p className="font-sfmono text-[12px] uppercase tracking-tight text-ink-muted">{project.category}</p>
-          <motion.h1
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            className="mt-2 break-words text-[40px] font-bold leading-[1.05] tracking-tight text-ink-primary sm:text-6xl"
-          >
-            {title}
-          </motion.h1>
-          <p className="mt-4 max-w-[65ch] text-[17px] leading-relaxed text-ink-secondary">{project.intro}</p>
-        </div>
+        {/* --- Name (left) + links (right), tight below the hero --- */}
+        <div className="mt-6 flex flex-wrap items-start justify-between gap-x-10 gap-y-3">
+          <div>
+            <p className="font-sfmono text-[12px] uppercase tracking-tight text-ink-muted">{project.category}</p>
+            <motion.h1
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="mt-1 break-words text-[40px] font-bold leading-[1.05] tracking-tight text-ink-primary sm:text-6xl"
+            >
+              {title}
+            </motion.h1>
+          </div>
 
-        {/* --- Meta details row --- */}
-        <div className="mt-8 grid grid-cols-2 gap-x-8 gap-y-6 border-t border-white/5 pt-6 sm:grid-cols-4">
-          <MetaField label="Role" values={[project.meta.role]} />
-          <MetaField label="Collaborators" values={project.meta.team} />
-          <MetaField label="Duration" values={[project.meta.timeline]} />
-          <MetaField label="Tools" values={project.meta.stack} />
-        </div>
-
-        {project.meta.links.length > 0 && (
-          <div className="mt-6">
-            <p className="font-sfmono text-[11px] uppercase tracking-tight text-[#6a9955]/80">Links</p>
-            <div className="mt-2 flex flex-wrap gap-4">
+          {project.meta.links.length > 0 && (
+            <div className="flex flex-wrap gap-4 pt-2">
               {project.meta.links.map((link) => (
                 <a
                   key={link.label}
@@ -121,8 +111,18 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
                 </a>
               ))}
             </div>
-          </div>
-        )}
+          )}
+        </div>
+
+        <p className="mt-4 max-w-[65ch] text-[17px] leading-relaxed text-ink-secondary">{project.intro}</p>
+
+        {/* --- Meta details row --- */}
+        <div className="mt-8 grid grid-cols-2 gap-x-8 gap-y-6 border-t border-white/5 pt-6 sm:grid-cols-4">
+          <MetaField label="Role" values={[project.meta.role]} />
+          <MetaField label="Collaborators" values={project.meta.team} />
+          <MetaField label="Duration" values={[project.meta.timeline]} />
+          <MetaField label="Tools" values={project.meta.stack} />
+        </div>
 
         {/* --- Key results --- */}
         {project.metrics && project.metrics.length > 0 && (
