@@ -199,38 +199,22 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
         </div>
 
         {/* --- Sections --- */}
-        <div className="mt-24 space-y-24">
+        <div className="mt-12 space-y-12">
           {project.sections.map((section) => (
-            <section key={section.heading} className="border-t border-white/[0.08] pt-10">
-              <div className="grid grid-cols-1 gap-x-10 gap-y-3 lg:grid-cols-3">
-                <div>
-                  <motion.h2
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, amount: 0.9 }}
-                    variants={fadeInUp}
-                    className="text-[20px] font-semibold text-ink-primary"
-                  >
-                    <span className="text-ink-muted">## </span>
-                    {section.heading}
-                  </motion.h2>
-                </div>
-                <motion.p
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, amount: 0.9 }}
-                  variants={fadeInUp}
-                  className={`text-[16px] leading-relaxed text-ink-primary sm:text-[18px] lg:col-span-2 ${
-                    section.body.length > 240 ? "lg:columns-2 lg:gap-x-6" : ""
-                  }`}
-                  data-cursor="text"
-                >
-                  {section.body}
-                </motion.p>
-                <div className={section.layout === "full" ? "lg:col-span-3" : "lg:col-start-2 lg:col-span-2"}>
-                  <SectionMedia media={section.media} layout={section.layout} />
-                </div>
-              </div>
+            <section key={section.heading} className="border-t border-white/[0.08] pt-8">
+              <motion.p
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.9 }}
+                variants={fadeInUp}
+                className={`max-w-[760px] text-[16px] leading-relaxed text-ink-secondary sm:text-[18px] ${
+                  section.body.length > 240 ? "lg:columns-2 lg:gap-x-6" : ""
+                }`}
+                data-cursor="text"
+              >
+                {section.body}
+              </motion.p>
+              <SectionMedia media={section.media} layout={section.layout} />
             </section>
           ))}
         </div>
