@@ -5,7 +5,6 @@ import type { Variants } from "framer-motion";
 import { projects, type ProjectContent } from "../../content/projects";
 import { TerminalHint } from "./terminal-hint";
 import { ScrambleText } from "./scramble-text";
-import { SectionMedia } from "./section-media";
 import { navigateWithTransition } from "../../lib/view-transition-nav";
 
 function toTitleCase(text: string) {
@@ -45,10 +44,10 @@ const fadeInUp: Variants = {
 function MetaField({ label, values }: { label: string; values: string[] }) {
   return (
     <div>
-      <p className="font-sfmono text-[12px] uppercase tracking-[0.12em] text-ink-muted">{label}</p>
+      <p className="font-sfmono text-[11px] uppercase tracking-[0.12em] text-ink-muted">{label}</p>
       <div className="mt-2 space-y-1">
         {values.map((v) => (
-          <p key={v} className="text-[16px] text-ink-primary">{v}</p>
+          <p key={v} className="text-[15px] text-ink-primary">{v}</p>
         ))}
       </div>
     </div>
@@ -62,9 +61,9 @@ function LinkBlock({ label, href }: { label: string; href: string }) {
       target="_blank"
       rel="noopener noreferrer"
       data-cursor="link"
-      className="group relative flex items-center justify-between rounded-md bg-white/[0.04] px-6 py-6 transition-colors hover:bg-white/[0.08]"
+      className="group relative flex items-center justify-between rounded-md bg-white/[0.04] px-5 py-4 transition-colors hover:bg-white/[0.08]"
     >
-      <span className="font-sfmono text-[13px] uppercase tracking-[0.12em] text-ink-primary">{label}</span>
+      <span className="font-sfmono text-[12px] uppercase tracking-[0.12em] text-ink-primary">{label}</span>
       <span className="text-ink-muted transition-transform group-hover:translate-x-1">›</span>
       <TerminalHint text={`$ open ${hostFromUrl(href)}`} placement="below-start" />
     </a>
@@ -117,22 +116,13 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
   return (
     <div className="min-h-screen bg-[#111111] text-white font-sfmono selection:bg-white/20">
       <ProjectHeader onClose={handleClose} />
-      <main className="w-full px-5 pb-24 pt-24 md:px-12">
-        {/* --- Hero media, full-bleed on a blurred backdrop --- */}
+      <main className="mx-auto w-full max-w-[860px] px-5 pb-24 pt-24 md:px-8">
+        {/* --- Hero media --- */}
         <div
-          className="relative mt-6 aspect-[16/7] w-full overflow-hidden"
+          className="relative mt-6 max-h-[440px] aspect-[16/9] w-full overflow-hidden rounded-xl border border-edge bg-[#161616]"
           style={{ viewTransitionName: `project-cover-${project.slug}` } as React.CSSProperties}
         >
-          {project.hero.heroBg ? (
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 scale-110 bg-cover bg-center blur-3xl saturate-150"
-              style={{ backgroundImage: `url(${project.hero.heroBg})` }}
-            />
-          ) : (
-            <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-br from-white/[0.05] via-[#161616] to-white/[0.02]" />
-          )}
-          <div className="relative flex h-full w-full items-center justify-center p-6 md:p-12">
+          <div className="flex h-full w-full items-center justify-center p-6">
             {project.hero.type === "video" ? (
               <video
                 src={project.hero.src}
@@ -141,91 +131,77 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
                 loop
                 muted
                 playsInline
-                className="max-h-full max-w-full object-contain drop-shadow-2xl"
+                className="max-h-full max-w-full object-contain"
               />
             ) : (
-              <img src={project.hero.src} alt={project.title} className="max-h-full max-w-full object-contain drop-shadow-2xl" />
+              <img src={project.hero.src} alt={project.title} className="max-h-full max-w-full object-contain" />
             )}
           </div>
         </div>
 
-        {/* --- Title + intro + meta + links, all on one grid --- */}
-        <div className="mt-16 grid grid-cols-1 gap-x-10 lg:grid-cols-3">
-          <div>
-            <motion.h1
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
-              className="text-[22px] font-semibold leading-tight text-ink-primary sm:text-[24px]"
-            >
-              {title}
-            </motion.h1>
-            <p className="mt-2 font-sfmono text-[12px] uppercase tracking-[0.12em] text-ink-muted">{project.category}</p>
-          </div>
-
-          <div className="mt-6 lg:col-span-2 lg:mt-0 lg:columns-2 lg:gap-x-6">
-            <p className="text-[18px] leading-[1.5] text-ink-primary sm:text-[20px]">{project.intro}</p>
-          </div>
-
-          <div className="mt-4 lg:col-start-2 lg:col-span-2">
-            <div className="grid grid-cols-2 gap-x-8 gap-y-6 lg:grid-cols-4">
-              <MetaField label="Role" values={[project.meta.role]} />
-              <MetaField label="Collaborators" values={project.meta.team} />
-              <MetaField label="Duration" values={[project.meta.timeline]} />
-              <MetaField label="Tools" values={project.meta.stack} />
-            </div>
-
-            {project.metrics && project.metrics.length > 0 && (
-              <div className="mt-6 grid grid-cols-2 gap-x-8 gap-y-6 border-t border-white/5 pt-6 lg:grid-cols-4">
-                {project.metrics.map((m) => (
-                  <div key={m.label}>
-                    <div className="text-[32px] font-bold leading-none text-ink-primary">{m.value}</div>
-                    <div className="mt-2 font-sfmono text-[12px] uppercase tracking-[0.12em] text-ink-muted">{m.label}</div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {project.meta.links.length > 0 && (
-            <div className="mt-6 lg:col-start-2 lg:col-span-2">
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {project.meta.links.map((link) => (
-                  <LinkBlock key={link.label} label={link.label} href={link.href} />
-                ))}
-              </div>
-            </div>
-          )}
+        {/* --- Title + intro --- */}
+        <div className="mt-10">
+          <p className="font-sfmono text-[12px] uppercase tracking-[0.12em] text-ink-muted">{project.category}</p>
+          <motion.h1
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+            className="mt-2 text-[28px] font-semibold leading-tight text-ink-primary sm:text-[32px]"
+          >
+            {title}
+          </motion.h1>
+          <p className="mt-4 text-[16px] leading-[1.6] text-ink-primary">{project.intro}</p>
         </div>
+
+        {/* --- Meta --- */}
+        <div className="mt-8 grid grid-cols-2 gap-x-8 gap-y-6 border-t border-white/5 pt-8 sm:grid-cols-4">
+          <MetaField label="Role" values={[project.meta.role]} />
+          <MetaField label="Collaborators" values={project.meta.team} />
+          <MetaField label="Duration" values={[project.meta.timeline]} />
+          <MetaField label="Tools" values={project.meta.stack} />
+        </div>
+
+        {/* --- Metrics --- */}
+        {project.metrics && project.metrics.length > 0 && (
+          <div className="mt-6 grid grid-cols-2 gap-x-8 gap-y-6 border-t border-white/5 pt-6 sm:grid-cols-4">
+            {project.metrics.map((m) => (
+              <div key={m.label}>
+                <div className="text-[28px] font-bold leading-none text-ink-primary">{m.value}</div>
+                <div className="mt-2 font-sfmono text-[11px] uppercase tracking-[0.12em] text-ink-muted">{m.label}</div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* --- Links --- */}
+        {project.meta.links.length > 0 && (
+          <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+            {project.meta.links.map((link) => (
+              <LinkBlock key={link.label} label={link.label} href={link.href} />
+            ))}
+          </div>
+        )}
 
         {/* --- Sections --- */}
-        <div className="mt-12 space-y-12">
+        <div className="mt-10 space-y-8">
           {project.sections.map((section) => (
-            <section key={section.heading} className="border-t border-white/[0.08] pt-8">
-              <div className="grid grid-cols-1 lg:grid-cols-3">
-                <div className={`lg:col-start-2 lg:col-span-2 ${section.layout === "full" ? "lg:col-span-3 lg:col-start-1" : ""}`}>
-                  <motion.p
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, amount: 0.9 }}
-                    variants={fadeInUp}
-                    className={`max-w-[760px] text-[14px] leading-relaxed text-ink-secondary ${
-                      section.body.length > 240 ? "lg:columns-2 lg:gap-x-6" : ""
-                    }`}
-                    data-cursor="text"
-                  >
-                    {section.body}
-                  </motion.p>
-                  <SectionMedia media={section.media} layout={section.layout} />
-                </div>
-              </div>
-            </section>
+            <motion.p
+              key={section.heading}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.9 }}
+              variants={fadeInUp}
+              className="border-t border-white/5 pt-8 text-[15px] leading-relaxed text-ink-secondary"
+              data-cursor="text"
+            >
+              {section.body}
+            </motion.p>
           ))}
         </div>
 
         {/* --- Next project --- */}
         {nextProject && (
-          <div className="mt-24 border-t border-edge pt-10">
+          <div className="mt-16 border-t border-edge pt-8">
             <Link
               to={`/projects/${nextProject.slug}`}
               onClick={navigateWithTransition(navigate, `/projects/${nextProject.slug}`)}
