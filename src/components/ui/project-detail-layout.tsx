@@ -41,15 +41,28 @@ const fadeInUp: Variants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
 };
 
-function MetaField({ label, values }: { label: string; values: string[] }) {
+function MetaField({ label, values, chips = false }: { label: string; values: string[]; chips?: boolean }) {
   return (
     <div>
-      <p className="font-sfmono text-[11px] uppercase tracking-[0.12em] text-ink-muted">{label}</p>
-      <div className="mt-2 space-y-1">
-        {values.map((v) => (
-          <p key={v} className="text-[15px] text-ink-primary">{v}</p>
-        ))}
-      </div>
+      <p className="font-sfmono text-[12px] uppercase tracking-[0.12em] text-ink-muted">{label}</p>
+      {chips ? (
+        <div className="mt-2 flex flex-wrap gap-2">
+          {values.map((v) => (
+            <span
+              key={v}
+              className="rounded-md border border-[#fde047]/40 bg-[#fde047]/[0.06] px-3 py-1.5 font-sfmono text-[13px] text-[#fde047]"
+            >
+              {v}
+            </span>
+          ))}
+        </div>
+      ) : (
+        <div className="mt-2 space-y-1">
+          {values.map((v) => (
+            <p key={v} className="text-[16px] text-ink-primary">{v}</p>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -61,9 +74,9 @@ function LinkBlock({ label, href }: { label: string; href: string }) {
       target="_blank"
       rel="noopener noreferrer"
       data-cursor="link"
-      className="group relative flex items-center justify-between rounded-md bg-white/[0.04] px-5 py-4 transition-colors hover:bg-white/[0.08]"
+      className="group relative flex items-center justify-between rounded-md bg-white/[0.04] px-5 py-3 transition-colors hover:bg-white/[0.08]"
     >
-      <span className="font-sfmono text-[12px] uppercase tracking-[0.12em] text-ink-primary">{label}</span>
+      <span className="font-sfmono text-[13px] uppercase tracking-[0.12em] text-ink-primary">{label}</span>
       <span className="text-ink-muted transition-transform group-hover:translate-x-1">›</span>
       <TerminalHint text={`$ open ${hostFromUrl(href)}`} placement="below-start" />
     </a>
@@ -140,7 +153,7 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
         </div>
 
         {/* --- Title (left) + intro/meta/links/sections (pushed right), joseph.cv-style split --- */}
-        <div className="mt-10 grid grid-cols-1 gap-x-10 lg:grid-cols-3">
+        <div className="mt-8 grid grid-cols-1 gap-x-10 lg:grid-cols-3">
           <div>
             <p className="font-sfmono text-[12px] uppercase tracking-[0.12em] text-ink-muted">{project.category}</p>
             <motion.h1
@@ -154,35 +167,35 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
           </div>
 
           <div className="mt-4 lg:col-start-2 lg:col-span-2 lg:mt-0">
-            <p className="max-w-[640px] text-[16px] leading-[1.6] text-ink-primary">{project.intro}</p>
+            <p className="max-w-[640px] text-[17px] leading-[1.6] text-ink-primary">{project.intro}</p>
 
-            <div className="mt-8 grid grid-cols-2 gap-x-10 gap-y-6 border-t border-white/5 pt-8 sm:grid-cols-4">
+            <div className="mt-6 grid grid-cols-2 gap-x-10 gap-y-5 border-t border-white/5 pt-6 sm:grid-cols-4">
               <MetaField label="Role" values={[project.meta.role]} />
               <MetaField label="Collaborators" values={project.meta.team} />
               <MetaField label="Duration" values={[project.meta.timeline]} />
-              <MetaField label="Tools" values={project.meta.stack} />
+              <MetaField label="Tools" values={project.meta.stack} chips />
             </div>
 
             {project.metrics && project.metrics.length > 0 && (
-              <div className="mt-6 grid grid-cols-2 gap-x-10 gap-y-6 border-t border-white/5 pt-6 sm:grid-cols-4">
+              <div className="mt-5 grid grid-cols-2 gap-x-10 gap-y-5 border-t border-white/5 pt-5 sm:grid-cols-4">
                 {project.metrics.map((m) => (
                   <div key={m.label}>
-                    <div className="text-[28px] font-bold leading-none text-ink-primary">{m.value}</div>
-                    <div className="mt-2 font-sfmono text-[11px] uppercase tracking-[0.12em] text-ink-muted">{m.label}</div>
+                    <div className="text-[29px] font-bold leading-none text-ink-primary">{m.value}</div>
+                    <div className="mt-2 font-sfmono text-[12px] uppercase tracking-[0.12em] text-ink-muted">{m.label}</div>
                   </div>
                 ))}
               </div>
             )}
 
             {project.meta.links.length > 0 && (
-              <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {project.meta.links.map((link) => (
                   <LinkBlock key={link.label} label={link.label} href={link.href} />
                 ))}
               </div>
             )}
 
-            <div className="mt-10 space-y-8">
+            <div className="mt-6 space-y-5">
               {project.sections.map((section) => (
                 <motion.p
                   key={section.heading}
@@ -190,7 +203,7 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
                   whileInView="visible"
                   viewport={{ once: true, amount: 0.9 }}
                   variants={fadeInUp}
-                  className="max-w-[640px] border-t border-white/5 pt-8 text-[15px] leading-relaxed text-ink-secondary"
+                  className="max-w-[640px] border-t border-white/5 pt-5 text-[16px] leading-relaxed text-ink-secondary"
                   data-cursor="text"
                 >
                   {section.body}
@@ -202,7 +215,7 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
 
         {/* --- Next project --- */}
         {nextProject && (
-          <div className="mt-16 border-t border-edge pt-8">
+          <div className="mt-12 border-t border-edge pt-6">
             <Link
               to={`/projects/${nextProject.slug}`}
               onClick={navigateWithTransition(navigate, `/projects/${nextProject.slug}`)}
