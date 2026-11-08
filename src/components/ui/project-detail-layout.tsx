@@ -18,11 +18,15 @@ const fadeInUp: Variants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
 };
 
-function MetaField({ label, value }: { label: string; value: string }) {
+function MetaField({ label, values }: { label: string; values: string[] }) {
   return (
     <div>
-      <p className="font-sfmono text-[11px] uppercase tracking-wide text-[#6a9955]/80">{label}</p>
-      <p className="mt-1 text-[15px] text-ink-primary">{value}</p>
+      <p className="font-sfmono text-[11px] uppercase tracking-tight text-[#6a9955]/80">{label}</p>
+      <div className="mt-2 space-y-1">
+        {values.map((v) => (
+          <p key={v} className="text-[15px] font-medium text-ink-primary">{v}</p>
+        ))}
+      </div>
     </div>
   );
 }
@@ -77,51 +81,48 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
           </div>
         </motion.div>
 
-        {/* --- Title block: intro (left) + meta grid (right) --- */}
-        <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-[60%_1fr]">
-          <div className="min-w-0">
-            <p className="font-sfmono text-[12px] uppercase tracking-wide text-ink-muted">{project.category}</p>
-            <motion.h1
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
-              className="mt-2 break-words text-[40px] font-bold leading-[1.05] tracking-tight text-ink-primary sm:text-6xl"
-            >
-              {title}
-            </motion.h1>
-            <p className="mt-4 max-w-[65ch] text-[17px] leading-relaxed text-ink-secondary">{project.intro}</p>
-          </div>
-
-          <div className="grid grid-cols-2 gap-x-6 gap-y-5 content-start">
-            <MetaField label="Role" value={project.meta.role} />
-            <MetaField label="Timeline" value={project.meta.timeline} />
-            <MetaField label="Team" value={project.meta.team.join(", ")} />
-            <div>
-              <p className="font-sfmono text-[11px] uppercase tracking-wide text-[#6a9955]/80">Stack</p>
-              <p className="mt-1 text-[15px] text-ink-primary">{project.meta.stack.join(", ")}</p>
-            </div>
-            {project.meta.links.length > 0 && (
-              <div className="col-span-2">
-                <p className="font-sfmono text-[11px] uppercase tracking-wide text-[#6a9955]/80">Links</p>
-                <div className="mt-1.5 flex flex-wrap gap-4">
-                  {project.meta.links.map((link) => (
-                    <a
-                      key={link.label}
-                      href={link.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      data-cursor="link"
-                      className="relative text-[15px] text-ink-secondary transition-colors hover:text-[#fde047]"
-                    >
-                      {link.label} ↗
-                      <TerminalHint text="$ cat ./src judge-gently" placement="below-start" />
-                    </a>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
+        {/* --- Title block --- */}
+        <div className="mt-10">
+          <p className="font-sfmono text-[12px] uppercase tracking-tight text-ink-muted">{project.category}</p>
+          <motion.h1
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+            className="mt-2 break-words text-[40px] font-bold leading-[1.05] tracking-tight text-ink-primary sm:text-6xl"
+          >
+            {title}
+          </motion.h1>
+          <p className="mt-4 max-w-[65ch] text-[17px] leading-relaxed text-ink-secondary">{project.intro}</p>
         </div>
+
+        {/* --- Meta details row --- */}
+        <div className="mt-8 grid grid-cols-2 gap-x-8 gap-y-6 border-t border-white/5 pt-6 sm:grid-cols-4">
+          <MetaField label="Role" values={[project.meta.role]} />
+          <MetaField label="Collaborators" values={project.meta.team} />
+          <MetaField label="Duration" values={[project.meta.timeline]} />
+          <MetaField label="Tools" values={project.meta.stack} />
+        </div>
+
+        {project.meta.links.length > 0 && (
+          <div className="mt-6">
+            <p className="font-sfmono text-[11px] uppercase tracking-tight text-[#6a9955]/80">Links</p>
+            <div className="mt-2 flex flex-wrap gap-4">
+              {project.meta.links.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-cursor="link"
+                  className="relative text-[15px] text-ink-secondary transition-colors hover:text-[#fde047]"
+                >
+                  {link.label} ↗
+                  <TerminalHint text="$ cat ./src judge-gently" placement="below-start" />
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* --- Key results --- */}
         {project.metrics && project.metrics.length > 0 && (
@@ -129,7 +130,7 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
             {project.metrics.map((m) => (
               <div key={m.label}>
                 <div className="text-[28px] font-bold leading-none text-ink-primary">{m.value}</div>
-                <div className="mt-1.5 font-sfmono text-[11px] uppercase tracking-wide text-ink-muted">{m.label}</div>
+                <div className="mt-1.5 font-sfmono text-[11px] uppercase tracking-tight text-ink-muted">{m.label}</div>
               </div>
             ))}
           </div>
@@ -173,7 +174,7 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
               className="group relative flex items-center justify-between gap-4"
             >
               <div>
-                <p className="font-sfmono text-[12px] uppercase tracking-wide text-ink-muted">
+                <p className="font-sfmono text-[12px] uppercase tracking-tight text-ink-muted">
                   Next Project <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
                 </p>
                 <p className="mt-1 text-xl font-bold text-white sm:text-2xl">{toTitleCase(nextProject.title)}</p>
