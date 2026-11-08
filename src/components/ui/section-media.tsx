@@ -11,12 +11,14 @@ function Item({ item, aspect }: { item: MediaItem; aspect?: string }) {
 }
 
 export function SectionMedia({ media, layout }: { media: MediaItem[]; layout: ProjectSection["layout"] }) {
-  if (media.length === 0) return null;
+  // Only render real media - placeholders stay invisible until an actual src is added.
+  const real = media.filter((m) => !m.placeholder && m.src);
+  if (real.length === 0) return null;
 
   if (layout === "split") {
     return (
       <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
-        {media.map((m, i) => (
+        {real.map((m, i) => (
           <Item key={i} item={m} />
         ))}
       </div>
@@ -26,7 +28,7 @@ export function SectionMedia({ media, layout }: { media: MediaItem[]; layout: Pr
   if (layout === "grid") {
     return (
       <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
-        {media.map((m, i) => (
+        {real.map((m, i) => (
           <Item key={i} item={m} aspect="aspect-square" />
         ))}
       </div>
@@ -36,7 +38,7 @@ export function SectionMedia({ media, layout }: { media: MediaItem[]; layout: Pr
   if (layout === "inset") {
     return (
       <div className="mx-auto mt-6 max-w-[680px] space-y-4">
-        {media.map((m, i) => (
+        {real.map((m, i) => (
           <Item key={i} item={m} />
         ))}
       </div>
@@ -46,7 +48,7 @@ export function SectionMedia({ media, layout }: { media: MediaItem[]; layout: Pr
   // "full"
   return (
     <div className="mt-6 space-y-4">
-      {media.map((m, i) => (
+      {real.map((m, i) => (
         <Item key={i} item={m} />
       ))}
     </div>

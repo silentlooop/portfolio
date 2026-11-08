@@ -22,7 +22,7 @@ function MetaField({ label, value }: { label: string; value: string }) {
   return (
     <div>
       <p className="font-sfmono text-[11px] uppercase tracking-wide text-[#6a9955]/80">{label}</p>
-      <p className="mt-1 text-[14px] text-ink-primary">{value}</p>
+      <p className="mt-1 text-[15px] text-ink-primary">{value}</p>
     </div>
   );
 }
@@ -89,7 +89,7 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
             >
               {title}
             </motion.h1>
-            <p className="mt-4 max-w-[65ch] text-[16px] leading-relaxed text-ink-secondary">{project.intro}</p>
+            <p className="mt-4 max-w-[65ch] text-[17px] leading-relaxed text-ink-secondary">{project.intro}</p>
           </div>
 
           <div className="grid grid-cols-2 gap-x-6 gap-y-5 content-start">
@@ -98,7 +98,7 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
             <MetaField label="Team" value={project.meta.team.join(", ")} />
             <div>
               <p className="font-sfmono text-[11px] uppercase tracking-wide text-[#6a9955]/80">Stack</p>
-              <p className="mt-1 text-[14px] text-ink-primary">{project.meta.stack.join(", ")}</p>
+              <p className="mt-1 text-[15px] text-ink-primary">{project.meta.stack.join(", ")}</p>
             </div>
             {project.meta.links.length > 0 && (
               <div className="col-span-2">
@@ -111,7 +111,7 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
                       target="_blank"
                       rel="noopener noreferrer"
                       data-cursor="link"
-                      className="relative text-[14px] text-ink-secondary transition-colors hover:text-[#fde047]"
+                      className="relative text-[15px] text-ink-secondary transition-colors hover:text-[#fde047]"
                     >
                       {link.label} ↗
                       <TerminalHint text="$ cat ./src judge-gently" placement="below-start" />
@@ -144,9 +144,8 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.9 }}
                 variants={fadeInUp}
-                className="text-[24px] font-semibold text-ink-primary sm:text-[28px]"
+                className="text-[25px] font-semibold text-ink-primary sm:text-[29px]"
               >
-                <span className="mr-2 text-[#6a9955]/80">##</span>
                 {section.heading}
               </motion.h2>
               <motion.p
@@ -154,7 +153,7 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.9 }}
                 variants={fadeInUp}
-                className="mt-3 max-w-[680px] text-[15px] leading-relaxed text-ink-secondary"
+                className="mt-3 max-w-[680px] text-[16px] leading-relaxed text-ink-secondary"
                 data-cursor="text"
               >
                 {section.body}
