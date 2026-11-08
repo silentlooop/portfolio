@@ -130,7 +130,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         </div>
       </article>
       <div className="pt-2 pb-3 px-3">
-        <div className="font-semibold text-white text-base">{title}</div>
+        <div className="font-semibold uppercase text-white text-base">{title}</div>
         <div className="text-zinc-500 text-xs mt-[2px]">{category}</div>
       </div>
     </Link>

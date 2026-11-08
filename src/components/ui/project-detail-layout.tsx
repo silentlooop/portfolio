@@ -226,7 +226,7 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
                 <p className="font-sfmono text-[12px] uppercase tracking-[0.12em] text-ink-muted">
                   Next Project <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
                 </p>
-                <p className="mt-1 text-xl font-bold text-white sm:text-2xl">{toTitleCase(nextProject.title)}</p>
+                <p className="mt-1 text-xl font-bold uppercase text-white sm:text-2xl">{toTitleCase(nextProject.title)}</p>
               </div>
               <div className="h-14 w-20 shrink-0 overflow-hidden rounded-lg border border-edge bg-[#161616] p-2">
                 <img src={nextProject.hero.src} alt="" className="h-full w-full object-contain" />

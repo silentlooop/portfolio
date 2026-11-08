@@ -46,7 +46,7 @@ export function HomeRail({ activeSlug, onHoverIndex, onSelectIndex }: HomeRailPr
                 }`}
               >
                 <span className="font-sfmono text-sm">{String(i + 1).padStart(2, "0")}</span>{" "}
-                {toTitleCase(project.title)}
+                <span className="uppercase">{toTitleCase(project.title)}</span>
               </button>
             );
           })}
