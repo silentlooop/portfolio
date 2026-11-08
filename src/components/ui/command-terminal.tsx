@@ -140,7 +140,7 @@ export function CommandTerminal() {
             case "help":
                 return out(HELP);
             case "ls":
-                if (arg === "projects") return out(projects.map((p) => `  ${p.slug.padEnd(30)} ${p.subtitle}`));
+                if (arg === "projects") return out(projects.map((p) => `  ${p.slug.padEnd(30)} ${p.description}`));
                 if (arg === "blogs") return go("/blogs", "-> ./blogs");
                 return out("work/  blogs/  me/  projects/  contact.txt");
             case "cd":

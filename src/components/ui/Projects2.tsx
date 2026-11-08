@@ -1,15 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SectionReveal } from "./terminal-effects";
 import { TerminalHint } from "./terminal-hint";
 import { EFFECTS } from "../../lib/effects-config";
 import { playReelClick } from "../../lib/sound";
+import { navigateWithTransition } from "../../lib/view-transition-nav";
 
 gsap.registerPlugin(ScrollTrigger);
 
 interface ProjectCardProps {
-  href?: string;
+  slug: string;
   title: string;
   category: string;
   imageSrc: string;
@@ -23,7 +25,7 @@ interface ProjectCardProps {
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
-  href,
+  slug,
   title,
   category,
   imageSrc,
@@ -34,8 +36,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   isHighlighted = false,
   onHover = () => {},
 }) => {
-  const Wrapper: React.ElementType = href ? "a" : "div";
-  const projectSlug = href?.split("/").filter(Boolean).pop() ?? title.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+  const navigate = useNavigate();
 
   // Determine media type from file extension if not explicitly provided
   const isVideo = mediaType === "video" ||
@@ -78,30 +79,30 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   const colorGraded = centered ? "grayscale-0 saturate-100" : "grayscale saturate-50";
 
   return (
-    <Wrapper
-      href={href}
-      id={`project-${projectSlug}`}
-      data-project-slug={projectSlug}
+    <Link
+      to={`/projects/${slug}`}
+      onClick={navigateWithTransition(navigate, `/projects/${slug}`)}
+      id={`project-${slug}`}
+      data-project-slug={slug}
       data-cursor="view"
       onMouseEnter={() => {
         playReelClick();
-        onHover(projectSlug);
+        onHover(slug);
       }}
       onMouseLeave={() => onHover(null)}
       className="group/card block mb-4 scroll-mt-28 break-inside-avoid bg-[#111111] transition-opacity duration-500 ease-in-out opacity-100 hover:opacity-75 relative px-0.5 py-0.5"
-      {...(href ? { target: "_self", rel: "noopener noreferrer" } : {})}
       style={{
         fontFamily:
           '"SF Mono", "Space Mono", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", monospace',
       }}
     >
-      <TerminalHint text={`$ open ./projects/${projectSlug}`} />
+      <TerminalHint text={`$ open ./projects/${slug}`} />
       <article
         className={`overflow-hidden rounded-sm border transition-colors duration-250 ease-out group-hover/card:border-edge-hover ${
           isHighlighted ? "border-edge-hover" : "border-edge"
         }`}
       >
-        <div ref={parallaxRef}>
+        <div ref={parallaxRef} style={{ viewTransitionName: `project-cover-${slug}` } as React.CSSProperties}>
           {isVideo ? (
             <video
               src={imageSrc}
@@ -127,7 +128,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         <div className="font-semibold text-white text-base">{title}</div>
         <div className="text-zinc-500 text-xs mt-[2px]">{category}</div>
       </div>
-    </Wrapper>
+    </Link>
   );
 };
 
@@ -140,7 +141,7 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({ highlightedSlug = null, onH
   const projectCards = [
     <ProjectCard
       key="btsp"
-      href="/projects/btsp"
+      slug="btsp"
       title="BTSP"
       category="BIOX-WNCC PROJECT"
       imageSrc="/btsp.png"
@@ -152,7 +153,7 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({ highlightedSlug = null, onH
     />,
     <ProjectCard
       key="pgm"
-      href="/projects/probabilistic-graphic-model"
+      slug="probabilistic-graphic-model"
       title="PROBABILISTIC GRAPHIC MODEL"
       category="CONSUMER PRODUCT"
       imageSrc="/soc.jpeg"
@@ -164,7 +165,7 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({ highlightedSlug = null, onH
     />,
     <ProjectCard
       key="resume-rater"
-      href="/projects/resume-rater"
+      slug="resume-rater"
       title="RESUME RATER"
       category="AI MODEL"
       imageSrc="/aic2.png"
@@ -177,7 +178,7 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({ highlightedSlug = null, onH
     />,
     <ProjectCard
       key="wids"
-      href="/projects/wids-25"
+      slug="wids-25"
       title="WiDS'25"
       category="TRADING ALGORITHM"
       imageSrc="/dqn2.png"
@@ -189,7 +190,7 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({ highlightedSlug = null, onH
     />,
     <ProjectCard
       key="instigpt"
-      href="/projects/instigpt"
+      slug="instigpt"
       title="InstiGPT"
       category="AIC NLP PROJECT"
       imageSrc="/instigpt copy.mp4"
@@ -200,7 +201,7 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({ highlightedSlug = null, onH
     />,
     <ProjectCard
       key="karyogram"
-      href="/projects/karyogram"
+      slug="karyogram"
       title="Karyogram"
       category="MEDICAL IMAGING PROJECT"
       imageSrc="/karyo.png"
