@@ -15,8 +15,9 @@ function App() {
   const highlightedSlug = hoveredSlug ?? activeSlug;
 
   useEffect(() => {
-    const scrollToWorkFromHash = () => {
-      if (window.location.hash !== "#work") return;
+    const scrollToSectionFromHash = () => {
+      const id = window.location.hash.replace("#", "");
+      if (id !== "work" && id !== "experience") return;
 
       const navEntry = performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming | undefined;
       const isReload = navEntry?.type === "reload";
@@ -32,9 +33,9 @@ function App() {
       const maxAttempts = 30;
 
       const timer = setInterval(() => {
-        const workSection = document.getElementById("work");
-        if (workSection) {
-          workSection.scrollIntoView({ behavior: "smooth", block: "start" });
+        const section = document.getElementById(id);
+        if (section) {
+          section.scrollIntoView({ behavior: "smooth", block: "start" });
           clearInterval(timer);
           return;
         }
@@ -48,12 +49,12 @@ function App() {
       return timer;
     };
 
-    const activeTimer = scrollToWorkFromHash();
-    window.addEventListener("hashchange", scrollToWorkFromHash);
+    const activeTimer = scrollToSectionFromHash();
+    window.addEventListener("hashchange", scrollToSectionFromHash);
 
     return () => {
       if (activeTimer) clearInterval(activeTimer);
-      window.removeEventListener("hashchange", scrollToWorkFromHash);
+      window.removeEventListener("hashchange", scrollToSectionFromHash);
     };
   }, []);
 
@@ -98,7 +99,7 @@ function App() {
         </div>
 
         {/* Experience */}
-        <div className="relative z-15 mx-auto mt-24 w-full max-w-[1440px] px-5 md:px-10">
+        <div id="experience" className="relative z-15 mx-auto mt-24 w-full max-w-[1440px] px-5 md:px-10">
           <SectionPrompt command="cd ./deep-dive/experience" className="mb-8" startOnMount />
           <TerminalExperience />
         </div>

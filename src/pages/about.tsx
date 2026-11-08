@@ -281,6 +281,7 @@ function NavBar() {
                 {/* Desktop Links */}
                 <div className="hidden md:flex items-center gap-8 text-sm font-sfmono text-gray-400">
                     <a href="/#work" onClick={(e) => scrollToSection(e, 'work')} className={`relative transition-colors cursor-pointer ${isActive("/") ? "text-[#fde047]" : "hover:text-white"}`}>projects<TerminalHint text="$ ls ./proof-i-dont-just-talk" placement="below" /></a>
+                    <a href="/#experience" onClick={(e) => scrollToSection(e, 'experience')} className="relative transition-colors cursor-pointer hover:text-white">experience<TerminalHint text="$ cat ./where-ive-worked" placement="below" /></a>
                     <a href="/blogs" className={`relative transition-colors cursor-pointer ${isActive("/blogs") ? "text-[#fde047]" : "hover:text-white"}`}>blogs<TerminalHint text="$ cat ./thoughts uncompiled" placement="below" /></a>
                     <a href="/shaped" className={`relative transition-colors cursor-pointer ${isActive("/shaped") ? "text-[#fde047]" : "hover:text-white"}`}>~/me<TerminalHint text="$ whoami the-human-behind-it" placement="below" /></a>
                     <MuteToggle className="relative text-gray-400" />
@@ -321,20 +322,29 @@ function NavBar() {
                             <motion.a
                                 custom={1}
                                 variants={linkVariants}
+                                href="/#experience"
+                                onClick={(e) => scrollToSection(e, 'experience')}
+                                className="text-xl font-semibold text-gray-500 tracking-tight font-sfmono"
+                            >
+                                experience
+                            </motion.a>
+                            <motion.a
+                                custom={2}
+                                variants={linkVariants}
                                 href="/blogs"
                                 className="text-xl font-semibold text-gray-500 tracking-tight font-sfmono"
                             >
                                 blogs
                             </motion.a>
                             <motion.a
-                                custom={2}
+                                custom={3}
                                 variants={linkVariants}
                                 href="/shaped"
                                 className="text-xl font-semibold text-gray-500 tracking-tight font-sfmono"
                             >
                                 ~/me
                             </motion.a>
-                            <motion.div custom={3} variants={linkVariants}>
+                            <motion.div custom={4} variants={linkVariants}>
                                 <MuteToggle className="text-xl font-semibold text-gray-500 tracking-tight font-sfmono" />
                             </motion.div>
                         </div>
