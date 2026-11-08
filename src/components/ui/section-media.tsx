@@ -18,7 +18,7 @@ export function SectionMedia({ media, layout }: { media: MediaItem[]; layout: Pr
 
   if (layout === "split") {
     return (
-      <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
         {real.map((m, i) => (
           <Item key={i} item={m} />
         ))}
@@ -28,7 +28,7 @@ export function SectionMedia({ media, layout }: { media: MediaItem[]; layout: Pr
 
   if (layout === "grid") {
     return (
-      <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
         {real.map((m, i) => (
           <Item key={i} item={m} aspect="aspect-square" />
         ))}
@@ -38,7 +38,7 @@ export function SectionMedia({ media, layout }: { media: MediaItem[]; layout: Pr
 
   if (layout === "inset") {
     return (
-      <div className="mt-6 max-w-[680px] space-y-4">
+      <div className="mt-4 max-w-[680px] space-y-4">
         {real.map((m, i) => (
           <Item key={i} item={m} />
         ))}
@@ -48,7 +48,7 @@ export function SectionMedia({ media, layout }: { media: MediaItem[]; layout: Pr
 
   // "full"
   return (
-    <div className="mt-6 space-y-4">
+    <div className="mt-4 space-y-4">
       {real.map((m, i) => (
         <Item key={i} item={m} />
       ))}
