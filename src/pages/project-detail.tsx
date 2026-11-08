@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
-import { projects } from "../data/projects";
-import NotFound from "./not_found";
+import { projects } from "../content/projects";
+import NotFound from "./not-found";
 import { ProjectDetailLayout } from "../components/ui/project-detail-layout";
 
 export default function ProjectDetail() {

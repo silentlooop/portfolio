@@ -1,9 +1,9 @@
 import { useRef, useState, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import ProjectDetail from "./pages/project_details";
+import ProjectDetail from "./pages/project-detail";
 import Shaped from "./pages/shaped";
 import Blogs from "./pages/blogs";
-import NotFound from "./pages/not_found";
+import NotFound from "./pages/not-found";
 import { CommandTerminal } from "./components/ui/command-terminal";
 import { Intro } from "./components/ui/intro";
 import { FilmGrain } from "./components/ui/film-grain";

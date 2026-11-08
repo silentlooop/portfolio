@@ -167,9 +167,9 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
           </div>
 
           <div className="mt-4 lg:col-start-2 lg:col-span-2 lg:mt-0">
-            <p className="max-w-[640px] tracking-tight text-[17px] leading-[1.6] text-ink-primary">{project.intro}</p>
+            <p className="max-w-[640px] tracking-tight [word-spacing:-0.12em] text-[17px] leading-[1.6] text-ink-primary">{project.intro}</p>
 
-            <div className="mt-6 grid grid-cols-2 gap-x-10 gap-y-5 border-t border-white/5 pt-6 sm:grid-cols-4">
+            <div className="mt-4 grid grid-cols-2 gap-x-10 gap-y-5 border-t border-white/5 pt-4 sm:grid-cols-4">
               <MetaField label="Role" values={[project.meta.role]} />
               <MetaField label="Collaborators" values={project.meta.team} />
               <MetaField label="Duration" values={[project.meta.timeline]} />
@@ -192,7 +192,7 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
                   whileInView="visible"
                   viewport={{ once: true, amount: 0.9 }}
                   variants={fadeInUp}
-                  className="max-w-[640px] tracking-tight border-t border-white/5 pt-5 text-[16px] leading-relaxed text-ink-secondary"
+                  className="max-w-[640px] tracking-tight [word-spacing:-0.12em] border-t border-white/5 pt-5 text-[16px] leading-relaxed text-ink-secondary"
                   data-cursor="text"
                 >
                   {section.body}

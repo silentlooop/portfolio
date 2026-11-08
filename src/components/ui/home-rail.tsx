@@ -1,5 +1,5 @@
 import { TerminalHint } from "./terminal-hint";
-import { projects } from "../../data/projects";
+import { projects } from "../../content/projects";
 import { FaLinkedin, FaGithub } from "react-icons/fa6";
 import { SiLeetcode, SiMonkeytype } from "react-icons/si";
 

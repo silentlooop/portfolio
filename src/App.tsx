@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from "react"
 
-import { ProjectsGrid } from "./components/ui/Projects2"
+import { ProjectsGrid } from "./components/ui/projects-grid"
 import { HomeRail } from "./components/ui/home-rail"
 import { NavBar, TerminalExperience } from "./pages/about"
 import { SectionPrompt } from "./components/ui/terminal-effects"
 import { Note, Signature } from "./components/ui/annotations"
-import { projects } from "./data/projects"
+import { projects } from "./content/projects"
 
 function App() {
   const [activeSlug, setActiveSlug] = useState<string | null>(projects[0]?.slug ?? null);

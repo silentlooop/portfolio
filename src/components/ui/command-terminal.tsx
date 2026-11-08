@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { projects } from "../../data/projects";
+import { projects } from "../../content/projects";
 import { TerminalHint } from "./terminal-hint";
 import { WindowDots } from "./window-dots";
 
