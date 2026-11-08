@@ -179,7 +179,7 @@ function TechLabTerminal() {
                         </span>
                     </a>
                     <a
-                        href="https://monkeytype.com/account"
+                        href="https://monkeytype.com/profile/silentlooop"
                         target="_blank"
                         rel="noreferrer"
                         className="group relative flex items-center gap-3 rounded-md border border-white/5 bg-[#111111] px-4 py-3 transition-colors hover:border-white/20 hover:bg-[#181818]"

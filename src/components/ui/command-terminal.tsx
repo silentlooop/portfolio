@@ -13,7 +13,7 @@ const LINKS = {
     linkedin: "https://www.linkedin.com/in/manthan-p-6457b3313",
     x: "https://x.com/null_rejected",
     leetcode: "https://leetcode.com/u/silentlooop/",
-    monkeytype: "https://monkeytype.com/account",
+    monkeytype: "https://monkeytype.com/profile/silentlooop",
 };
 
 type Line = { kind: "input" | "output" | "error"; text: string };

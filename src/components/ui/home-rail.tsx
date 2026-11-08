@@ -84,7 +84,7 @@ export function HomeRail({ activeSlug, onHoverIndex, onSelectIndex }: HomeRailPr
             <TerminalHint text="$ sudo solve daily-humility" placement="below-start" />
           </a>
           <a
-            href="https://monkeytype.com/account"
+            href="https://monkeytype.com/profile/silentlooop"
             target="_blank"
             rel="noreferrer"
             className="group relative flex w-fit items-center gap-2 transition-colors hover:text-white"
