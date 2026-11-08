@@ -140,25 +140,27 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
         <div className="mt-24 space-y-24">
           {project.sections.map((section) => (
             <section key={section.heading} className="border-t border-white/[0.08] pt-10">
-              <motion.h2
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.9 }}
-                variants={fadeInUp}
-                className="text-[25px] font-semibold text-ink-primary sm:text-[29px]"
-              >
-                {section.heading}
-              </motion.h2>
-              <motion.p
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.9 }}
-                variants={fadeInUp}
-                className="mt-3 max-w-[680px] text-[16px] leading-relaxed text-ink-secondary"
-                data-cursor="text"
-              >
-                {section.body}
-              </motion.p>
+              <div className="grid grid-cols-1 gap-x-10 gap-y-3 sm:grid-cols-[220px_1fr]">
+                <motion.h2
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, amount: 0.9 }}
+                  variants={fadeInUp}
+                  className="text-[25px] font-semibold text-ink-primary sm:text-[29px]"
+                >
+                  {section.heading}
+                </motion.h2>
+                <motion.p
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, amount: 0.9 }}
+                  variants={fadeInUp}
+                  className="max-w-[680px] text-[16px] leading-relaxed text-ink-secondary"
+                  data-cursor="text"
+                >
+                  {section.body}
+                </motion.p>
+              </div>
               <SectionMedia media={section.media} layout={section.layout} />
             </section>
           ))}
