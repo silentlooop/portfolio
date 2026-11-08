@@ -150,7 +150,7 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
         </div>
 
         {/* --- Title + intro + meta + links, all on one grid --- */}
-        <div className="mt-16 grid grid-cols-1 gap-x-10 gap-y-3 lg:grid-cols-3">
+        <div className="mt-16 grid grid-cols-1 gap-x-10 lg:grid-cols-3">
           <div>
             <motion.h1
               initial={{ opacity: 0, y: 12 }}
@@ -163,11 +163,11 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
             <p className="mt-2 font-sfmono text-[12px] uppercase tracking-[0.12em] text-ink-muted">{project.category}</p>
           </div>
 
-          <div className="lg:col-span-2 lg:columns-2 lg:gap-x-6">
+          <div className="mt-6 lg:col-span-2 lg:mt-0 lg:columns-2 lg:gap-x-6">
             <p className="text-[18px] leading-[1.5] text-ink-primary sm:text-[20px]">{project.intro}</p>
           </div>
 
-          <div className="mt-10 lg:col-start-2 lg:col-span-2">
+          <div className="mt-4 lg:col-start-2 lg:col-span-2">
             <div className="grid grid-cols-2 gap-x-8 gap-y-6 lg:grid-cols-4">
               <MetaField label="Role" values={[project.meta.role]} />
               <MetaField label="Collaborators" values={project.meta.team} />
@@ -176,7 +176,7 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
             </div>
 
             {project.metrics && project.metrics.length > 0 && (
-              <div className="mt-8 grid grid-cols-2 gap-x-8 gap-y-6 border-t border-white/5 pt-8 lg:grid-cols-4">
+              <div className="mt-6 grid grid-cols-2 gap-x-8 gap-y-6 border-t border-white/5 pt-6 lg:grid-cols-4">
                 {project.metrics.map((m) => (
                   <div key={m.label}>
                     <div className="text-[32px] font-bold leading-none text-ink-primary">{m.value}</div>
@@ -188,7 +188,7 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
           </div>
 
           {project.meta.links.length > 0 && (
-            <div className="mt-8 lg:col-start-2 lg:col-span-2">
+            <div className="mt-6 lg:col-start-2 lg:col-span-2">
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 {project.meta.links.map((link) => (
                   <LinkBlock key={link.label} label={link.label} href={link.href} />
@@ -202,19 +202,23 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
         <div className="mt-12 space-y-12">
           {project.sections.map((section) => (
             <section key={section.heading} className="border-t border-white/[0.08] pt-8">
-              <motion.p
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.9 }}
-                variants={fadeInUp}
-                className={`max-w-[760px] text-[16px] leading-relaxed text-ink-secondary sm:text-[18px] ${
-                  section.body.length > 240 ? "lg:columns-2 lg:gap-x-6" : ""
-                }`}
-                data-cursor="text"
-              >
-                {section.body}
-              </motion.p>
-              <SectionMedia media={section.media} layout={section.layout} />
+              <div className="grid grid-cols-1 lg:grid-cols-3">
+                <div className={`lg:col-start-2 lg:col-span-2 ${section.layout === "full" ? "lg:col-span-3 lg:col-start-1" : ""}`}>
+                  <motion.p
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.9 }}
+                    variants={fadeInUp}
+                    className={`max-w-[760px] text-[16px] leading-relaxed text-ink-secondary sm:text-[18px] ${
+                      section.body.length > 240 ? "lg:columns-2 lg:gap-x-6" : ""
+                    }`}
+                    data-cursor="text"
+                  >
+                    {section.body}
+                  </motion.p>
+                  <SectionMedia media={section.media} layout={section.layout} />
+                </div>
+              </div>
             </section>
           ))}
         </div>

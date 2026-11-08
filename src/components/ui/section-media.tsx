@@ -38,7 +38,7 @@ export function SectionMedia({ media, layout }: { media: MediaItem[]; layout: Pr
 
   if (layout === "inset") {
     return (
-      <div className="mx-auto mt-6 max-w-[680px] space-y-4">
+      <div className="mt-6 max-w-[680px] space-y-4">
         {real.map((m, i) => (
           <Item key={i} item={m} />
         ))}
