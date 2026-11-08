@@ -24,8 +24,8 @@
 
   html, body {
     /* Matches the footer's tone (not main's #111111), so the margin-reserved
-       curtain-reveal gap never shows a lighter seam against the footer. */
-    background-color: #0B0B0B;
+       curtain-reveal gap never shows a seam against the footer. */
+    background-color: #1A1A1A;
     overflow-x: hidden;
   }
 

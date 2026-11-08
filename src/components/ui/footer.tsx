@@ -18,7 +18,7 @@ function FooterTimecode() {
   const pad = (n: number) => String(n).padStart(2, "0");
 
   return (
-    <span className="font-sfmono text-[11px] text-zinc-600">
+    <span className="font-sfmono text-xs text-zinc-600">
       {pad(time.getHours())}:{pad(time.getMinutes())}:{pad(time.getSeconds())}
     </span>
   );
@@ -31,7 +31,7 @@ export const Footer = forwardRef<HTMLElement, FooterProps>(function Footer({ pro
   return (
     <footer
       ref={ref}
-      className="relative z-0 w-full bg-[#0B0B0B] text-zinc-100 font-sfmono md:fixed md:inset-x-0 md:bottom-0"
+      className="relative z-0 w-full bg-[#1A1A1A] text-zinc-100 font-sfmono md:fixed md:inset-x-0 md:bottom-0"
     >
       <div
         className="mx-auto w-full max-w-[1440px] px-5 py-10 md:px-10"
@@ -40,14 +40,14 @@ export const Footer = forwardRef<HTMLElement, FooterProps>(function Footer({ pro
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
           {/* left */}
           <div className="space-y-2">
-            <span className="inline-block rounded-full border border-[#fde047]/40 px-2 py-0.5 text-xs lowercase text-[#fde047]">
+            <span className="inline-block rounded-full border border-zinc-600 px-2 py-0.5 text-sm lowercase text-zinc-400">
               v5.0.0
             </span>
-            <p className="font-sfmono text-[11px] uppercase tracking-wide text-zinc-600">last updated 2026.08</p>
+            <p className="font-sfmono text-xs uppercase tracking-wide text-zinc-600">last updated 2026.08</p>
           </div>
 
           {/* middle */}
-          <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-zinc-400">
+          <div className="flex flex-wrap gap-x-6 gap-y-2 text-base text-zinc-400">
             <a
               href="https://github.com/silentlooop"
               target="_blank"
@@ -86,11 +86,11 @@ export const Footer = forwardRef<HTMLElement, FooterProps>(function Footer({ pro
 
           {/* right */}
           <div className="space-y-2 sm:text-right">
-            <p className="text-sm text-zinc-400">still building, still figuring it out.</p>
+            <p className="text-base text-zinc-400">still building, still figuring it out.</p>
             <a
               href="mailto:24b2511@iitb.ac.in"
               data-cursor="link"
-              className="relative inline-block w-fit text-sm text-zinc-400 transition-colors hover:text-white"
+              className="relative inline-block w-fit text-base text-zinc-400 transition-colors hover:text-white"
             >
               24b2511@iitb.ac.in ↗
               <TerminalHint text="$ mail -s hey manthan" placement="below-start" />
@@ -98,7 +98,7 @@ export const Footer = forwardRef<HTMLElement, FooterProps>(function Footer({ pro
           </div>
         </div>
 
-        <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-white/5 pt-5 text-xs uppercase tracking-wider text-zinc-600">
+        <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-white/5 pt-5 text-sm uppercase tracking-wider text-zinc-600">
           <span className="flex items-center gap-2">
             <span>built + designed by</span>
             <span className="text-zinc-400">manthan</span>
