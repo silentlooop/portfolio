@@ -24,7 +24,7 @@ export type ProjectContent = {
   description: string;
   /** 3-4 line intro paragraph on the detail page. */
   intro: string;
-  hero: { type: "image" | "video"; src: string; poster?: string; width?: number; height?: number };
+  hero: { type: "image" | "video"; src: string; poster?: string; width?: number; height?: number; heroBg?: string };
   meta: {
     role: string;
     timeline: string;

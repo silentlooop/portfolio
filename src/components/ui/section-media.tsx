@@ -11,8 +11,9 @@ function Item({ item, aspect }: { item: MediaItem; aspect?: string }) {
 }
 
 export function SectionMedia({ media, layout }: { media: MediaItem[]; layout: ProjectSection["layout"] }) {
-  // Only render real media - placeholders stay invisible until an actual src is added.
-  const real = media.filter((m) => !m.placeholder && m.src);
+  // In production, only render real media - placeholders stay invisible until an actual src is added.
+  // In dev, show placeholders too so it's obvious what's still missing.
+  const real = import.meta.env.DEV ? media : media.filter((m) => !m.placeholder && m.src);
   if (real.length === 0) return null;
 
   if (layout === "split") {
