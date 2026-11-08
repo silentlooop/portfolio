@@ -88,11 +88,11 @@ function TerminalExperience() {
                                 <div className="flex flex-wrap items-center gap-2 leading-relaxed">
                                     <span className="text-[#6a9955]/80">$</span>
                                     <span className="text-gray-400">cat</span>
-                                    <span className="break-all text-white">./experience/{exp.company.replace(/\s/g, '').toLowerCase()}</span>
+                                    <span className="break-all text-gray-400">./experience/{exp.company.replace(/\s/g, '').toLowerCase()}</span>
                                     <span className="shrink-0 text-xs text-gray-700">[{exp.period}]</span>
                                 </div>
                                 <div className="mt-2 break-words leading-relaxed">
-                                    <span className="text-[#6a9955]/80">role:</span> <span className="text-white">{exp.role}</span><br />
+                                    <span className="text-[#6a9955]/80">role:</span> <span className="text-gray-400">{exp.role}</span><br />
                                     <span className="text-[#6a9955]/80">desc:</span> <span className="text-gray-400 break-words">{exp.desc}</span>
                                 </div>
                                 {idx !== visibleExperiences.length - 1 && <div className="mt-6 border-b border-white/5" />}
