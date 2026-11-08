@@ -19,14 +19,19 @@ const LINKS = {
 type Line = { kind: "input" | "output" | "error"; text: string };
 
 const HELP = [
-    "available commands:",
-    "  ls                 list directories",
-    "  ls projects        list all projects",
-    "  cd <dir>           work | blogs | me | ~",
-    "  open <project>     open a project by slug",
-    "  cat contact        where to find me",
-    "  github | linkedin | x | leetcode | monkeytype",
-    "  whoami | date | echo <text> | history | clear | exit",
+    "quick navigation:",
+    "  work               view selected projects",
+    "  blogs              read my writing",
+    "  me                 learn about me",
+    "  contact            find me online",
+    "",
+    "projects:",
+    "  projects           list all projects",
+    "  open <project>     open a project",
+    "",
+    "  help               show this menu",
+    "  clear              clear terminal",
+    "  exit               close terminal",
 ];
 
 // The tip notification only appears on the home page; every other page gets the launcher icon straight away.
@@ -139,6 +144,14 @@ export function CommandTerminal() {
         switch (cmd.toLowerCase()) {
             case "help":
                 return out(HELP);
+            case "work":
+                return go("/#work", "→ ./work");
+            case "blogs":
+                return go("/blogs", "→ ./blogs");
+            case "me":
+                return go("/shaped", "→ ~/me");
+            case "contact":
+                return out([`github    ${LINKS.github}`, `linkedin  ${LINKS.linkedin}`, `x         ${LINKS.x}`]);
             case "ls":
                 if (arg === "projects") return out(projects.map((p) => `  ${p.slug.padEnd(30)} ${p.description}`));
                 if (arg === "blogs") return go("/blogs", "→ ./blogs");
@@ -215,133 +228,133 @@ export function CommandTerminal() {
 
     return (
         <>
-        <AnimatePresence>
-            {showTip && !open && (
-                <motion.div
-                    className="fixed bottom-5 right-5 z-[55] max-w-[calc(100vw-2.5rem)] font-sfmono"
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 8 }}
-                    transition={{ duration: 0.35, ease: "easeOut" }}
-                >
-                    <div className="group relative overflow-hidden rounded-md border border-white/10 bg-[#141414]/95 shadow-2xl shadow-black/50 backdrop-blur-sm">
-                        <div className="flex items-center gap-1.5 border-b border-white/5 bg-[#111111] px-3 py-2">
-                            <WindowDots
-                                size="sm"
-                                onRed={() => setShowTip(false)}
-                                onYellow={() => setShowTip(false)}
-                                onGreen={() => setOpen(true)}
-                            />
-                            <span className="ml-2 text-[10px] uppercase tracking-wider text-zinc-600">tip</span>
-                        </div>
-                        <button
-                            type="button"
-                            onClick={() => setOpen(true)}
-                            className="block w-full px-4 py-3 text-left text-xs leading-relaxed"
-                        >
-                            <span className="block text-zinc-400">
-                                <span className="text-zinc-600">$ </span>psst. this site has a real terminal.
-                            </span>
-                            <span className="mt-1 block text-zinc-500 transition-colors group-hover:text-zinc-300">
-                                {isTouch ? (
-                                    "tap here to try it"
-                                ) : (
-                                    <>
-                                        press <kbd className="rounded border border-zinc-700 px-1 text-[11px] text-zinc-300">/</kbd> or{" "}
-                                        <kbd className="rounded border border-zinc-700 px-1 text-[11px] text-zinc-300">⌘K</kbd> to try it
-                                    </>
-                                )}
-                                <span className="terminal-cursor ml-1 text-zinc-500">_</span>
-                            </span>
-                        </button>
-                        <motion.span
-                            aria-hidden="true"
-                            className="absolute bottom-0 left-0 h-px w-full origin-left bg-zinc-600"
-                            initial={{ scaleX: 1 }}
-                            animate={{ scaleX: 0 }}
-                            transition={{ duration: 5.75, ease: "linear" }}
-                        />
-                    </div>
-                </motion.div>
-            )}
-        </AnimatePresence>
-        <AnimatePresence>
-            {launcherReady && !showTip && !open && (
-                <motion.button
-                    type="button"
-                    onClick={() => setOpen(true)}
-                    aria-label="Open terminal"
-                    className="fixed right-0 top-1/2 z-[55] rounded-l-md border border-r-0 border-white/10 bg-[#141414]/90 px-2 py-2.5 font-sfmono text-[11px] leading-none text-zinc-500 shadow-lg shadow-black/40 backdrop-blur-sm transition-colors hover:bg-[#1a1a1a] hover:text-zinc-200"
-                    initial={{ opacity: 0, x: 12, y: "-50%" }}
-                    animate={{ opacity: 1, x: 0, y: "-50%" }}
-                    exit={{ opacity: 0, x: 12, y: "-50%" }}
-                    transition={{ duration: 0.3, ease: "easeOut" }}
-                >
-                    &gt;<span className="terminal-cursor">_</span>
-                    <TerminalHint text="$ ./terminal open" placement="below-start" className="!left-auto right-full mr-2 !top-1/2 !mt-0 -translate-y-1/2" />
-                </motion.button>
-            )}
-        </AnimatePresence>
-        <AnimatePresence>
-            {open && (
-                <motion.div
-                    className="fixed inset-0 z-[60] flex items-start justify-center bg-black/60 px-4 pt-[14vh] backdrop-blur-sm"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.15 }}
-                    onMouseDown={close}
-                >
+            <AnimatePresence>
+                {showTip && !open && (
                     <motion.div
-                        role="dialog"
-                        aria-modal="true"
-                        aria-label="Command terminal"
-                        className="w-full max-w-2xl overflow-hidden rounded-md border border-white/10 bg-[#141414] font-sfmono text-[13px] shadow-2xl shadow-black/50"
-                        initial={{ opacity: 0, y: -12, scale: 0.98 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: -8, scale: 0.98 }}
-                        transition={{ duration: 0.18, ease: "easeOut" }}
-                        onMouseDown={(e) => e.stopPropagation()}
-                        onClick={() => inputRef.current?.focus()}
+                        className="fixed bottom-5 right-5 z-[55] max-w-[calc(100vw-2.5rem)] font-sfmono"
+                        initial={{ opacity: 0, y: 12 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 8 }}
+                        transition={{ duration: 0.35, ease: "easeOut" }}
                     >
-                        <div className="flex items-center gap-2 border-b border-white/10 bg-[#111111] px-4 py-3">
-                            <WindowDots onClose={close} />
-                            <span className="ml-3 truncate text-xs text-zinc-500">manthan@portfolio: ~</span>
-                            <span className="ml-auto hidden text-[11px] text-zinc-600 sm:inline">esc to close</span>
-                        </div>
-                        <div ref={scrollRef} className="max-h-[50vh] overflow-y-auto px-4 py-3 leading-relaxed" aria-live="polite">
-                            {lines.map((line, i) => (
-                                <div key={i} className="whitespace-pre-wrap break-words">
-                                    {line.kind === "input" ? (
-                                        <>
-                                            <span className="text-zinc-600">$ </span>
-                                            <span className="text-zinc-200">{line.text}</span>
-                                        </>
-                                    ) : (
-                                        <span className={line.kind === "error" ? "text-red-400/80" : "text-zinc-400"}>{line.text}</span>
-                                    )}
-                                </div>
-                            ))}
-                            <div className="flex items-center gap-2">
-                                <span className="text-[#fde047]">$</span>
-                                <input
-                                    ref={inputRef}
-                                    value={input}
-                                    onChange={(e) => setInput(e.target.value)}
-                                    onKeyDown={onInputKeyDown}
-                                    aria-label="Terminal command"
-                                    autoComplete="off"
-                                    autoCapitalize="off"
-                                    spellCheck={false}
-                                    className="min-w-0 flex-1 bg-transparent text-zinc-100 caret-[#fde047] outline-none placeholder:text-zinc-700"
-                                    placeholder="try 'help'"
+                        <div className="group relative overflow-hidden rounded-md border border-white/10 bg-[#141414]/95 shadow-2xl shadow-black/50 backdrop-blur-sm">
+                            <div className="flex items-center gap-1.5 border-b border-white/5 bg-[#111111] px-3 py-2">
+                                <WindowDots
+                                    size="sm"
+                                    onRed={() => setShowTip(false)}
+                                    onYellow={() => setShowTip(false)}
+                                    onGreen={() => setOpen(true)}
                                 />
+                                <span className="ml-2 text-[10px] uppercase tracking-wider text-zinc-600">tip</span>
                             </div>
+                            <button
+                                type="button"
+                                onClick={() => setOpen(true)}
+                                className="block w-full px-4 py-3 text-left text-xs leading-relaxed"
+                            >
+                                <span className="block text-zinc-400">
+                                    <span className="text-zinc-600">$ </span>psst. this site has a real terminal.
+                                </span>
+                                <span className="mt-1 block text-zinc-500 transition-colors group-hover:text-zinc-300">
+                                    {isTouch ? (
+                                        "tap here to try it"
+                                    ) : (
+                                        <>
+                                            press <kbd className="rounded border border-zinc-700 px-1 text-[11px] text-zinc-300">/</kbd> or{" "}
+                                            <kbd className="rounded border border-zinc-700 px-1 text-[11px] text-zinc-300">⌘K</kbd> to try it
+                                        </>
+                                    )}
+                                    <span className="terminal-cursor ml-1 text-zinc-500">_</span>
+                                </span>
+                            </button>
+                            <motion.span
+                                aria-hidden="true"
+                                className="absolute bottom-0 left-0 h-px w-full origin-left bg-zinc-600"
+                                initial={{ scaleX: 1 }}
+                                animate={{ scaleX: 0 }}
+                                transition={{ duration: 5.75, ease: "linear" }}
+                            />
                         </div>
                     </motion.div>
-                </motion.div>
-            )}
-        </AnimatePresence>
+                )}
+            </AnimatePresence>
+            <AnimatePresence>
+                {launcherReady && !showTip && !open && (
+                    <motion.button
+                        type="button"
+                        onClick={() => setOpen(true)}
+                        aria-label="Open terminal"
+                        className="fixed right-0 top-1/2 z-[55] rounded-l-md border border-r-0 border-white/10 bg-[#141414]/90 px-2 py-2.5 font-sfmono text-[11px] leading-none text-zinc-500 shadow-lg shadow-black/40 backdrop-blur-sm transition-colors hover:bg-[#1a1a1a] hover:text-zinc-200"
+                        initial={{ opacity: 0, x: 12, y: "-50%" }}
+                        animate={{ opacity: 1, x: 0, y: "-50%" }}
+                        exit={{ opacity: 0, x: 12, y: "-50%" }}
+                        transition={{ duration: 0.3, ease: "easeOut" }}
+                    >
+                        &gt;<span className="terminal-cursor">_</span>
+                        <TerminalHint text="$ ./terminal open" placement="below-start" className="!left-auto right-full mr-2 !top-1/2 !mt-0 -translate-y-1/2" />
+                    </motion.button>
+                )}
+            </AnimatePresence>
+            <AnimatePresence>
+                {open && (
+                    <motion.div
+                        className="fixed inset-0 z-[60] flex items-start justify-center bg-black/60 px-4 pt-[14vh] backdrop-blur-sm"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.15 }}
+                        onMouseDown={close}
+                    >
+                        <motion.div
+                            role="dialog"
+                            aria-modal="true"
+                            aria-label="Command terminal"
+                            className="w-full max-w-2xl overflow-hidden rounded-md border border-white/10 bg-[#141414] font-sfmono text-[13px] shadow-2xl shadow-black/50"
+                            initial={{ opacity: 0, y: -12, scale: 0.98 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: -8, scale: 0.98 }}
+                            transition={{ duration: 0.18, ease: "easeOut" }}
+                            onMouseDown={(e) => e.stopPropagation()}
+                            onClick={() => inputRef.current?.focus()}
+                        >
+                            <div className="flex items-center gap-2 border-b border-white/10 bg-[#111111] px-4 py-3">
+                                <WindowDots onClose={close} />
+                                <span className="ml-3 truncate text-xs text-zinc-500">manthan@portfolio: ~</span>
+                                <span className="ml-auto hidden text-[11px] text-zinc-600 sm:inline">esc to close</span>
+                            </div>
+                            <div ref={scrollRef} className="max-h-[50vh] overflow-y-auto px-4 py-3 leading-relaxed" aria-live="polite">
+                                {lines.map((line, i) => (
+                                    <div key={i} className="whitespace-pre-wrap break-words">
+                                        {line.kind === "input" ? (
+                                            <>
+                                                <span className="text-zinc-600">$ </span>
+                                                <span className="text-zinc-200">{line.text}</span>
+                                            </>
+                                        ) : (
+                                            <span className={line.kind === "error" ? "text-red-400/80" : "text-zinc-400"}>{line.text}</span>
+                                        )}
+                                    </div>
+                                ))}
+                                <div className="flex items-center gap-2">
+                                    <span className="text-[#fde047]">$</span>
+                                    <input
+                                        ref={inputRef}
+                                        value={input}
+                                        onChange={(e) => setInput(e.target.value)}
+                                        onKeyDown={onInputKeyDown}
+                                        aria-label="Terminal command"
+                                        autoComplete="off"
+                                        autoCapitalize="off"
+                                        spellCheck={false}
+                                        className="min-w-0 flex-1 bg-transparent text-zinc-100 caret-[#fde047] outline-none placeholder:text-zinc-700"
+                                        placeholder="try 'help'"
+                                    />
+                                </div>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </>
     );
 }

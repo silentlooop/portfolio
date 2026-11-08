@@ -99,7 +99,7 @@ function App() {
         </div>
 
         {/* Experience */}
-        <div id="experience" className="relative z-15 mx-auto mt-24 w-full max-w-[1440px] px-5 md:px-10">
+        <div id="experience" className="relative z-15 mx-auto mt-24 w-full max-w-[1440px] px-5 pb-20 md:px-10 md:pb-0">
           <SectionPrompt command="cd ./deep-dive/experience" className="mb-8" startOnMount />
           <TerminalExperience />
         </div>

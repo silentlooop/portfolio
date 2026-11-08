@@ -41,9 +41,8 @@ export function HomeRail({ activeSlug, onHoverIndex, onSelectIndex }: HomeRailPr
                 onMouseEnter={() => onHoverIndex(project.slug)}
                 onMouseLeave={() => onHoverIndex(null)}
                 onClick={() => onSelectIndex(project.slug)}
-                className={`shrink-0 whitespace-nowrap text-left transition-colors duration-250 ease-out lg:w-full lg:whitespace-normal ${
-                  isActive ? "text-ink-primary" : "text-ink-muted hover:text-ink-secondary"
-                }`}
+                className={`shrink-0 whitespace-nowrap text-left transition-colors duration-250 ease-out lg:w-full lg:whitespace-normal ${isActive ? "text-ink-primary" : "text-ink-muted hover:text-ink-secondary"
+                  }`}
               >
                 <span className="font-sfmono text-sm">{String(i + 1).padStart(2, "0")}</span>{" "}
                 <span className="uppercase">{toTitleCase(project.title)}</span>
