@@ -141,13 +141,13 @@ export function CommandTerminal() {
                 return out(HELP);
             case "ls":
                 if (arg === "projects") return out(projects.map((p) => `  ${p.slug.padEnd(30)} ${p.description}`));
-                if (arg === "blogs") return go("/blogs", "-> ./blogs");
+                if (arg === "blogs") return go("/blogs", "→ ./blogs");
                 return out("work/  blogs/  me/  projects/  contact.txt");
             case "cd":
-                if (!arg || arg === "~" || arg === "/" || arg === "..") return go("/", "-> ~");
-                if (arg === "work" || arg === "selected-work") return go("/#work", "-> ./work");
-                if (arg === "blogs") return go("/blogs", "-> ./blogs");
-                if (arg === "me" || arg === "~/me") return go("/shaped", "-> ~/me");
+                if (!arg || arg === "~" || arg === "/" || arg === "..") return go("/", "→ ~");
+                if (arg === "work" || arg === "selected-work") return go("/#work", "→ ./work");
+                if (arg === "blogs") return go("/blogs", "→ ./blogs");
+                if (arg === "me" || arg === "~/me") return go("/shaped", "→ ~/me");
                 if (arg.startsWith("projects/")) return run(`open ${arg.slice("projects/".length)}`);
                 return out(`cd: no such file or directory: ${arg}`, "error");
             case "open": {
@@ -158,7 +158,7 @@ export function CommandTerminal() {
                 return out([`open: ${slug || "?"}: not found`, "try 'ls projects'"], "error");
             }
             case "whoami":
-                return out(["manthan / silentlooop", "builds ml things, designs things, breaks things.", "-> 'cd me' for the long version"]);
+                return out(["manthan / silentlooop", "builds ml things, designs things, breaks things.", "→ 'cd me' for the long version"]);
             case "cat":
                 if (arg === "contact" || arg === "contact.txt")
                     return out([`github    ${LINKS.github}`, `linkedin  ${LINKS.linkedin}`, `x         ${LINKS.x}`]);

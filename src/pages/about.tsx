@@ -23,14 +23,14 @@ function TerminalExperience() {
         {
             type: "college" as const,
             company: "AICommunity IITB",
-            period: "2025 - 2026",
+            period: "2025 – 2026",
             role: "Junior Developer",
             desc: "Working with a small team of 8 members to build AI products for insti and freelance projects. Focusing on NLP pipelines and generative models."
         },
         {
             type: "college" as const,
             company: "Techfest",
-            period: "2025 - 2026",
+            period: "2025 – 2026",
             role: "Graphic Designer",
             desc: "Supported the design team with social media graphics, print materials, and visual identity systems for Asia's largest Science and Technology festival."
         }

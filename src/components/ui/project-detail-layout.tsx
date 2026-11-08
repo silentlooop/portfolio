@@ -160,7 +160,7 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, ease: "easeOut" }}
-              className="mt-1 text-[28px] font-semibold leading-tight text-ink-primary sm:text-[32px]"
+              className="mt-1 text-[28px] font-semibold uppercase leading-tight text-ink-primary sm:text-[32px]"
             >
               {title}
             </motion.h1>
