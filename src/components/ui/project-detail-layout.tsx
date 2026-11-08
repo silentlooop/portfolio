@@ -116,10 +116,10 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
   return (
     <div className="min-h-screen bg-[#111111] text-white font-sfmono selection:bg-white/20">
       <ProjectHeader onClose={handleClose} />
-      <main className="mx-auto w-full max-w-[860px] px-5 pb-24 pt-24 md:px-8">
-        {/* --- Hero media --- */}
+      <main className="w-full px-5 pb-24 pt-24 md:px-12">
+        {/* --- Hero media, full width --- */}
         <div
-          className="relative mt-6 max-h-[440px] aspect-[16/9] w-full overflow-hidden rounded-xl border border-edge bg-[#161616]"
+          className="relative mt-6 aspect-[21/9] w-full overflow-hidden rounded-xl border border-edge bg-[#161616]"
           style={{ viewTransitionName: `project-cover-${project.slug}` } as React.CSSProperties}
         >
           <div className="flex h-full w-full items-center justify-center p-6">
@@ -150,11 +150,11 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
           >
             {title}
           </motion.h1>
-          <p className="mt-4 text-[16px] leading-[1.6] text-ink-primary">{project.intro}</p>
+          <p className="mt-4 max-w-[640px] text-[16px] leading-[1.6] text-ink-primary">{project.intro}</p>
         </div>
 
         {/* --- Meta --- */}
-        <div className="mt-8 grid grid-cols-2 gap-x-8 gap-y-6 border-t border-white/5 pt-8 sm:grid-cols-4">
+        <div className="mt-8 grid grid-cols-2 gap-x-10 gap-y-6 border-t border-white/5 pt-8 sm:grid-cols-4 lg:max-w-[900px]">
           <MetaField label="Role" values={[project.meta.role]} />
           <MetaField label="Collaborators" values={project.meta.team} />
           <MetaField label="Duration" values={[project.meta.timeline]} />
@@ -163,7 +163,7 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
 
         {/* --- Metrics --- */}
         {project.metrics && project.metrics.length > 0 && (
-          <div className="mt-6 grid grid-cols-2 gap-x-8 gap-y-6 border-t border-white/5 pt-6 sm:grid-cols-4">
+          <div className="mt-6 grid grid-cols-2 gap-x-10 gap-y-6 border-t border-white/5 pt-6 sm:grid-cols-4 lg:max-w-[900px]">
             {project.metrics.map((m) => (
               <div key={m.label}>
                 <div className="text-[28px] font-bold leading-none text-ink-primary">{m.value}</div>
@@ -175,7 +175,7 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
 
         {/* --- Links --- */}
         {project.meta.links.length > 0 && (
-          <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:max-w-[600px]">
             {project.meta.links.map((link) => (
               <LinkBlock key={link.label} label={link.label} href={link.href} />
             ))}
@@ -191,7 +191,7 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
               whileInView="visible"
               viewport={{ once: true, amount: 0.9 }}
               variants={fadeInUp}
-              className="border-t border-white/5 pt-8 text-[15px] leading-relaxed text-ink-secondary"
+              className="max-w-[640px] border-t border-white/5 pt-8 text-[15px] leading-relaxed text-ink-secondary"
               data-cursor="text"
             >
               {section.body}
