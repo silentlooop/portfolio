@@ -81,52 +81,53 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
           </div>
         </motion.div>
 
-        {/* --- Name (left) + links (right), tight below the hero --- */}
-        <div className="mt-6 flex flex-wrap items-start justify-between gap-x-10 gap-y-3">
+        {/* --- Name (left) + intro/meta/links (right) --- */}
+        <div className="mt-6 grid grid-cols-1 gap-x-10 gap-y-4 sm:grid-cols-[220px_1fr]">
           <div>
             <p className="font-sfmono text-[12px] uppercase tracking-tight text-ink-muted">{project.category}</p>
             <motion.h1
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, ease: "easeOut" }}
-              className="mt-1 break-words text-[40px] font-bold leading-[1.05] tracking-tight text-ink-primary sm:text-6xl"
+              className="mt-1 break-words text-[32px] font-bold leading-[1.05] tracking-tight text-ink-primary sm:text-[40px]"
             >
               {title}
             </motion.h1>
           </div>
 
-          {project.meta.links.length > 0 && (
-            <div className="flex flex-wrap gap-4 pt-2">
-              {project.meta.links.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-cursor="link"
-                  className="relative text-[15px] text-ink-secondary transition-colors hover:text-[#fde047]"
-                >
-                  {link.label} ↗
-                  <TerminalHint text="$ cat ./src judge-gently" placement="below-start" />
-                </a>
-              ))}
+          <div className="min-w-0">
+            <p className="max-w-[65ch] text-[17px] leading-relaxed text-ink-secondary">{project.intro}</p>
+
+            <div className="mt-5 grid grid-cols-2 gap-x-8 gap-y-5 sm:grid-cols-4">
+              <MetaField label="Role" values={[project.meta.role]} />
+              <MetaField label="Collaborators" values={project.meta.team} />
+              <MetaField label="Duration" values={[project.meta.timeline]} />
+              <MetaField label="Tools" values={project.meta.stack} />
             </div>
-          )}
-        </div>
 
-        <p className="mt-4 max-w-[65ch] text-[17px] leading-relaxed text-ink-secondary">{project.intro}</p>
-
-        {/* --- Meta details row --- */}
-        <div className="mt-8 grid grid-cols-2 gap-x-8 gap-y-6 border-t border-white/5 pt-6 sm:grid-cols-4">
-          <MetaField label="Role" values={[project.meta.role]} />
-          <MetaField label="Collaborators" values={project.meta.team} />
-          <MetaField label="Duration" values={[project.meta.timeline]} />
-          <MetaField label="Tools" values={project.meta.stack} />
+            {project.meta.links.length > 0 && (
+              <div className="mt-5 flex flex-wrap gap-4">
+                {project.meta.links.map((link) => (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-cursor="link"
+                    className="relative text-[15px] text-ink-secondary transition-colors hover:text-[#fde047]"
+                  >
+                    {link.label} ↗
+                    <TerminalHint text="$ cat ./src judge-gently" placement="below-start" />
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* --- Key results --- */}
         {project.metrics && project.metrics.length > 0 && (
-          <div className="mt-8 flex flex-wrap gap-x-10 gap-y-4 border-t border-white/5 pt-6">
+          <div className="mt-6 flex flex-wrap gap-x-10 gap-y-4 border-t border-white/5 pt-5">
             {project.metrics.map((m) => (
               <div key={m.label}>
                 <div className="text-[28px] font-bold leading-none text-ink-primary">{m.value}</div>
