@@ -29,7 +29,7 @@ export function MediaFrame({ item, aspect = "aspect-video" }: { item: MediaItem;
   if (item.placeholder || !item.src) {
     return (
       <div
-        className="relative flex aspect-[21/9] w-full items-center justify-center overflow-hidden rounded-lg border border-dashed border-edge bg-[#161616]"
+        className="relative flex aspect-[21/9] max-h-[220px] w-full items-center justify-center overflow-hidden rounded-lg border border-dashed border-edge bg-[#161616]"
       >
         <span className="px-4 text-center font-sfmono text-[12px] text-ink-muted">
           [media: {item.placeholder ?? "untitled"}]

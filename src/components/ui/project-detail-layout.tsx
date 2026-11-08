@@ -209,7 +209,7 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
                     whileInView="visible"
                     viewport={{ once: true, amount: 0.9 }}
                     variants={fadeInUp}
-                    className={`max-w-[760px] text-[16px] leading-relaxed text-ink-secondary sm:text-[18px] ${
+                    className={`max-w-[760px] text-[14px] leading-relaxed text-ink-secondary ${
                       section.body.length > 240 ? "lg:columns-2 lg:gap-x-6" : ""
                     }`}
                     data-cursor="text"
