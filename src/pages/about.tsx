@@ -43,7 +43,7 @@ function TerminalExperience() {
     ];
 
     return (
-        <div className="w-full max-w-content mx-auto font-mono text-[15px] text-gray-300 md:text-[17px]">
+        <div className="w-full max-w-content mx-auto font-mono text-[15px] text-ink-secondary">
             <div role="tablist" aria-label="Experience categories" className="mb-8 flex items-center gap-6 text-[12px] font-sfmono uppercase tracking-tight">
                 {categories.map((cat) => {
                     const isActive = activeType === cat.key;
@@ -66,12 +66,12 @@ function TerminalExperience() {
             <div className="space-y-10">
                 {visibleExperiences.length > 0 ? visibleExperiences.map((exp, idx) => (
                     <div key={exp.company}>
-                        <div className="mb-3 flex flex-wrap items-center gap-2 text-gray-300">
+                        <div className="mb-3 flex flex-wrap items-center gap-2 text-base text-ink-secondary">
                             <span>{exp.company}</span>
                             <span>·</span>
                             <span>{exp.period}</span>
                         </div>
-                        <p className="max-w-[60ch] whitespace-pre-line break-words leading-[1.7] text-gray-300">
+                        <p className="max-w-[60ch] whitespace-pre-line break-words text-[15px] leading-relaxed text-ink-secondary">
                             {exp.role} — {exp.desc}
                         </p>
                         {idx !== visibleExperiences.length - 1 && <div className="mt-8 border-b border-white/10" />}
