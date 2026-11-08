@@ -6,7 +6,7 @@ import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
 import type { Variants } from "framer-motion";
 import { SectionPrompt, SectionReveal } from "../components/ui/terminal-effects";
 import { TerminalHint } from "../components/ui/terminal-hint";
-import { Arrow, Measure, Note, RegMark, Signature } from "../components/ui/annotations";
+import { Arrow, Measure, Note, Signature } from "../components/ui/annotations";
 import { MuteToggle } from "../components/ui/mute-toggle";
 import { ScrambleText } from "../components/ui/scramble-text";
 import { useInViewOnce, usePrefersReducedMotion } from "../components/ui/use-terminal-effects";
@@ -444,8 +444,6 @@ function About() {
                             <span className="font-sfmono text-[10px] text-zinc-600">01</span>
                             <Measure className="flex-1" label="984 × 640" note="fig. 01 — the trajectory" />
                         </div>
-                        <RegMark className="pointer-events-none absolute -left-7 -top-7 hidden md:block" />
-                        <RegMark className="pointer-events-none absolute -bottom-7 -right-7 hidden md:block" />
                         <div aria-hidden="true" className="pointer-events-none absolute bottom-10 left-full ml-4 hidden overflow-hidden lg:block lg:w-[clamp(0rem,calc(50vw-33rem),11rem)]">
                             <Arrow variant="hook" flip className="h-14 w-14" rotate={-20} />
                             <Note rotate={5} size="sm" className="mt-1">still figuring it out… and probably always will.</Note>

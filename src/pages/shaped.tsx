@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { NavBar } from "./about";
 import { SectionPrompt, SectionReveal } from "../components/ui/terminal-effects";
-import { RegMark, Signature } from "../components/ui/annotations";
+import { Signature } from "../components/ui/annotations";
 import { TerminalHint } from "../components/ui/terminal-hint";
 import { ScrambleText } from "../components/ui/scramble-text";
 import { useInViewOnce, usePrefersReducedMotion } from "../components/ui/use-terminal-effects";
@@ -162,8 +162,6 @@ export default function Shaped() {
 
                 {/* ── Terminal Window Bar ── */}
                 <SectionPrompt command="cat ./me/about" className="relative z-[1] mb-6" />
-
-                <RegMark className="pointer-events-none absolute left-0 top-[8.5rem] hidden -translate-x-7 md:block" />
 
                 <SectionReveal className="relative z-[1] mb-10 overflow-hidden rounded-md border border-white/10 bg-[#141414] shadow-2xl shadow-black/20">
                     <div className="flex items-center gap-2 border-b border-white/10 bg-[#111111] px-5 py-4">

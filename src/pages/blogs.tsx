@@ -1,7 +1,7 @@
 import { NavBar } from "./about";
 import { SectionPrompt, SectionReveal } from "../components/ui/terminal-effects";
 import { TerminalHint } from "../components/ui/terminal-hint";
-import { Measure, RegMark, Signature } from "../components/ui/annotations";
+import { Note, Signature } from "../components/ui/annotations";
 import { WindowDots } from "../components/ui/window-dots";
 
 interface BlogPost {
@@ -70,15 +70,7 @@ const Blogs = () => {
             <div className="relative min-h-screen bg-[#111111] text-white font-sfmono pt-24 pb-20">
                 <div className="relative w-full px-5 max-w-content mx-auto">
                     <SectionPrompt command="cat ./blogs" className="mb-6" />
-                    <div aria-hidden="true" className="pointer-events-none mb-4 hidden items-center gap-3 md:flex">
-                        <span className="font-sfmono text-[10px] text-zinc-600">03</span>
-                        <Measure className="flex-1" label={`${sortedBlogs.length} post${sortedBlogs.length === 1 ? "" : "s"}`} note="fig. 03 — the archive" />
-                    </div>
-                    <Signature underline={false} className="mb-4 h-10 w-32" />
-
                     <div className="relative bg-[#111111] rounded-md p-6 border border-white/10 shadow-sm shadow-white/5">
-                        <RegMark className="pointer-events-none absolute -left-7 -top-7 hidden md:block" />
-                        <RegMark className="pointer-events-none absolute -bottom-7 -right-7 hidden md:block" />
                         <div className="mb-6 flex items-center gap-2">
                             <WindowDots />
                             <span className="ml-3 text-gray-400 text-xs">manthan@portfolio:~/blogs$</span>
@@ -112,6 +104,9 @@ const Blogs = () => {
                     <div aria-hidden="true" className="pointer-events-none mt-6 hidden justify-end md:flex">
                         <div className="text-right">
                             <Signature className="ml-auto h-12 w-36" />
+                            <Note rotate={-2} size="sm" ink="faint">
+                                still writing these as I go.
+                            </Note>
                         </div>
                     </div>
                 </div>
