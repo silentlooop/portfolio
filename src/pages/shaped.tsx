@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { NavBar } from "./about";
 import { SectionPrompt, SectionReveal } from "../components/ui/terminal-effects";
-import { Signature } from "../components/ui/annotations";
+import { Note, Signature } from "../components/ui/annotations";
 import { TerminalHint } from "../components/ui/terminal-hint";
 import { ScrambleText } from "../components/ui/scramble-text";
 import { useInViewOnce, usePrefersReducedMotion } from "../components/ui/use-terminal-effects";
@@ -240,6 +240,9 @@ export default function Shaped() {
                 <div aria-hidden="true" className="pointer-events-none relative z-[1] mt-16 hidden justify-end md:flex">
                     <div className="text-right">
                         <Signature className="ml-auto h-12 w-36" />
+                        <Note rotate={-2} size="sm" ink="faint">
+                            this is still me, just rendered differently.
+                        </Note>
                     </div>
                 </div>
 
