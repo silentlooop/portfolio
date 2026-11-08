@@ -74,7 +74,7 @@ function LinkBlock({ label, href }: { label: string; href: string }) {
       target="_blank"
       rel="noopener noreferrer"
       data-cursor="link"
-      className="group relative flex items-center justify-between rounded-md bg-white/[0.04] px-5 py-3 transition-colors hover:bg-white/[0.08]"
+      className="group relative flex items-center justify-between rounded-none bg-white/[0.04] px-5 py-3 transition-colors hover:bg-white/[0.08]"
     >
       <span className="font-sfmono text-[13px] uppercase tracking-[0.12em] text-ink-primary">{label}</span>
       <span className="text-ink-muted transition-transform group-hover:translate-x-1">›</span>
@@ -132,7 +132,7 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
       <main className="w-full px-5 pb-24 pt-24 md:px-12">
         {/* --- Hero media, full width --- */}
         <div
-          className="relative mt-6 aspect-[21/9] w-full overflow-hidden rounded-xl border border-edge bg-[#161616]"
+          className="relative mt-6 aspect-[21/9] w-full overflow-hidden rounded-none border border-edge bg-[#161616]"
           style={{ viewTransitionName: `project-cover-${project.slug}` } as React.CSSProperties}
         >
           <div className="flex h-full w-full items-center justify-center p-6">
@@ -160,14 +160,14 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, ease: "easeOut" }}
-              className="mt-2 text-[28px] font-semibold leading-tight text-ink-primary sm:text-[32px]"
+              className="mt-1 text-[28px] font-semibold leading-tight text-ink-primary sm:text-[32px]"
             >
               {title}
             </motion.h1>
           </div>
 
           <div className="mt-4 lg:col-start-2 lg:col-span-2 lg:mt-0">
-            <p className="max-w-[640px] text-[17px] leading-[1.6] text-ink-primary">{project.intro}</p>
+            <p className="max-w-[640px] tracking-tight text-[17px] leading-[1.6] text-ink-primary">{project.intro}</p>
 
             <div className="mt-6 grid grid-cols-2 gap-x-10 gap-y-5 border-t border-white/5 pt-6 sm:grid-cols-4">
               <MetaField label="Role" values={[project.meta.role]} />
@@ -175,17 +175,6 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
               <MetaField label="Duration" values={[project.meta.timeline]} />
               <MetaField label="Tools" values={project.meta.stack} chips />
             </div>
-
-            {project.metrics && project.metrics.length > 0 && (
-              <div className="mt-5 grid grid-cols-2 gap-x-10 gap-y-5 border-t border-white/5 pt-5 sm:grid-cols-4">
-                {project.metrics.map((m) => (
-                  <div key={m.label}>
-                    <div className="text-[29px] font-bold leading-none text-ink-primary">{m.value}</div>
-                    <div className="mt-2 font-sfmono text-[12px] uppercase tracking-[0.12em] text-ink-muted">{m.label}</div>
-                  </div>
-                ))}
-              </div>
-            )}
 
             {project.meta.links.length > 0 && (
               <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -203,13 +192,24 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
                   whileInView="visible"
                   viewport={{ once: true, amount: 0.9 }}
                   variants={fadeInUp}
-                  className="max-w-[640px] border-t border-white/5 pt-5 text-[16px] leading-relaxed text-ink-secondary"
+                  className="max-w-[640px] tracking-tight border-t border-white/5 pt-5 text-[16px] leading-relaxed text-ink-secondary"
                   data-cursor="text"
                 >
                   {section.body}
                 </motion.p>
               ))}
             </div>
+
+            {project.metrics && project.metrics.length > 0 && (
+              <div className="mt-6 grid grid-cols-2 gap-x-10 gap-y-5 border-t border-white/5 pt-5 sm:grid-cols-4">
+                {project.metrics.map((m) => (
+                  <div key={m.label}>
+                    <div className="text-[29px] font-bold leading-none text-ink-primary">{m.value}</div>
+                    <div className="mt-2 font-sfmono text-[12px] uppercase tracking-[0.12em] text-ink-muted">{m.label}</div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
