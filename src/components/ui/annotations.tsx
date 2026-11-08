@@ -151,16 +151,16 @@ export function RegMark({ className = "" }: { className?: string }) {
 }
 
 /** Scrawled signature that draws itself in. */
-export function Signature({ className = "", ink = "pencil" }: { className?: string; ink?: Ink }) {
+export function Signature({ className = "", ink = "pencil", underline = true }: { className?: string; ink?: Ink; underline?: boolean }) {
+    const paths = ["M6 40 C 10 12, 18 12, 20 38 C 22 14, 30 14, 32 38 C 34 16, 42 16, 44 36 C 48 46, 58 22, 68 26 C 78 30, 60 44, 86 30 C 104 20, 112 36, 126 26 C 134 20, 140 18, 150 22"];
+    if (underline) paths.push("M10 50 C 50 45, 100 47, 152 40");
+
     return (
         <DrawnSvg
             viewBox="0 0 160 60"
             strokeWidth={1.6}
             className={`${inkClass[ink]} ${className}`}
-            paths={[
-                "M6 40 C 10 12, 18 12, 20 38 C 22 14, 30 14, 32 38 C 34 16, 42 16, 44 36 C 48 46, 58 22, 68 26 C 78 30, 60 44, 86 30 C 104 20, 112 36, 126 26 C 134 20, 140 18, 150 22",
-                "M10 50 C 50 45, 100 47, 152 40",
-            ]}
+            paths={paths}
         />
     );
 }

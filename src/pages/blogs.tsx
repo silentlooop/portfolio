@@ -74,6 +74,7 @@ const Blogs = () => {
                         <span className="font-sfmono text-[10px] text-zinc-600">03</span>
                         <Measure className="flex-1" label={`${sortedBlogs.length} post${sortedBlogs.length === 1 ? "" : "s"}`} note="fig. 03 — the archive" />
                     </div>
+                    <Signature underline={false} className="mb-4 h-10 w-32" />
 
                     <div className="relative bg-[#111111] rounded-md p-6 border border-white/10 shadow-sm shadow-white/5">
                         <RegMark className="pointer-events-none absolute -left-7 -top-7 hidden md:block" />
