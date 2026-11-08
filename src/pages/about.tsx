@@ -66,9 +66,9 @@ function TerminalExperience() {
             <div className="space-y-10">
                 {visibleExperiences.length > 0 ? visibleExperiences.map((exp, idx) => (
                     <div key={exp.company}>
-                        <div className="mb-3 flex flex-wrap items-center gap-2 font-sfmono text-[12px] text-zinc-600">
+                        <div className="mb-3 flex flex-wrap items-center gap-2 text-gray-300">
                             <span>{exp.company}</span>
-                            <span className="text-zinc-700">·</span>
+                            <span>·</span>
                             <span>{exp.period}</span>
                         </div>
                         <p className="max-w-[60ch] whitespace-pre-line break-words leading-[1.7] text-gray-300">
