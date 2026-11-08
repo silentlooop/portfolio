@@ -139,64 +139,65 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
           </div>
         </div>
 
-        {/* --- Title + intro --- */}
-        <div className="mt-10">
-          <p className="font-sfmono text-[12px] uppercase tracking-[0.12em] text-ink-muted">{project.category}</p>
-          <motion.h1
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            className="mt-2 text-[28px] font-semibold leading-tight text-ink-primary sm:text-[32px]"
-          >
-            {title}
-          </motion.h1>
-          <p className="mt-4 max-w-[640px] text-[16px] leading-[1.6] text-ink-primary">{project.intro}</p>
-        </div>
-
-        {/* --- Meta --- */}
-        <div className="mt-8 grid grid-cols-2 gap-x-10 gap-y-6 border-t border-white/5 pt-8 sm:grid-cols-4 lg:max-w-[900px]">
-          <MetaField label="Role" values={[project.meta.role]} />
-          <MetaField label="Collaborators" values={project.meta.team} />
-          <MetaField label="Duration" values={[project.meta.timeline]} />
-          <MetaField label="Tools" values={project.meta.stack} />
-        </div>
-
-        {/* --- Metrics --- */}
-        {project.metrics && project.metrics.length > 0 && (
-          <div className="mt-6 grid grid-cols-2 gap-x-10 gap-y-6 border-t border-white/5 pt-6 sm:grid-cols-4 lg:max-w-[900px]">
-            {project.metrics.map((m) => (
-              <div key={m.label}>
-                <div className="text-[28px] font-bold leading-none text-ink-primary">{m.value}</div>
-                <div className="mt-2 font-sfmono text-[11px] uppercase tracking-[0.12em] text-ink-muted">{m.label}</div>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* --- Links --- */}
-        {project.meta.links.length > 0 && (
-          <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:max-w-[600px]">
-            {project.meta.links.map((link) => (
-              <LinkBlock key={link.label} label={link.label} href={link.href} />
-            ))}
-          </div>
-        )}
-
-        {/* --- Sections --- */}
-        <div className="mt-10 space-y-8">
-          {project.sections.map((section) => (
-            <motion.p
-              key={section.heading}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.9 }}
-              variants={fadeInUp}
-              className="max-w-[640px] border-t border-white/5 pt-8 text-[15px] leading-relaxed text-ink-secondary"
-              data-cursor="text"
+        {/* --- Title (left) + intro/meta/links/sections (pushed right), joseph.cv-style split --- */}
+        <div className="mt-10 grid grid-cols-1 gap-x-10 lg:grid-cols-3">
+          <div>
+            <p className="font-sfmono text-[12px] uppercase tracking-[0.12em] text-ink-muted">{project.category}</p>
+            <motion.h1
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="mt-2 text-[28px] font-semibold leading-tight text-ink-primary sm:text-[32px]"
             >
-              {section.body}
-            </motion.p>
-          ))}
+              {title}
+            </motion.h1>
+          </div>
+
+          <div className="mt-4 lg:col-start-2 lg:col-span-2 lg:mt-0">
+            <p className="max-w-[640px] text-[16px] leading-[1.6] text-ink-primary">{project.intro}</p>
+
+            <div className="mt-8 grid grid-cols-2 gap-x-10 gap-y-6 border-t border-white/5 pt-8 sm:grid-cols-4">
+              <MetaField label="Role" values={[project.meta.role]} />
+              <MetaField label="Collaborators" values={project.meta.team} />
+              <MetaField label="Duration" values={[project.meta.timeline]} />
+              <MetaField label="Tools" values={project.meta.stack} />
+            </div>
+
+            {project.metrics && project.metrics.length > 0 && (
+              <div className="mt-6 grid grid-cols-2 gap-x-10 gap-y-6 border-t border-white/5 pt-6 sm:grid-cols-4">
+                {project.metrics.map((m) => (
+                  <div key={m.label}>
+                    <div className="text-[28px] font-bold leading-none text-ink-primary">{m.value}</div>
+                    <div className="mt-2 font-sfmono text-[11px] uppercase tracking-[0.12em] text-ink-muted">{m.label}</div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {project.meta.links.length > 0 && (
+              <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                {project.meta.links.map((link) => (
+                  <LinkBlock key={link.label} label={link.label} href={link.href} />
+                ))}
+              </div>
+            )}
+
+            <div className="mt-10 space-y-8">
+              {project.sections.map((section) => (
+                <motion.p
+                  key={section.heading}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, amount: 0.9 }}
+                  variants={fadeInUp}
+                  className="max-w-[640px] border-t border-white/5 pt-8 text-[15px] leading-relaxed text-ink-secondary"
+                  data-cursor="text"
+                >
+                  {section.body}
+                </motion.p>
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* --- Next project --- */}
