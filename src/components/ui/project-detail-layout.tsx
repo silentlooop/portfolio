@@ -50,7 +50,7 @@ function MetaField({ label, values, chips = false }: { label: string; values: st
           {values.map((v) => (
             <span
               key={v}
-              className="rounded-md border border-[#fde047]/40 bg-[#fde047]/[0.06] px-3 py-1.5 font-sfmono text-[13px] text-[#fde047]"
+              className="rounded-none border border-[#fde047]/40 bg-[#fde047]/[0.06] px-3 py-1.5 font-sfmono text-[13px] text-[#fde047]"
             >
               {v}
             </span>

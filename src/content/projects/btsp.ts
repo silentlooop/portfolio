@@ -7,6 +7,7 @@ export const btsp: ProjectContent = {
   description: "Accurately segmenting tumor regions from MRI scans to assist in automated diagnosis.",
   intro:
     "Accurately segmenting tumor regions from MRI scans to assist in automated diagnosis, built for the BioX-WNCC Competition.",
+  cover: { type: "image", src: "/btsp.png", width: 1920, height: 1080 },
   hero: { type: "image", src: "/btsp.png", width: 1920, height: 1080 },
   meta: {
     role: "ML Engineer",

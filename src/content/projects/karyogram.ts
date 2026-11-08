@@ -7,6 +7,7 @@ export const karyogram: ProjectContent = {
   description: "Automated segmentation and classification of chromosome pairs.",
   intro:
     "Automated segmentation and classification of chromosome pairs, built to speed up a tedious, error-prone manual process for geneticists.",
+  cover: { type: "image", src: "/karyo.png", width: 850, height: 496 },
   hero: { type: "image", src: "/karyo.png", width: 850, height: 496 },
   meta: {
     role: "CV Engineer",

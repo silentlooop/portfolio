@@ -7,6 +7,7 @@ export const probabilisticGraphicModel: ProjectContent = {
   description: "A focused consumer-facing interface built to make probabilistic ideas easier to explore.",
   intro:
     "A focused consumer-facing interface built to make probabilistic ideas easier to explore, without hiding the reasoning behind technical notation.",
+  cover: { type: "image", src: "/soc.jpeg", width: 736, height: 736 },
   hero: { type: "image", src: "/soc.jpeg", width: 736, height: 736 },
   meta: {
     role: "Developer",

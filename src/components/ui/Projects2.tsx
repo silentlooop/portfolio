@@ -7,6 +7,11 @@ import { TerminalHint } from "./terminal-hint";
 import { EFFECTS } from "../../lib/effects-config";
 import { playReelClick } from "../../lib/sound";
 import { navigateWithTransition } from "../../lib/view-transition-nav";
+import { projects } from "../../content/projects";
+
+function coverOf(slug: string) {
+  return projects.find((p) => p.slug === slug)!.cover;
+}
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -144,10 +149,10 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({ highlightedSlug = null, onH
       slug="btsp"
       title="BTSP"
       category="BIOX-WNCC PROJECT"
-      imageSrc="/btsp.png"
+      imageSrc={coverOf("btsp").src}
       imageAlt="btsp"
-      width={1920}
-      height={1080}
+      width={coverOf("btsp").width}
+      height={coverOf("btsp").height}
       isHighlighted={highlightedSlug === "btsp"}
       onHover={onHoverProject}
     />,
@@ -156,10 +161,10 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({ highlightedSlug = null, onH
       slug="probabilistic-graphic-model"
       title="PROBABILISTIC GRAPHIC MODEL"
       category="CONSUMER PRODUCT"
-      imageSrc="/soc.jpeg"
+      imageSrc={coverOf("probabilistic-graphic-model").src}
       imageAlt="currency converter"
-      width={736}
-      height={736}
+      width={coverOf("probabilistic-graphic-model").width}
+      height={coverOf("probabilistic-graphic-model").height}
       isHighlighted={highlightedSlug === "probabilistic-graphic-model"}
       onHover={onHoverProject}
     />,
@@ -168,11 +173,11 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({ highlightedSlug = null, onH
       slug="resume-rater"
       title="RESUME RATER"
       category="AI MODEL"
-      imageSrc="/aic2.png"
+      imageSrc={coverOf("resume-rater").src}
       mediaType="image"
       imageAlt="resume rater"
-      width={1080}
-      height={1080}
+      width={coverOf("resume-rater").width}
+      height={coverOf("resume-rater").height}
       isHighlighted={highlightedSlug === "resume-rater"}
       onHover={onHoverProject}
     />,
@@ -181,10 +186,10 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({ highlightedSlug = null, onH
       slug="wids-25"
       title="WiDS'25"
       category="TRADING ALGORITHM"
-      imageSrc="/dqn2.png"
+      imageSrc={coverOf("wids-25").src}
       imageAlt="wids"
-      width={2696}
-      height={574}
+      width={coverOf("wids-25").width}
+      height={coverOf("wids-25").height}
       isHighlighted={highlightedSlug === "wids-25"}
       onHover={onHoverProject}
     />,
@@ -193,7 +198,7 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({ highlightedSlug = null, onH
       slug="instigpt"
       title="InstiGPT"
       category="AIC NLP PROJECT"
-      imageSrc="/instigpt copy.mp4"
+      imageSrc={coverOf("instigpt").src}
       imageAlt="instigpt"
       mediaType="video"
       isHighlighted={highlightedSlug === "instigpt"}
@@ -204,10 +209,10 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({ highlightedSlug = null, onH
       slug="karyogram"
       title="Karyogram"
       category="MEDICAL IMAGING PROJECT"
-      imageSrc="/karyo.png"
+      imageSrc={coverOf("karyogram").src}
       imageAlt="karyogram"
-      width={850}
-      height={496}
+      width={coverOf("karyogram").width}
+      height={coverOf("karyogram").height}
       isHighlighted={highlightedSlug === "karyogram"}
       onHover={onHoverProject}
     />,

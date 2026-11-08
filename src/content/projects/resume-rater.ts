@@ -7,6 +7,7 @@ export const resumeRater: ProjectContent = {
   description: "An AI agent that quantifies resume quality based on job descriptions.",
   intro:
     "An AI agent that quantifies resume quality based on job descriptions, built to make hiring screens more objective and consistent.",
+  cover: { type: "image", src: "/aic2.png", width: 1080, height: 1080 },
   hero: { type: "image", src: "/aic2.png", width: 1080, height: 1080 },
   meta: {
     role: "AI Developer",

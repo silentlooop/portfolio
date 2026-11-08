@@ -24,6 +24,9 @@ export type ProjectContent = {
   description: string;
   /** 3-4 line intro paragraph on the detail page. */
   intro: string;
+  /** Thumbnail shown on the projects grid card. */
+  cover: { type: "image" | "video"; src: string; width?: number; height?: number };
+  /** Large media shown on the project detail page. */
   hero: { type: "image" | "video"; src: string; poster?: string; width?: number; height?: number; heroBg?: string };
   meta: {
     role: string;
