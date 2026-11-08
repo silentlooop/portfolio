@@ -1,8 +1,13 @@
 type WindowDotsProps = {
-  /** When provided, the red dot becomes a real close button. */
+  /** Red dot action. Alias of onRed, kept for existing call sites. */
   onClose?: () => void;
+  onRed?: () => void;
+  onYellow?: () => void;
+  onGreen?: () => void;
   /** All dots render flat grey, like an unfocused macOS window. */
   unfocused?: boolean;
+  /** 12px/8px-gap (default) or 8px/4px-gap for compact chrome like a notification popup. */
+  size?: "md" | "sm";
   className?: string;
 };
 
@@ -12,11 +17,20 @@ const DOTS = [
   { glyph: "+", label: "Zoom", from: "#5FD86A", to: "#2FA83C" },
 ] as const;
 
+const SIZE_CLASS = {
+  md: { gap: "gap-2", dot: "h-3 w-3", glyph: "text-[8px]" },
+  sm: { gap: "gap-1", dot: "h-2 w-2", glyph: "text-[6px]" },
+} as const;
+
 /** Shared glossy macOS/iOS-style window dots. Pure CSS, no images. */
-export function WindowDots({ onClose, unfocused = false, className = "" }: WindowDotsProps) {
+export function WindowDots({ onClose, onRed, onYellow, onGreen, unfocused = false, size = "md", className = "" }: WindowDotsProps) {
+  const actions = [onRed ?? onClose, onYellow, onGreen];
+  const sizing = SIZE_CLASS[size];
+
   return (
-    <div className={`group/dots flex items-center gap-2 ${className}`}>
+    <div className={`group/dots flex items-center ${sizing.gap} ${className}`}>
       {DOTS.map((dot, i) => {
+        const action = actions[i];
         const style: React.CSSProperties = unfocused
           ? { background: "#4A4A4A" }
           : {
@@ -36,7 +50,7 @@ export function WindowDots({ onClose, unfocused = false, className = "" }: Windo
             {!unfocused && (
               <span
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-0 hidden items-center justify-center text-[8px] font-bold leading-none text-black/55 group-hover/dots:flex"
+                className={`pointer-events-none absolute inset-0 hidden items-center justify-center ${sizing.glyph} font-bold leading-none text-black/55 group-hover/dots:flex`}
               >
                 {dot.glyph}
               </span>
@@ -44,20 +58,20 @@ export function WindowDots({ onClose, unfocused = false, className = "" }: Windo
           </>
         );
 
-        return i === 0 && onClose ? (
+        return action ? (
           <button
             key={dot.label}
             type="button"
             aria-label={dot.label}
-            onClick={onClose}
+            onClick={action}
             data-cursor="link"
-            className="relative block h-3 w-3 shrink-0 rounded-full"
+            className={`relative block shrink-0 rounded-full ${sizing.dot}`}
             style={style}
           >
             {inner}
           </button>
         ) : (
-          <span key={dot.label} aria-hidden="true" className="relative block h-3 w-3 shrink-0 rounded-full" style={style}>
+          <span key={dot.label} aria-hidden="true" className={`relative block shrink-0 rounded-full ${sizing.dot}`} style={style}>
             {inner}
           </span>
         );

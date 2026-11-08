@@ -3,7 +3,7 @@ export const EFFECTS = {
   intro: true,
   grain: false,
   timecode: true,
-  customCursor: true,
+  customCursor: false,
   smoothScroll: true,
   scrollReveal: true,
   titleScramble: true,

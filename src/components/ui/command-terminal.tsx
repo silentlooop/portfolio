@@ -226,23 +226,12 @@ export function CommandTerminal() {
                 >
                     <div className="group relative overflow-hidden rounded-md border border-white/10 bg-[#141414]/95 shadow-2xl shadow-black/50 backdrop-blur-sm">
                         <div className="flex items-center gap-1.5 border-b border-white/5 bg-[#111111] px-3 py-2">
-                            <div className="group/dots flex items-center gap-1">
-                                {[
-                                    { color: "bg-red-500", glyph: "×", label: "Dismiss tip", action: () => setShowTip(false) },
-                                    { color: "bg-yellow-500", glyph: "−", label: "Minimize tip", action: () => setShowTip(false) },
-                                    { color: "bg-green-500", glyph: "+", label: "Open terminal", action: () => setOpen(true) },
-                                ].map((dot) => (
-                                    <button
-                                        key={dot.label}
-                                        type="button"
-                                        aria-label={dot.label}
-                                        onClick={dot.action}
-                                        className={`flex h-2 w-2 items-center justify-center rounded-full ${dot.color} text-[6px] font-bold leading-none text-black/60 transition-[filter] hover:brightness-110`}
-                                    >
-                                        <span aria-hidden="true" className="opacity-0 transition-opacity group-hover/dots:opacity-100">{dot.glyph}</span>
-                                    </button>
-                                ))}
-                            </div>
+                            <WindowDots
+                                size="sm"
+                                onRed={() => setShowTip(false)}
+                                onYellow={() => setShowTip(false)}
+                                onGreen={() => setOpen(true)}
+                            />
                             <span className="ml-2 text-[10px] uppercase tracking-wider text-zinc-600">tip</span>
                         </div>
                         <button
