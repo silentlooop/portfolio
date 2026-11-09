@@ -1,14 +1,14 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ProjectDetail from "./pages/project-detail";
 import Shaped from "./pages/shaped";
 import Blogs from "./pages/blogs";
 import NotFound from "./pages/not-found";
 import { CommandTerminal } from "./components/ui/command-terminal";
-import { Intro } from "./components/ui/intro";
 import { FilmGrain } from "./components/ui/film-grain";
 import { Timecode } from "./components/ui/timecode";
 import { CustomCursor } from "./components/ui/custom-cursor";
+import { GlobalClickSound } from "./components/ui/global-click-sound";
 import { Footer } from "./components/ui/footer";
 import { useSmoothScroll } from "./lib/smooth-scroll";
 import { useFooterHeight } from "./lib/use-footer-height";
@@ -17,8 +17,7 @@ import { usePrefersReducedMotion } from "./components/ui/use-terminal-effects";
 import App from "./App";
 
 export default function Root() {
-  const [introDone, setIntroDone] = useState(false);
-  useSmoothScroll(introDone);
+  useSmoothScroll(true);
   const mainRef = useRef<HTMLElement>(null);
   const footerRef = useRef<HTMLElement>(null);
   const footerHeight = useFooterHeight(footerRef);
@@ -36,31 +35,27 @@ export default function Root() {
   }, []);
 
   return (
-    <>
-      {!introDone && <Intro onDone={() => setIntroDone(true)} />}
-      {introDone && (
-        <BrowserRouter>
-          <FilmGrain />
-          <Timecode />
-          <CustomCursor />
-          <div className="cursor-default top-5">
-            <main
-              ref={mainRef}
-              className="relative z-10 min-h-screen border-b border-white/[0.08] bg-[#111111] shadow-[0_24px_48px_rgba(0,0,0,0.5)] md:mb-[var(--footer-h)]"
-            >
-              <Routes>
-                <Route path="/" element={<App />} />
-                <Route path="/projects/:slug" element={<ProjectDetail />} />
-                <Route path="/shaped" element={<Shaped />} />
-                <Route path="/blogs" element={<Blogs />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </main>
-            <Footer ref={footerRef} progress={revealProgress} reducedMotion={prefersReducedMotion} />
-            <CommandTerminal />
-          </div>
-        </BrowserRouter>
-      )}
-    </>
+    <BrowserRouter>
+      <FilmGrain />
+      <Timecode />
+      <CustomCursor />
+      <GlobalClickSound />
+      <div className="cursor-default top-5">
+        <main
+          ref={mainRef}
+          className="relative z-10 min-h-screen border-b border-white/[0.08] bg-[#111111] shadow-[0_24px_48px_rgba(0,0,0,0.5)] md:mb-[var(--footer-h)]"
+        >
+          <Routes>
+            <Route path="/" element={<App />} />
+            <Route path="/projects/:slug" element={<ProjectDetail />} />
+            <Route path="/shaped" element={<Shaped />} />
+            <Route path="/blogs" element={<Blogs />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </main>
+        <Footer ref={footerRef} progress={revealProgress} reducedMotion={prefersReducedMotion} />
+        <CommandTerminal />
+      </div>
+    </BrowserRouter>
   );
 }

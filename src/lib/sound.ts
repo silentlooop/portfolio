@@ -2,12 +2,11 @@ import { EFFECTS } from "./effects-config";
 
 const MUTE_KEY = "sound-muted";
 
-type SoundName = "tick" | "reel" | "hum";
+type SoundName = "tick" | "click";
 
 const SOURCES: Record<SoundName, string> = {
-  tick: "/sounds/typewriter-tick.mp3",
-  reel: "/sounds/reel-click.mp3",
-  hum: "/sounds/crt-hum.mp3",
+  tick: "/sounds/tick.wav",
+  click: "/sounds/click.wav",
 };
 
 let howlerModule: typeof import("howler") | null = null;
@@ -44,20 +43,12 @@ async function getSound(name: SoundName) {
   if (instances.has(name)) return instances.get(name)!;
 
   const { Howl } = await getHowler();
-  const howl = new Howl({ src: [SOURCES[name]], volume: name === "hum" ? 0.15 : 0.25, preload: true });
+  const howl = new Howl({ src: [SOURCES[name]], volume: 0.25, preload: true });
   instances.set(name, howl);
   return howl;
 }
 
-/** Call this from a user gesture (keydown/click) to satisfy browser autoplay policies. */
-export async function unlockAudio() {
-  if (!EFFECTS.sound) return;
-  const { Howler } = await getHowler();
-  if (Howler.ctx && Howler.ctx.state === "suspended") {
-    await Howler.ctx.resume().catch(() => {});
-  }
-}
-
+/** Plays a single key-tap sound; call once per character as text types/is typed. Throttled so rapid keystrokes don't pile up overlapping playback. */
 export async function playTick() {
   if (!EFFECTS.sound || isMuted()) return;
   const now = performance.now();
@@ -67,26 +58,8 @@ export async function playTick() {
   sound?.play();
 }
 
-export async function playReelClick() {
+export async function playClick() {
   if (!EFFECTS.sound || isMuted()) return;
-  const sound = await getSound("reel");
+  const sound = await getSound("click");
   sound?.play();
-}
-
-let humId: number | undefined;
-
-export async function startHum() {
-  if (!EFFECTS.sound || isMuted()) return;
-  const sound = await getSound("hum");
-  if (!sound) return;
-  sound.loop(true);
-  humId = sound.play();
-}
-
-export async function stopHum() {
-  const sound = await getSound("hum");
-  if (sound && humId !== undefined) {
-    sound.stop(humId);
-    humId = undefined;
-  }
 }

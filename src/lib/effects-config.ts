@@ -1,6 +1,5 @@
 /** Master on/off switches for the interaction layer. Flip any of these to disable an effect. */
 export const EFFECTS = {
-  intro: true,
   grain: false,
   timecode: true,
   customCursor: false,

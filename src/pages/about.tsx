@@ -18,17 +18,14 @@ import { WindowDots } from "../components/ui/window-dots";
 
 // Terminal-style Experience Section
 function TerminalExperience() {
-    const [activeType, setActiveType] = useState<"college" | "industry">("college");
     const experiences = [
         {
-            type: "college" as const,
             company: "AICommunity IITB",
             period: "2025 – 2026",
             role: "Junior Developer",
             desc: "Working with a small team of 8 members to build AI products for insti and freelance projects. Focusing on NLP pipelines and generative models."
         },
         {
-            type: "college" as const,
             company: "Techfest",
             period: "2025 – 2026",
             role: "Graphic Designer",
@@ -36,45 +33,31 @@ function TerminalExperience() {
         }
     ];
 
-    const visibleExperiences = experiences.filter((experience) => experience.type === activeType);
-    const categories = [
-        { key: "college" as const, hint: "$ make learn && make ship" },
-        { key: "industry" as const, hint: "$ hire manthan vacancy=open" },
-    ];
-
     return (
         <div className="w-full max-w-content mx-auto font-mono text-[15px] text-ink-secondary">
-            <div role="tablist" aria-label="Experience categories" className="mb-8 flex items-center gap-6 text-[12px] font-sfmono uppercase tracking-tight">
-                {categories.map((cat) => {
-                    const isActive = activeType === cat.key;
-                    return (
-                        <button
-                            key={cat.key}
-                            type="button"
-                            role="tab"
-                            aria-selected={isActive}
-                            onClick={() => setActiveType(cat.key)}
-                            className={`relative transition-colors ${isActive ? "text-zinc-200" : "text-zinc-600 hover:text-zinc-400"}`}
-                        >
-                            {cat.key}
-                            <TerminalHint text={cat.hint} placement="below-start" />
-                        </button>
-                    );
-                })}
-            </div>
-
-            <div className="space-y-10">
-                {visibleExperiences.length > 0 ? visibleExperiences.map((exp, idx) => (
-                    <div key={exp.company}>
-                        <div className="mb-3 flex flex-wrap items-center gap-2 text-base text-ink-secondary">
-                            <span>{exp.company}</span>
-                            <span>·</span>
-                            <span>{exp.period}</span>
-                        </div>
-                        <p className="max-w-[60ch] whitespace-pre-line break-words text-[15px] leading-relaxed text-ink-secondary">
-                            {exp.role} — {exp.desc}
+            <div>
+                {experiences.length > 0 ? experiences.map((exp, idx) => (
+                    <div key={exp.company} className="flex gap-4 sm:gap-6">
+                        <p className="w-14 shrink-0 pt-0.5 text-right text-[10px] uppercase leading-snug tracking-[0.1em] text-zinc-600 sm:w-24 sm:text-xs sm:tracking-[0.15em]">
+                            {exp.period}
                         </p>
-                        {idx !== visibleExperiences.length - 1 && <div className="mt-8 border-b border-white/10" />}
+
+                        <div className="relative flex w-3 shrink-0 flex-col items-center">
+                            <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-zinc-500" />
+                            {idx !== experiences.length - 1 && (
+                                <span className="mt-2 w-px flex-1 bg-white/10" />
+                            )}
+                        </div>
+
+                        <div className={`min-w-0 flex-1 ${idx !== experiences.length - 1 ? "pb-20 sm:pb-24" : ""}`}>
+                            <h3 className="text-2xl font-bold tracking-tight text-ink-primary sm:text-[28px]">
+                                {exp.company}
+                            </h3>
+                            <p className="mt-1 text-[17px] text-zinc-400">{exp.role}</p>
+                            <p className="mt-4 max-w-[60ch] whitespace-pre-line break-words text-base leading-relaxed text-ink-secondary">
+                                {exp.desc}
+                            </p>
+                        </div>
                     </div>
                 )) : (
                     <div className="flex items-center gap-2 text-sm text-zinc-500">

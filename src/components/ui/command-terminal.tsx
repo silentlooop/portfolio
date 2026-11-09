@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { projects } from "../../content/projects";
 import { TerminalHint } from "./terminal-hint";
 import { WindowDots } from "./window-dots";
+import { playTick } from "../../lib/sound";
 
 // Fire this from anywhere to open the terminal, e.g. a footer button.
 export const OPEN_TERMINAL_EVENT = "open-command-terminal";
@@ -340,7 +341,10 @@ export function CommandTerminal() {
                                     <input
                                         ref={inputRef}
                                         value={input}
-                                        onChange={(e) => setInput(e.target.value)}
+                                        onChange={(e) => {
+                                            setInput(e.target.value);
+                                            playTick();
+                                        }}
                                         onKeyDown={onInputKeyDown}
                                         aria-label="Terminal command"
                                         autoComplete="off"

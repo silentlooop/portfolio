@@ -5,7 +5,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SectionReveal } from "./terminal-effects";
 import { TerminalHint } from "./terminal-hint";
 import { EFFECTS } from "../../lib/effects-config";
-import { playReelClick } from "../../lib/sound";
 import { navigateWithTransition } from "../../lib/view-transition-nav";
 import { projects } from "../../content/projects";
 
@@ -90,10 +89,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       id={`project-${slug}`}
       data-project-slug={slug}
       data-cursor="view"
-      onMouseEnter={() => {
-        playReelClick();
-        onHover(slug);
-      }}
+      onMouseEnter={() => onHover(slug)}
       onMouseLeave={() => onHover(null)}
       className="group/card block mb-4 scroll-mt-28 break-inside-avoid bg-[#111111] transition-opacity duration-500 ease-in-out opacity-100 hover:opacity-75 relative px-0.5 py-0.5"
       style={{

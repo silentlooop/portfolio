@@ -16,13 +16,14 @@ type HomeRailProps = {
 export function HomeRail({ activeSlug, onHoverIndex, onSelectIndex }: HomeRailProps) {
   return (
     <aside className="mb-10 lg:sticky lg:top-24 lg:mb-0 lg:h-fit">
-      <div className="space-y-6 font-sfmono">
+      <div className="space-y-8 font-sfmono">
         <div>
-          <h1 className="text-2xl font-bold text-ink-primary">Manthan</h1>
-          <p className="mt-1 text-base text-ink-secondary">ML engineer · IIT Bombay</p>
+          <p className="mb-2 text-xs uppercase tracking-[0.2em] text-[#fde047]">$ whoami</p>
+          <h1 className="text-4xl font-bold tracking-tight text-ink-primary lg:text-5xl">manthan</h1>
+          <p className="mt-2 text-base text-ink-secondary">ML engineer · IIT Bombay</p>
         </div>
 
-        <p className="text-[15px] leading-relaxed text-ink-secondary">
+        <p className="max-w-[42ch] text-[16px] leading-relaxed text-ink-primary/90">
           I build where math meets machinery — models that learn, pipelines that ship, and interfaces
           people actually enjoy using. Currently deep in diffusion models, watching structure emerge
           from noise.
@@ -30,7 +31,7 @@ export function HomeRail({ activeSlug, onHoverIndex, onSelectIndex }: HomeRailPr
 
         <nav
           aria-label="Projects index"
-          className="flex gap-4 overflow-x-auto border-t border-white/5 pt-5 text-base lg:flex-col lg:gap-1.5 lg:overflow-visible"
+          className="flex gap-4 overflow-x-auto border-t border-white/10 pt-5 text-sm text-ink-muted lg:flex-col lg:gap-1.5 lg:overflow-visible"
         >
           {projects.map((project, i) => {
             const isActive = activeSlug === project.slug;
