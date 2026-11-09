@@ -51,7 +51,7 @@ export function MediaFrame({ item, aspect = "aspect-video" }: { item: MediaItem;
   };
 
   return (
-    <div className={`relative ${aspect} w-full overflow-hidden rounded-lg border border-edge bg-[#161616] p-4`}>
+    <div className={`relative ${aspect} w-full overflow-hidden rounded-sm border border-edge bg-[#161616] p-3 sm:p-4`}>
       <div
         aria-hidden="true"
         className={`absolute inset-4 rounded bg-white/[0.03] transition-opacity duration-300 ${

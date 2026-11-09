@@ -86,7 +86,7 @@ function LinkBlock({ label, href }: { label: string; href: string }) {
 function ProjectHeader({ onClose }: { onClose: () => void }) {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-5 py-3 md:px-12 md:py-4 bg-[#111111]/80 backdrop-blur-md border-b border-white/5">
-      <Link to="/" className="relative z-50 text-white font-sfmono text-base md:text-lg font-bold tracking-tight hover:opacity-80 transition-opacity">
+      <Link to="/" data-no-click-sound="true" className="relative z-50 text-white font-sfmono text-base md:text-lg font-bold tracking-tight hover:opacity-80 transition-opacity">
         <ScrambleText text="silentlooop" /><span className="terminal-cursor text-zinc-500">_</span>
       </Link>
       <button

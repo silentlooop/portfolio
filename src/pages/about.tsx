@@ -37,8 +37,8 @@ function TerminalExperience() {
         <div className="w-full max-w-content mx-auto font-mono text-[15px] text-ink-secondary">
             <div>
                 {experiences.length > 0 ? experiences.map((exp, idx) => (
-                    <div key={exp.company} className="flex gap-4 sm:gap-6">
-                        <p className="w-14 shrink-0 pt-0.5 text-right text-[10px] uppercase leading-snug tracking-[0.1em] text-zinc-600 sm:w-24 sm:text-xs sm:tracking-[0.15em]">
+                    <div key={exp.company} className="flex gap-3 pt-5 first:pt-0 sm:gap-6">
+                        <p className="w-16 shrink-0 pt-1 text-right text-[10px] uppercase leading-snug tracking-[0.1em] text-zinc-600 sm:w-28 sm:text-xs sm:tracking-[0.15em]">
                             {exp.period}
                         </p>
 
@@ -50,11 +50,11 @@ function TerminalExperience() {
                         </div>
 
                         <div className={`min-w-0 flex-1 ${idx !== experiences.length - 1 ? "pb-20 sm:pb-24" : ""}`}>
-                            <h3 className="text-2xl font-bold tracking-tight text-ink-primary sm:text-[28px]">
+                            <h3 className="text-xl font-bold tracking-[-0.02em] text-ink-primary sm:text-[28px]">
                                 {exp.company}
                             </h3>
-                            <p className="mt-1 text-[17px] text-zinc-400">{exp.role}</p>
-                            <p className="mt-4 max-w-[60ch] whitespace-pre-line break-words text-base leading-relaxed text-ink-secondary">
+                            <p className="mt-2 text-[14px] uppercase tracking-wide text-zinc-400 sm:text-[15px]">{exp.role}</p>
+                            <p className="mt-3 max-w-[60ch] whitespace-pre-line break-words text-[14px] leading-[1.75] text-ink-secondary sm:text-base">
                                 {exp.desc}
                             </p>
                         </div>
@@ -220,21 +220,24 @@ function NavBar() {
         const element = document.getElementById(id);
         if (element) {
             e.preventDefault();
-            element.scrollIntoView({ behavior: 'smooth' });
+            const headerOffset = window.matchMedia("(min-width: 768px)").matches ? 72 : 64;
+            const targetTop = element.getBoundingClientRect().top + window.scrollY - headerOffset;
+            window.history.replaceState(null, "", `/#${id}`);
+            window.scrollTo({ top: Math.max(0, targetTop), behavior: "smooth" });
         }
     };
 
     return (
         <>
-            <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-5 py-3 md:px-6 md:py-4 bg-[#111111]/80 backdrop-blur-md border-b border-white/5 transition-all duration-300">
+            <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between border-b border-white/5 bg-[#111111]/85 px-4 py-3 backdrop-blur-md transition-all duration-300 sm:px-5 md:px-8 md:py-4">
                 {/* Logo */}
-                <a href="/" className="text-white font-sfmono text-base md:text-lg font-bold tracking-tight hover:opacity-80 transition-opacity z-50 relative">
+                <a href="/" data-no-click-sound="true" className="text-white font-sfmono text-base md:text-lg font-bold tracking-tight hover:opacity-80 transition-opacity z-50 relative">
                     <ScrambleText text="silentlooop" /><span className="terminal-cursor text-zinc-500">_</span>
                     <TerminalHint text="$ cd ~/home-sweet-home" placement="below" />
                 </a>
 
                 {/* Desktop Links */}
-                <div className="hidden md:flex items-center gap-8 text-sm font-sfmono text-gray-400">
+                <div className="hidden items-center gap-7 text-[13px] font-sfmono text-gray-400 md:flex">
                     <a href="/#work" onClick={(e) => scrollToSection(e, 'work')} className={`relative transition-colors cursor-pointer ${isActive("/") ? "text-[#fde047]" : "hover:text-white"}`}>projects<TerminalHint text="$ ls ./proof-i-dont-just-talk" placement="below" /></a>
                     <a href="/#experience" onClick={(e) => scrollToSection(e, 'experience')} className="relative transition-colors cursor-pointer hover:text-white">experience<TerminalHint text="$ cat ./where-ive-worked" placement="below" /></a>
                     <a href="/blogs" className={`relative transition-colors cursor-pointer ${isActive("/blogs") ? "text-[#fde047]" : "hover:text-white"}`}>blogs<TerminalHint text="$ cat ./thoughts uncompiled" placement="below" /></a>

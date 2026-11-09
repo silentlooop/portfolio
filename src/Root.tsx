@@ -8,7 +8,6 @@ import { CommandTerminal } from "./components/ui/command-terminal";
 import { FilmGrain } from "./components/ui/film-grain";
 import { Timecode } from "./components/ui/timecode";
 import { CustomCursor } from "./components/ui/custom-cursor";
-import { GlobalClickSound } from "./components/ui/global-click-sound";
 import { Footer } from "./components/ui/footer";
 import { useSmoothScroll } from "./lib/smooth-scroll";
 import { useFooterHeight } from "./lib/use-footer-height";
@@ -39,7 +38,6 @@ export default function Root() {
       <FilmGrain />
       <Timecode />
       <CustomCursor />
-      <GlobalClickSound />
       <div className="cursor-default top-5">
         <main
           ref={mainRef}

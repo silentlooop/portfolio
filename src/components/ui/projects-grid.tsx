@@ -91,11 +91,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       data-cursor="view"
       onMouseEnter={() => onHover(slug)}
       onMouseLeave={() => onHover(null)}
-      className="group/card block mb-4 scroll-mt-28 break-inside-avoid bg-[#111111] transition-opacity duration-500 ease-in-out opacity-100 hover:opacity-75 relative px-0.5 py-0.5"
-      style={{
-        fontFamily:
-          '"SF Mono", "Space Mono", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", monospace',
-      }}
+      className="group/card relative mb-4 block break-inside-avoid bg-[#111111] px-0.5 py-0.5 opacity-100 transition-opacity duration-500 ease-in-out hover:opacity-75"
     >
       <TerminalHint text={`$ open ./projects/${slug}`} />
       <article
@@ -125,9 +121,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           )}
         </div>
       </article>
-      <div className="pt-2 pb-3 px-3">
-        <div className="font-semibold uppercase text-white text-base">{title}</div>
-        <div className="text-zinc-500 text-xs mt-[2px]">{category}</div>
+      <div className="px-3 pb-3 pt-2">
+        <div className="text-base font-semibold uppercase text-white">{title}</div>
+        <div className="mt-[2px] text-xs text-zinc-500">{category}</div>
       </div>
     </Link>
   );
@@ -215,7 +211,7 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({ highlightedSlug = null, onH
   ];
 
   return (
-    <SectionReveal className="columns-1 sm:columns-2 md:columns-2 gap-4 group/grid" itemClassName="break-inside-avoid">
+    <SectionReveal className="group/grid columns-1 gap-4 sm:columns-2 md:columns-2" itemClassName="break-inside-avoid">
       {projectCards}
     </SectionReveal>
   );

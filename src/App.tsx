@@ -90,7 +90,7 @@ function App() {
       <div className="flex flex-col bg-[#111111] text-gray-200 scale-100 relative">
 
         {/* Rail + projects */}
-        <div id="work" className="relative z-15 mx-auto w-full max-w-[1440px] px-5 pt-28 md:px-10">
+        <div id="work" className="relative z-15 mx-auto w-full max-w-[1440px] px-4 pt-24 md:px-10 md:pt-28">
           <SectionPrompt command="cd ./selected-work" className="mb-6 lg:hidden" />
           <div className="lg:grid lg:grid-cols-[280px_1fr] lg:gap-12">
             <HomeRail activeSlug={highlightedSlug} onHoverIndex={setHoveredSlug} onSelectIndex={scrollToProject} />
@@ -99,13 +99,13 @@ function App() {
         </div>
 
         {/* Experience */}
-        <div id="experience" className="relative z-15 mx-auto mt-24 w-full max-w-[1440px] px-5 pb-20 md:px-10 md:pb-0">
+        <div id="experience" className="relative z-15 mx-auto mt-16 w-full max-w-[1440px] px-4 pb-16 md:mt-24 md:px-10 md:pb-0">
           <SectionPrompt command="cd ./deep-dive/experience" className="mb-8" startOnMount />
           <TerminalExperience />
         </div>
 
         {/* Sign-off */}
-        <div aria-hidden="true" className="pointer-events-none mx-auto mt-14 flex w-full max-w-[1440px] items-end justify-end px-5 pb-16 md:px-10 md:pb-20">
+        <div aria-hidden="true" className="pointer-events-none mx-auto mt-10 flex w-full max-w-[1440px] items-end justify-end px-4 pb-12 md:mt-14 md:px-10 md:pb-20">
           <div className="text-right">
             <Signature className="ml-auto h-11 w-32 md:h-14 md:w-40" />
             <Note rotate={-2} size="sm" ink="faint">

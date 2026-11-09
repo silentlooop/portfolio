@@ -118,6 +118,17 @@
       animation: none;
       opacity: 1;
     }
+
+    @media (max-width: 639px) {
+      body {
+        font-size: 13px;
+      }
+
+      .font-sfmono,
+      .font-mono {
+        letter-spacing: -0.01em;
+      }
+    }
   }
 }
 
@@ -150,4 +161,3 @@
     }
   }
 }
-

@@ -7,7 +7,10 @@ export function GlobalClickSound() {
     // The native "click" event only fires for the primary (left) mouse button
     // and for Enter/Space activation on focusable elements — right-click opens
     // a contextmenu event instead, and middle-click fires auxclick.
-    const onClick = () => {
+    const onClick = (event: MouseEvent) => {
+      if (event.target instanceof Element && event.target.closest("[data-no-click-sound]")) {
+        return;
+      }
       playClick();
     };
     window.addEventListener("click", onClick);
