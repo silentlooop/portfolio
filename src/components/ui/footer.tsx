@@ -68,10 +68,6 @@ export const Footer = forwardRef<HTMLElement, FooterProps>(function Footer({ pro
               linkedin ↗
               <TerminalHint text="$ open ./me in-a-blazer" placement="below-start" />
             </a>
-            <a href="/blogs" data-cursor="link" className="group relative w-fit transition-colors hover:text-ink-primary">
-              blogs ↗
-              <TerminalHint text="$ cat ./blogs" placement="below-start" />
-            </a>
           </div>
 
           {/* right */}

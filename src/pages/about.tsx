@@ -15,55 +15,82 @@ import { WindowDots } from "../components/ui/window-dots";
 
 // --- HELPERS ---
 
-// Terminal-style Experience Section
+// Experience section: company tabs in the rail column, details in the content column,
+// on the same 280px + 1fr grid as the projects section above it.
 function TerminalExperience() {
     const experiences = [
         {
             company: "AICommunity IITB",
             period: "2025 – 2026",
             role: "Junior Developer",
-            desc: "Working with a small team of 8 members to build AI products for insti and freelance projects. Focusing on NLP pipelines and generative models."
+            points: [
+                "Working with a small team of 8 members to build AI products for insti and freelance projects.",
+                "Focusing on NLP pipelines and generative models.",
+            ],
         },
         {
             company: "Techfest",
             period: "2025 – 2026",
             role: "Graphic Designer",
-            desc: "Supported the design team with social media graphics, print materials, and visual identity systems for Asia's largest Science and Technology festival."
-        }
+            points: [
+                "Supported the design team with social media graphics, print materials, and visual identity systems for Asia's largest Science and Technology festival.",
+            ],
+        },
     ];
+    const [active, setActive] = useState(0);
+    const current = experiences[active];
 
     return (
-        <div className="w-full max-w-content mx-auto font-sfmono text-base text-ink-secondary">
-            <div>
-                {experiences.length > 0 ? experiences.map((exp, idx) => (
-                    <div key={exp.company} className="flex gap-3 pt-5 first:pt-0 sm:gap-6">
-                        <p className="w-16 shrink-0 pt-1 text-right text-xs uppercase leading-snug tracking-[0.08em] text-ink-faint sm:w-28">
-                            {exp.period}
-                        </p>
-
-                        <div className="relative flex w-3 shrink-0 flex-col items-center">
-                            <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-zinc-500" />
-                            {idx !== experiences.length - 1 && (
-                                <span className="mt-2 w-px flex-1 bg-white/10" />
-                            )}
-                        </div>
-
-                        <div className={`min-w-0 flex-1 ${idx !== experiences.length - 1 ? "pb-20 sm:pb-24" : ""}`}>
-                            <h3 className="text-xl font-bold tracking-[-0.02em] text-ink-primary sm:text-[28px]">
-                                {exp.company}
-                            </h3>
-                            <p className="mt-2 text-sm uppercase tracking-[0.08em] text-ink-secondary sm:text-base">{exp.role}</p>
-                            <p className="mt-3 max-w-[60ch] whitespace-pre-line break-words text-sm leading-[1.75] text-ink-secondary sm:text-base">
-                                {exp.desc}
-                            </p>
-                        </div>
-                    </div>
-                )) : (
-                    <div className="flex items-center gap-2 text-sm text-ink-muted">
-                        <span>looking for one...</span>
-                    </div>
-                )}
+        <div className="font-sfmono lg:grid lg:grid-cols-[280px_1fr] lg:gap-12">
+            <div className="mb-8 lg:mb-0">
+                <SectionPrompt command="cd ./deep-dive/experience" startOnMount />
+                <div
+                    role="tablist"
+                    aria-label="Experience"
+                    className="mt-5 flex gap-3 overflow-x-auto border-t border-edge pt-4 text-xs lg:flex-col lg:gap-1.5 lg:overflow-visible lg:pt-5 lg:text-sm"
+                >
+                    {experiences.map((exp, i) => (
+                        <button
+                            key={exp.company}
+                            type="button"
+                            role="tab"
+                            id={`experience-tab-${i}`}
+                            aria-selected={i === active}
+                            aria-controls="experience-panel"
+                            onClick={() => setActive(i)}
+                            className={`shrink-0 whitespace-nowrap text-left transition-colors lg:w-full ${i === active ? "text-ink-primary" : "text-ink-muted hover:text-ink-secondary"}`}
+                        >
+                            <span className="text-sm">{String(i + 1).padStart(2, "0")}</span>{" "}
+                            <span className="uppercase">{exp.company}</span>
+                        </button>
+                    ))}
+                </div>
             </div>
+
+            <motion.div
+                key={current.company}
+                role="tabpanel"
+                id="experience-panel"
+                aria-labelledby={`experience-tab-${active}`}
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
+                className="min-h-[200px] max-w-[68ch]"
+            >
+                <p className="text-xs uppercase tracking-[0.08em] text-ink-faint">{current.period}</p>
+                <h3 className="mt-2 text-xl font-semibold tracking-[-0.02em] text-ink-primary sm:text-2xl">
+                    {current.role} <span className="text-ink-muted">@</span>{" "}
+                    <span className="text-[#fde047]">{current.company}</span>
+                </h3>
+                <ul className="mt-5 space-y-3 text-sm leading-[1.75] text-ink-secondary sm:text-base">
+                    {current.points.map((point) => (
+                        <li key={point} className="flex gap-3">
+                            <span aria-hidden="true" className="select-none text-ink-faint">›</span>
+                            <span>{point}</span>
+                        </li>
+                    ))}
+                </ul>
+            </motion.div>
         </div>
     );
 }
@@ -253,7 +280,6 @@ function NavBar() {
                 <div className="hidden items-center gap-7 text-sm font-sfmono text-ink-secondary md:flex">
                     <a href="/#work" onClick={(e) => scrollToSection(e, 'work')} className={`relative transition-colors cursor-pointer ${isActive("/") && homeSection === "work" ? "text-[#fde047]" : "hover:text-ink-primary"}`}>projects<TerminalHint text="$ ls ./proof-i-dont-just-talk" placement="below" /></a>
                     <a href="/#experience" onClick={(e) => scrollToSection(e, 'experience')} className={`relative transition-colors cursor-pointer ${isActive("/") && homeSection === "experience" ? "text-[#fde047]" : "hover:text-ink-primary"}`}>experience<TerminalHint text="$ cat ./where-ive-worked" placement="below" /></a>
-                    <a href="/blogs" className={`relative transition-colors cursor-pointer ${isActive("/blogs") ? "text-[#fde047]" : "hover:text-ink-primary"}`}>blogs<TerminalHint text="$ cat ./thoughts uncompiled" placement="below" /></a>
                     <a href="/shaped" className={`relative transition-colors cursor-pointer ${isActive("/shaped") ? "text-[#fde047]" : "hover:text-ink-primary"}`}>~/me<TerminalHint text="$ whoami the-human-behind-it" placement="below" /></a>
                 </div>
 
@@ -302,14 +328,6 @@ function NavBar() {
                             </motion.a>
                             <motion.a
                                 custom={2}
-                                variants={linkVariants}
-                                href="/blogs"
-                                className="text-xl font-semibold text-ink-muted tracking-tight font-sfmono"
-                            >
-                                blogs
-                            </motion.a>
-                            <motion.a
-                                custom={3}
                                 variants={linkVariants}
                                 href="/shaped"
                                 className="text-xl font-semibold text-ink-muted tracking-tight font-sfmono"

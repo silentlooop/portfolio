@@ -2,7 +2,6 @@ import { useRef, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ProjectDetail from "./pages/project-detail";
 import Shaped from "./pages/shaped";
-import Blogs from "./pages/blogs";
 import NotFound from "./pages/not-found";
 import { CommandTerminal } from "./components/ui/command-terminal";
 import { FilmGrain } from "./components/ui/film-grain";
@@ -47,7 +46,6 @@ export default function Root() {
             <Route path="/" element={<App />} />
             <Route path="/projects/:slug" element={<ProjectDetail />} />
             <Route path="/shaped" element={<Shaped />} />
-            <Route path="/blogs" element={<Blogs />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>

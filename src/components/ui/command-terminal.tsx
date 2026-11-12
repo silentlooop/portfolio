@@ -21,7 +21,6 @@ type Line = { kind: "input" | "output" | "error"; text: string };
 const HELP = [
     "quick navigation:",
     "  work               view selected projects",
-    "  blogs              read my writing",
     "  me                 learn about me",
     "  contact            find me online",
     "",
@@ -146,20 +145,16 @@ export function CommandTerminal() {
                 return out(HELP);
             case "work":
                 return go("/#work", "→ ./work");
-            case "blogs":
-                return go("/blogs", "→ ./blogs");
             case "me":
                 return go("/shaped", "→ ~/me");
             case "contact":
                 return out([`github    ${LINKS.github}`, `linkedin  ${LINKS.linkedin}`, `x         ${LINKS.x}`]);
             case "ls":
                 if (arg === "projects") return out(projects.map((p) => `  ${p.slug.padEnd(30)} ${p.description}`));
-                if (arg === "blogs") return go("/blogs", "→ ./blogs");
-                return out("work/  blogs/  me/  projects/  contact.txt");
+                return out("work/  me/  projects/  contact.txt");
             case "cd":
                 if (!arg || arg === "~" || arg === "/" || arg === "..") return go("/", "→ ~");
                 if (arg === "work" || arg === "selected-work") return go("/#work", "→ ./work");
-                if (arg === "blogs") return go("/blogs", "→ ./blogs");
                 if (arg === "me" || arg === "~/me") return go("/shaped", "→ ~/me");
                 if (arg.startsWith("projects/")) return run(`open ${arg.slice("projects/".length)}`);
                 return out(`cd: no such file or directory: ${arg}`, "error");
