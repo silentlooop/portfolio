@@ -7,8 +7,8 @@ export const instigpt: ProjectContent = {
   description: "A RAG-based chatbot specializing in IIT Bombay related inquiries.",
   intro:
     "A RAG-based chatbot specializing in IIT Bombay related inquiries, built to unify scattered institutional data behind one interface.",
-  cover: { type: "video", src: "/instigpt copy.mp4" },
-  hero: { type: "video", src: "/instigpt copy.mp4" },
+  cover: { type: "video", src: "/instigpt.mp4" },
+  hero: { type: "video", src: "/instigpt.mp4" },
   meta: {
     role: "NLP Engineer",
     timeline: "2025",

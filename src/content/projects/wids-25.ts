@@ -7,8 +7,8 @@ export const wids25: ProjectContent = {
   description: "Deep Q-Learning agent designed for high-frequency trading simulations.",
   intro:
     "A Deep Q-Learning agent designed for high-frequency trading simulations, trained to react to sequential market state rather than static snapshots.",
-  cover: { type: "image", src: "/dqn2.png", width: 2696, height: 574 },
-  hero: { type: "image", src: "/dqn2.png", width: 2696, height: 574 },
+  cover: { type: "image", src: "/dqn2.webp", width: 1600, height: 341 },
+  hero: { type: "image", src: "/dqn2.webp", width: 1600, height: 341 },
   meta: {
     role: "Quant Researcher",
     timeline: "2025",

@@ -12,6 +12,10 @@ function coverOf(slug: string) {
   return projects.find((p) => p.slug === slug)!.cover;
 }
 
+function metaOf(slug: string) {
+  return projects.find((p) => p.slug === slug)!.meta;
+}
+
 gsap.registerPlugin(ScrollTrigger);
 
 interface ProjectCardProps {
@@ -80,7 +84,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     return () => ctx.revert();
   }, []);
 
-  const colorGraded = centered ? "grayscale-0 saturate-100" : "grayscale saturate-50";
+  // Grey at rest, colour on hover. Touch screens have no hover, so there the centred card gets colour instead.
+  const canHover = typeof window !== "undefined" && window.matchMedia("(hover: hover)").matches;
+  const colorGraded =
+    !canHover && centered ? "grayscale-0 saturate-100 brightness-100" : "grayscale saturate-50 brightness-90";
+  const meta = metaOf(slug);
 
   return (
     <Link
@@ -91,7 +99,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       data-cursor="view"
       onMouseEnter={() => onHover(slug)}
       onMouseLeave={() => onHover(null)}
-      className="group/card relative mb-4 block break-inside-avoid bg-[#111111] px-0.5 py-0.5 opacity-100 transition-opacity duration-500 ease-in-out hover:opacity-75"
+      className="group/card relative mb-4 block break-inside-avoid bg-[#111111] px-0.5 py-0.5 opacity-100 transition-opacity duration-400 ease-in-out hover:opacity-75"
     >
       <TerminalHint text={`$ open ./projects/${slug}`} />
       <article
@@ -103,7 +111,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           {isVideo ? (
             <video
               src={imageSrc}
-              className={`w-full h-auto object-contain transition-[filter,transform] duration-400 ease-out group-hover/card:scale-[1.02] group-hover/card:grayscale-0 group-hover/card:saturate-100 ${colorGraded}`}
+              className={`w-full h-auto object-contain transition-[filter,transform] duration-400 ease-out group-hover/card:scale-[1.02] group-hover/card:grayscale-0 group-hover/card:saturate-100 group-hover/card:brightness-100 ${colorGraded}`}
               autoPlay
               loop
               muted
@@ -116,14 +124,18 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               loading="lazy"
               width={width}
               height={height}
-              className={`w-full h-auto object-contain transition-[filter,transform] duration-400 ease-out group-hover/card:scale-[1.02] group-hover/card:grayscale-0 group-hover/card:saturate-100 ${colorGraded}`}
+              className={`w-full h-auto object-contain transition-[filter,transform] duration-400 ease-out group-hover/card:scale-[1.02] group-hover/card:grayscale-0 group-hover/card:saturate-100 group-hover/card:brightness-100 ${colorGraded}`}
             />
           )}
         </div>
       </article>
       <div className="px-3 pb-3 pt-2">
-        <div className="text-base font-semibold uppercase text-white">{title}</div>
-        <div className="mt-[2px] text-xs text-zinc-500">{category}</div>
+        <div className="flex items-baseline justify-between gap-3">
+          <div className="font-sfmono text-base font-semibold uppercase text-ink-primary">{title}</div>
+          <span className="shrink-0 font-sfmono text-xs tabular-nums text-ink-muted">{meta.timeline}</span>
+        </div>
+        <div className="mt-[2px] font-sfmono text-xs text-ink-muted">{category}</div>
+        <div className="mt-1 font-sfmono text-xs uppercase tracking-[0.08em] text-ink-faint">{meta.stack.slice(0, 3).join(" / ")}</div>
       </div>
     </Link>
   );
@@ -142,7 +154,7 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({ highlightedSlug = null, onH
       title="BTSP"
       category="BIOX-WNCC PROJECT"
       imageSrc={coverOf("btsp").src}
-      imageAlt="btsp"
+      imageAlt="MRI scans with segmented tumor regions"
       width={coverOf("btsp").width}
       height={coverOf("btsp").height}
       isHighlighted={highlightedSlug === "btsp"}
@@ -151,10 +163,10 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({ highlightedSlug = null, onH
     <ProjectCard
       key="pgm"
       slug="probabilistic-graphic-model"
-      title="PROBABILISTIC GRAPHIC MODEL"
+      title="PROBABILISTIC GRAPHICAL MODEL"
       category="CONSUMER PRODUCT"
       imageSrc={coverOf("probabilistic-graphic-model").src}
-      imageAlt="currency converter"
+      imageAlt="Bayesian deep reinforcement learning network diagram"
       width={coverOf("probabilistic-graphic-model").width}
       height={coverOf("probabilistic-graphic-model").height}
       isHighlighted={highlightedSlug === "probabilistic-graphic-model"}
@@ -167,22 +179,10 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({ highlightedSlug = null, onH
       category="AI MODEL"
       imageSrc={coverOf("resume-rater").src}
       mediaType="image"
-      imageAlt="resume rater"
+      imageAlt="AI Community logo"
       width={coverOf("resume-rater").width}
       height={coverOf("resume-rater").height}
       isHighlighted={highlightedSlug === "resume-rater"}
-      onHover={onHoverProject}
-    />,
-    <ProjectCard
-      key="wids"
-      slug="wids-25"
-      title="WiDS'25"
-      category="TRADING ALGORITHM"
-      imageSrc={coverOf("wids-25").src}
-      imageAlt="wids"
-      width={coverOf("wids-25").width}
-      height={coverOf("wids-25").height}
-      isHighlighted={highlightedSlug === "wids-25"}
       onHover={onHoverProject}
     />,
     <ProjectCard
@@ -197,12 +197,24 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({ highlightedSlug = null, onH
       onHover={onHoverProject}
     />,
     <ProjectCard
+      key="wids"
+      slug="wids-25"
+      title="WiDS '25"
+      category="TRADING ALGORITHM"
+      imageSrc={coverOf("wids-25").src}
+      imageAlt="DQN agent training code"
+      width={coverOf("wids-25").width}
+      height={coverOf("wids-25").height}
+      isHighlighted={highlightedSlug === "wids-25"}
+      onHover={onHoverProject}
+    />,
+    <ProjectCard
       key="karyogram"
       slug="karyogram"
       title="Karyogram"
       category="MEDICAL IMAGING PROJECT"
       imageSrc={coverOf("karyogram").src}
-      imageAlt="karyogram"
+      imageAlt="Chromosome spread for karyotyping"
       width={coverOf("karyogram").width}
       height={coverOf("karyogram").height}
       isHighlighted={highlightedSlug === "karyogram"}
@@ -211,7 +223,7 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({ highlightedSlug = null, onH
   ];
 
   return (
-    <SectionReveal className="group/grid columns-1 gap-4 sm:columns-2 md:columns-2" itemClassName="break-inside-avoid">
+    <SectionReveal className="group/grid columns-1 gap-4 sm:columns-2 md:columns-2" itemClassName="break-inside-avoid" threshold={0.05}>
       {projectCards}
     </SectionReveal>
   );

@@ -114,12 +114,12 @@ export function Note({ children, className = "", ink = "pencil", rotate = -4, si
 /** Dimension line: |— — — [label] — — —| with optional trailing scribble. */
 export function Measure({ label, note, className = "" }: { label: string; note?: string; className?: string }) {
     return (
-        <div className={`flex items-center gap-2 font-sfmono text-[10px] text-zinc-600 ${className}`}>
+        <div className={`flex items-center gap-2 font-sfmono text-xs text-zinc-600 ${className}`}>
             <span className="h-2.5 w-px bg-zinc-600" />
-            <span className="h-px flex-1 border-t border-dashed border-zinc-700" />
-            <span className="border border-zinc-600 px-1.5 py-0.5 tracking-wider text-zinc-500">{label}</span>
-            {note && <span className="font-hand text-[16px] text-zinc-500">{note}</span>}
-            <span className="h-px flex-1 border-t border-dashed border-zinc-700" />
+            <span className="h-px flex-1 border-t border-dashed border-edge-hover" />
+            <span className="border border-edge-hover px-1.5 py-0.5 tracking-[0.08em] text-zinc-500">{label}</span>
+            {note && <span className="font-hand text-base text-zinc-500">{note}</span>}
+            <span className="h-px flex-1 border-t border-dashed border-edge-hover" />
             <span className="h-2.5 w-px bg-zinc-600" />
         </div>
     );
@@ -128,13 +128,13 @@ export function Measure({ label, note, className = "" }: { label: string; note?:
 /** Vertical dimension line with a rotated label. */
 export function MeasureVertical({ label, className = "" }: { label: string; className?: string }) {
     return (
-        <div className={`flex flex-col items-center gap-2 font-sfmono text-[10px] text-zinc-600 ${className}`}>
+        <div className={`flex flex-col items-center gap-2 font-sfmono text-xs text-zinc-600 ${className}`}>
             <span className="h-px w-2.5 bg-zinc-600" />
-            <span className="w-px flex-1 border-l border-dashed border-zinc-700" />
-            <span className="whitespace-nowrap border border-zinc-600 px-1.5 py-0.5 tracking-wider text-zinc-500 [writing-mode:vertical-rl]">
+            <span className="w-px flex-1 border-l border-dashed border-edge-hover" />
+            <span className="whitespace-nowrap border border-edge-hover px-1.5 py-0.5 tracking-[0.08em] text-zinc-500 [writing-mode:vertical-rl]">
                 {label}
             </span>
-            <span className="w-px flex-1 border-l border-dashed border-zinc-700" />
+            <span className="w-px flex-1 border-l border-dashed border-edge-hover" />
             <span className="h-px w-2.5 bg-zinc-600" />
         </div>
     );

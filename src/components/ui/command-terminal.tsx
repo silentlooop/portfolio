@@ -4,7 +4,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import { projects } from "../../content/projects";
 import { TerminalHint } from "./terminal-hint";
 import { WindowDots } from "./window-dots";
-import { playTick } from "../../lib/sound";
 
 // Fire this from anywhere to open the terminal, e.g. a footer button.
 export const OPEN_TERMINAL_EVENT = "open-command-terminal";
@@ -238,34 +237,34 @@ export function CommandTerminal() {
                         exit={{ opacity: 0, y: 8 }}
                         transition={{ duration: 0.35, ease: "easeOut" }}
                     >
-                        <div className="group relative overflow-hidden rounded-md border border-white/10 bg-[#141414]/95 shadow-2xl shadow-black/50 backdrop-blur-sm">
-                            <div className="flex items-center gap-1.5 border-b border-white/5 bg-[#111111] px-3 py-2">
+                        <div className="group relative overflow-hidden rounded-sm border border-edge bg-[#141414]/95 shadow-2xl shadow-black/50 backdrop-blur-sm">
+                            <div className="flex items-center gap-1.5 border-b border-edge bg-[#111111] px-3 py-2">
                                 <WindowDots
                                     size="sm"
                                     onRed={() => setShowTip(false)}
                                     onYellow={() => setShowTip(false)}
                                     onGreen={() => setOpen(true)}
                                 />
-                                <span className="ml-2 text-[10px] uppercase tracking-wider text-zinc-600">tip</span>
+                                <span className="ml-2 text-xs uppercase tracking-[0.08em] text-ink-faint">tip</span>
                             </div>
                             <button
                                 type="button"
                                 onClick={() => setOpen(true)}
                                 className="block w-full px-4 py-3 text-left text-xs leading-relaxed"
                             >
-                                <span className="block text-zinc-400">
-                                    <span className="text-zinc-600">$ </span>psst. this site has a real terminal.
+                                <span className="block text-ink-secondary">
+                                    <span className="text-ink-faint">$ </span>psst. this site has a real terminal.
                                 </span>
-                                <span className="mt-1 block text-zinc-500 transition-colors group-hover:text-zinc-300">
+                                <span className="mt-1 block text-ink-muted transition-colors group-hover:text-ink-primary">
                                     {isTouch ? (
                                         "tap here to try it"
                                     ) : (
                                         <>
-                                            press <kbd className="rounded border border-zinc-700 px-1 text-[11px] text-zinc-300">/</kbd> or{" "}
-                                            <kbd className="rounded border border-zinc-700 px-1 text-[11px] text-zinc-300">⌘K</kbd> to try it
+                                            press <kbd className="rounded-sm border border-edge-hover px-1 text-xs text-ink-primary">/</kbd> or{" "}
+                                            <kbd className="rounded-sm border border-edge-hover px-1 text-xs text-ink-primary">⌘K</kbd> to try it
                                         </>
                                     )}
-                                    <span className="terminal-cursor ml-1 text-zinc-500">_</span>
+                                    <span className="terminal-cursor ml-1 text-ink-muted">_</span>
                                 </span>
                             </button>
                             <motion.span
@@ -285,7 +284,7 @@ export function CommandTerminal() {
                         type="button"
                         onClick={() => setOpen(true)}
                         aria-label="Open terminal"
-                        className="fixed right-0 top-1/2 z-[55] rounded-l-md border border-r-0 border-white/10 bg-[#141414]/90 px-2 py-2.5 font-sfmono text-[11px] leading-none text-zinc-500 shadow-lg shadow-black/40 backdrop-blur-sm transition-colors hover:bg-[#1a1a1a] hover:text-zinc-200"
+                        className="fixed right-0 top-1/2 z-[55] rounded-l-sm border border-r-0 border-edge bg-[#141414]/90 px-2 py-2.5 font-sfmono text-xs leading-none text-ink-muted shadow-lg shadow-black/40 backdrop-blur-sm transition-colors hover:bg-white/[0.04] hover:text-ink-primary"
                         initial={{ opacity: 0, x: 12, y: "-50%" }}
                         animate={{ opacity: 1, x: 0, y: "-50%" }}
                         exit={{ opacity: 0, x: 12, y: "-50%" }}
@@ -310,7 +309,7 @@ export function CommandTerminal() {
                             role="dialog"
                             aria-modal="true"
                             aria-label="Command terminal"
-                            className="w-full max-w-2xl overflow-hidden rounded-md border border-white/10 bg-[#141414] font-sfmono text-[13px] shadow-2xl shadow-black/50"
+                            className="w-full max-w-2xl overflow-hidden rounded-sm border border-edge bg-surface-raised font-sfmono text-sm shadow-2xl shadow-black/50"
                             initial={{ opacity: 0, y: -12, scale: 0.98 }}
                             animate={{ opacity: 1, y: 0, scale: 1 }}
                             exit={{ opacity: 0, y: -8, scale: 0.98 }}
@@ -318,21 +317,21 @@ export function CommandTerminal() {
                             onMouseDown={(e) => e.stopPropagation()}
                             onClick={() => inputRef.current?.focus()}
                         >
-                            <div className="flex items-center gap-2 border-b border-white/10 bg-[#111111] px-4 py-3">
+                            <div className="flex items-center gap-2 border-b border-edge bg-[#111111] px-4 py-3">
                                 <WindowDots onClose={close} />
-                                <span className="ml-3 truncate text-xs text-zinc-500">manthan@portfolio: ~</span>
-                                <span className="ml-auto hidden text-[11px] text-zinc-600 sm:inline">esc to close</span>
+                                <span className="ml-3 truncate text-xs text-ink-muted">manthan@portfolio: ~</span>
+                                <span className="ml-auto hidden text-xs text-ink-faint sm:inline">esc to close</span>
                             </div>
                             <div ref={scrollRef} className="max-h-[50vh] overflow-y-auto px-4 py-3 leading-relaxed" aria-live="polite">
                                 {lines.map((line, i) => (
                                     <div key={i} className="whitespace-pre-wrap break-words">
                                         {line.kind === "input" ? (
                                             <>
-                                                <span className="text-zinc-600">$ </span>
-                                                <span className="text-zinc-200">{line.text}</span>
+                                                <span className="text-ink-faint">$ </span>
+                                                <span className="text-ink-primary">{line.text}</span>
                                             </>
                                         ) : (
-                                            <span className={line.kind === "error" ? "text-red-400/80" : "text-zinc-400"}>{line.text}</span>
+                                            <span className={line.kind === "error" ? "text-red-400/80" : "text-ink-secondary"}>{line.text}</span>
                                         )}
                                     </div>
                                 ))}
@@ -341,16 +340,13 @@ export function CommandTerminal() {
                                     <input
                                         ref={inputRef}
                                         value={input}
-                                        onChange={(e) => {
-                                            setInput(e.target.value);
-                                            playTick();
-                                        }}
+                                        onChange={(e) => setInput(e.target.value)}
                                         onKeyDown={onInputKeyDown}
                                         aria-label="Terminal command"
                                         autoComplete="off"
                                         autoCapitalize="off"
                                         spellCheck={false}
-                                        className="min-w-0 flex-1 bg-transparent text-zinc-100 caret-[#fde047] outline-none placeholder:text-zinc-700"
+                                        className="min-w-0 flex-1 bg-transparent text-ink-primary caret-[#fde047] outline-none placeholder:text-ink-faint"
                                         placeholder="try 'help'"
                                     />
                                 </div>

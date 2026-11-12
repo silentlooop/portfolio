@@ -19,7 +19,7 @@ export function TerminalHint({ text, placement = "corner", className = "" }: Ter
             aria-hidden="true"
             className={`terminal-hint pointer-events-none absolute z-10 ${placementClasses[placement]} ${className}`}
         >
-            <span className={`inline-flex max-w-[min(28rem,calc(100vw-2rem))] whitespace-nowrap rounded border border-white/10 ${placement === "corner" ? "bg-black/70" : "bg-zinc-800/80"} px-2 py-1 text-left font-sfmono text-[11px] font-normal normal-case leading-normal tracking-normal text-gray-300 shadow-lg backdrop-blur-sm`}>
+            <span className={`inline-flex max-w-[min(28rem,calc(100vw-2rem))] whitespace-nowrap rounded-sm border border-edge ${placement === "corner" ? "bg-black/70" : "bg-zinc-800/80"} px-2 py-1 text-left font-sfmono text-xs font-normal normal-case leading-normal tracking-normal text-ink-primary shadow-lg backdrop-blur-sm`}>
                 <span className="min-w-0 truncate">{text}</span>
             </span>
         </span>

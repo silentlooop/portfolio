@@ -11,6 +11,7 @@ module.exports = {
           primary: "var(--text-primary)",
           secondary: "var(--text-secondary)",
           muted: "var(--text-muted)",
+          faint: "var(--text-faint)",
         },
         surface: {
           bg: "var(--surface-bg)",
@@ -27,9 +28,13 @@ module.exports = {
         hero: ["clamp(2.75rem, 6vw, 4rem)", { lineHeight: "1.05", letterSpacing: "-0.02em" }],
       },
       transitionDuration: {
+        DEFAULT: "250ms",
         150: "150ms",
         250: "250ms",
         400: "400ms",
+      },
+      transitionTimingFunction: {
+        DEFAULT: "cubic-bezier(0, 0, 0.2, 1)",
       },
       maxWidth: {
         content: "1100px",
@@ -66,7 +71,7 @@ module.exports = {
       },
       fontFamily: {
         hand: ['Caveat', '"Bradley Hand"', 'cursive'],
-        sfmono: ["SF Mono", "Space Mono", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", 'monospace'],
+        sfmono: ["SF Mono", "SFMono-Regular", "Geist Mono", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", 'monospace'],
         helvetica: ['Helvetica', 'Arial', 'sans-serif'],
         sfpro: ['"SF Pro Display"', '"SF Pro Text"', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
         spacegrotesk: ['"Space Grotesk"', 'Inter', 'system-ui', 'Arial', 'sans-serif'],

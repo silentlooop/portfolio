@@ -2,7 +2,7 @@ import type { ProjectContent } from "./types";
 
 export const probabilisticGraphicModel: ProjectContent = {
   slug: "probabilistic-graphic-model",
-  title: "probabilistic graphic model",
+  title: "probabilistic graphical model",
   category: "Consumer Product",
   description: "A focused consumer-facing interface built to make probabilistic ideas easier to explore.",
   intro:

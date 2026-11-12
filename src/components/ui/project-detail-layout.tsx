@@ -44,13 +44,13 @@ const fadeInUp: Variants = {
 function MetaField({ label, values, chips = false }: { label: string; values: string[]; chips?: boolean }) {
   return (
     <div>
-      <p className="font-sfmono text-[12px] uppercase tracking-[0.12em] text-ink-muted">{label}</p>
+      <p className="font-sfmono text-xs uppercase tracking-[0.08em] text-ink-muted">{label}</p>
       {chips ? (
         <div className="mt-2 flex flex-wrap gap-2">
           {values.map((v) => (
             <span
               key={v}
-              className="rounded-none border border-[#fde047]/40 bg-[#fde047]/[0.06] px-3 py-1.5 font-sfmono text-[13px] text-[#fde047]"
+              className="rounded-none border border-[#fde047]/40 bg-[#fde047]/[0.06] px-3 py-1.5 font-sfmono text-sm text-[#fde047]"
             >
               {v}
             </span>
@@ -59,7 +59,7 @@ function MetaField({ label, values, chips = false }: { label: string; values: st
       ) : (
         <div className="mt-2 space-y-1">
           {values.map((v) => (
-            <p key={v} className="text-[16px] text-ink-primary">{v}</p>
+            <p key={v} className="text-base text-ink-primary">{v}</p>
           ))}
         </div>
       )}
@@ -76,7 +76,7 @@ function LinkBlock({ label, href }: { label: string; href: string }) {
       data-cursor="link"
       className="group relative flex items-center justify-between rounded-none bg-white/[0.04] px-5 py-3 transition-colors hover:bg-white/[0.08]"
     >
-      <span className="font-sfmono text-[13px] uppercase tracking-[0.12em] text-ink-primary">{label}</span>
+      <span className="font-sfmono text-sm uppercase tracking-[0.08em] text-ink-primary">{label}</span>
       <span className="text-ink-muted transition-transform group-hover:translate-x-1">›</span>
       <TerminalHint text={`$ open ${hostFromUrl(href)}`} placement="below-start" />
     </a>
@@ -85,16 +85,16 @@ function LinkBlock({ label, href }: { label: string; href: string }) {
 
 function ProjectHeader({ onClose }: { onClose: () => void }) {
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-5 py-3 md:px-12 md:py-4 bg-[#111111]/80 backdrop-blur-md border-b border-white/5">
-      <Link to="/" data-no-click-sound="true" className="relative z-50 text-white font-sfmono text-base md:text-lg font-bold tracking-tight hover:opacity-80 transition-opacity">
-        <ScrambleText text="silentlooop" /><span className="terminal-cursor text-zinc-500">_</span>
+    <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-5 py-3 md:px-12 md:py-4 bg-[#111111]/80 backdrop-blur-md border-b border-edge">
+      <Link to="/" className="relative z-50 text-ink-primary font-sfmono text-base md:text-lg font-bold tracking-tight hover:opacity-80 transition-opacity">
+        <ScrambleText text="silentlooop" /><span className="terminal-cursor text-ink-muted">_</span>
       </Link>
       <button
         type="button"
         onClick={onClose}
         aria-label="Close project"
         data-cursor="link"
-        className="relative text-xl text-gray-400 transition-colors hover:text-white"
+        className="relative text-xl text-ink-secondary transition-colors hover:text-ink-primary"
       >
         ✕
         <TerminalHint text="$ cd .. [esc]" placement="below-start" />
@@ -127,12 +127,12 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#111111] text-white font-sfmono selection:bg-white/20">
+    <div className="min-h-screen bg-[#111111] text-ink-primary font-sfmono selection:bg-white/20">
       <ProjectHeader onClose={handleClose} />
       <main className="w-full px-5 pb-24 pt-24 md:px-12">
         {/* --- Hero media, full width --- */}
         <div
-          className="relative mt-6 aspect-[21/9] w-full overflow-hidden rounded-none border border-edge bg-[#161616]"
+          className="relative mt-6 aspect-[21/9] w-full overflow-hidden rounded-none border border-edge bg-surface-raised"
           style={{ viewTransitionName: `project-cover-${project.slug}` } as React.CSSProperties}
         >
           <div className="flex h-full w-full items-center justify-center p-6">
@@ -155,21 +155,21 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
         {/* --- Title (left) + intro/meta/links/sections (pushed right), joseph.cv-style split --- */}
         <div className="mt-8 grid grid-cols-1 gap-x-10 lg:grid-cols-3">
           <div>
-            <p className="font-sfmono text-[12px] uppercase tracking-[0.12em] text-ink-muted">{project.category}</p>
+            <p className="font-sfmono text-xs uppercase tracking-[0.08em] text-ink-muted">{project.category}</p>
             <motion.h1
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, ease: "easeOut" }}
-              className="mt-1 text-[28px] font-semibold uppercase leading-tight text-ink-primary sm:text-[32px]"
+              className="mt-1 text-[28px] font-semibold uppercase leading-tight text-ink-primary"
             >
               {title}
             </motion.h1>
           </div>
 
           <div className="mt-4 lg:col-start-2 lg:col-span-2 lg:mt-0">
-            <p className="max-w-[640px] tracking-tight [word-spacing:-0.12em] text-[17px] leading-[1.6] text-ink-primary">{project.intro}</p>
+            <p className="max-w-[640px] tracking-tight [word-spacing:-0.12em] text-base leading-[1.6] text-ink-primary">{project.intro}</p>
 
-            <div className="mt-4 grid grid-cols-2 gap-x-10 gap-y-5 border-t border-white/5 pt-4 sm:grid-cols-4">
+            <div className="mt-4 grid grid-cols-2 gap-x-10 gap-y-5 border-t border-edge pt-4 sm:grid-cols-4">
               <MetaField label="Role" values={[project.meta.role]} />
               <MetaField label="Collaborators" values={project.meta.team} />
               <MetaField label="Duration" values={[project.meta.timeline]} />
@@ -186,26 +186,27 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
 
             <div className="mt-6 space-y-5">
               {project.sections.map((section) => (
-                <motion.p
+                <motion.div
                   key={section.heading}
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true, amount: 0.9 }}
                   variants={fadeInUp}
-                  className="max-w-[640px] tracking-tight [word-spacing:-0.12em] border-t border-white/5 pt-5 text-[16px] leading-relaxed text-ink-secondary"
+                  className="max-w-[640px] border-t border-edge pt-5"
                   data-cursor="text"
                 >
-                  {section.body}
-                </motion.p>
+                  <h2 className="font-sfmono text-xs font-normal uppercase tracking-[0.08em] text-ink-muted">{section.heading}</h2>
+                  <p className="mt-2 tracking-tight [word-spacing:-0.12em] text-base leading-relaxed text-ink-secondary">{section.body}</p>
+                </motion.div>
               ))}
             </div>
 
             {project.metrics && project.metrics.length > 0 && (
-              <div className="mt-6 grid grid-cols-2 gap-x-10 gap-y-5 border-t border-white/5 pt-5 sm:grid-cols-4">
+              <div className="mt-6 grid grid-cols-2 gap-x-10 gap-y-5 border-t border-edge pt-5 sm:grid-cols-4">
                 {project.metrics.map((m) => (
                   <div key={m.label}>
-                    <div className="text-[29px] font-bold leading-none text-ink-primary">{m.value}</div>
-                    <div className="mt-2 font-sfmono text-[12px] uppercase tracking-[0.12em] text-ink-muted">{m.label}</div>
+                    <div className="text-[28px] font-bold leading-none text-ink-primary">{m.value}</div>
+                    <div className="mt-2 font-sfmono text-xs uppercase tracking-[0.08em] text-ink-muted">{m.label}</div>
                   </div>
                 ))}
               </div>
@@ -223,12 +224,12 @@ export function ProjectDetailLayout({ project }: { project: ProjectContent }) {
               className="group relative flex items-center justify-between gap-4"
             >
               <div>
-                <p className="font-sfmono text-[12px] uppercase tracking-[0.12em] text-ink-muted">
+                <p className="font-sfmono text-xs uppercase tracking-[0.08em] text-ink-muted">
                   Next Project <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
                 </p>
-                <p className="mt-1 text-xl font-bold uppercase text-white sm:text-2xl">{toTitleCase(nextProject.title)}</p>
+                <p className="mt-1 text-xl font-bold uppercase text-ink-primary sm:text-2xl">{toTitleCase(nextProject.title)}</p>
               </div>
-              <div className="h-14 w-20 shrink-0 overflow-hidden rounded-lg border border-edge bg-[#161616] p-2">
+              <div className="h-14 w-20 shrink-0 overflow-hidden rounded-sm border border-edge bg-surface-raised p-2">
                 <img src={nextProject.hero.src} alt="" className="h-full w-full object-contain" />
               </div>
               <TerminalHint text="$ next one-more" placement="below-start" />

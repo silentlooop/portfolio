@@ -8,6 +8,7 @@
     --text-primary: #EDEDED;
     --text-secondary: #A1A1A1;
     --text-muted: #8A8A8A;
+    --text-faint: #6B6B6B;
 
     /* surfaces */
     --surface-bg: #111111;
@@ -20,6 +21,32 @@
 
     /* live-measured footer height, set by ResizeObserver; this is just the pre-JS fallback */
     --footer-h: 280px;
+  }
+
+  html {
+    color-scheme: dark;
+    scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
+    scrollbar-width: thin;
+  }
+
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-variant-numeric: tabular-nums;
+  }
+
+  ::selection {
+    background-color: rgba(253, 224, 71, 0.9);
+    color: #111111;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  h1, h2, h3 {
+    text-wrap: balance;
   }
 
   html, body {

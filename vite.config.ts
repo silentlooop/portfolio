@@ -24,6 +24,10 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  define: {
+    // Stamped at build time so the footer's "last updated" never goes stale.
+    __BUILD_DATE__: JSON.stringify(new Date().toISOString().slice(0, 7).replace("-", ".")),
+  },
   base: "/",
   build: {
     // ⚡ Ensures builds don’t fail on warnings

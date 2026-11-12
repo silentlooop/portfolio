@@ -29,9 +29,9 @@ export function MediaFrame({ item, aspect = "aspect-video" }: { item: MediaItem;
   if (item.placeholder || !item.src) {
     return (
       <div
-        className="relative flex aspect-[21/9] max-h-[220px] w-full items-center justify-center overflow-hidden rounded-lg border border-dashed border-edge bg-[#161616]"
+        className="relative flex aspect-[21/9] max-h-[220px] w-full items-center justify-center overflow-hidden rounded-sm border border-dashed border-edge bg-surface-raised"
       >
-        <span className="px-4 text-center font-sfmono text-[12px] text-ink-muted">
+        <span className="px-4 text-center font-sfmono text-xs text-ink-muted">
           [media: {item.placeholder ?? "untitled"}]
         </span>
       </div>
@@ -51,10 +51,10 @@ export function MediaFrame({ item, aspect = "aspect-video" }: { item: MediaItem;
   };
 
   return (
-    <div className={`relative ${aspect} w-full overflow-hidden rounded-sm border border-edge bg-[#161616] p-3 sm:p-4`}>
+    <div className={`relative ${aspect} w-full overflow-hidden rounded-sm border border-edge bg-surface-raised p-3 sm:p-4`}>
       <div
         aria-hidden="true"
-        className={`absolute inset-4 rounded bg-white/[0.03] transition-opacity duration-300 ${
+        className={`absolute inset-4 rounded-sm bg-white/[0.03] transition-opacity duration-250 ${
           loaded ? "opacity-0" : "animate-pulse opacity-100"
         }`}
       />
@@ -73,7 +73,7 @@ export function MediaFrame({ item, aspect = "aspect-video" }: { item: MediaItem;
             />
             {!playing && (
               <span className="pointer-events-none absolute inset-0 flex items-center justify-center">
-                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-black/60 text-white">▶</span>
+                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-black/60 text-ink-primary">▶</span>
               </span>
             )}
           </div>

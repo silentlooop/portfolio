@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useInViewOnce, usePrefersReducedMotion } from "./use-terminal-effects";
-import { playTick } from "../../lib/sound";
 
 type TypewriterLineProps = {
     text: string;
@@ -42,7 +41,6 @@ export function TypewriterLine({
                     return previous;
                 }
 
-                playTick();
                 return previous + 1;
             });
         }, speedMs);
@@ -53,11 +51,11 @@ export function TypewriterLine({
     }, [prefersReducedMotion, speedMs, start, text]);
 
     return (
-        <div className={`font-mono text-sm text-zinc-500 flex items-center gap-2 ${className}`} aria-live="polite">
-            <span className="text-zinc-600">{prompt}</span>
-            <span className="text-zinc-400">{text.slice(0, visibleChars)}</span>
+        <div className={`font-sfmono text-sm text-ink-muted flex items-center gap-2 ${className}`} aria-live="polite">
+            <span className="text-ink-faint">{prompt}</span>
+            <span className="text-ink-secondary">{text.slice(0, visibleChars)}</span>
             {cursor && start && (
-                <span className="terminal-cursor ml-1 inline-block align-middle text-zinc-400">█</span>
+                <span className="terminal-cursor ml-1 inline-block align-middle text-ink-secondary">█</span>
             )}
         </div>
     );
@@ -156,9 +154,9 @@ type SectionHeaderProps = {
 
 export function SectionHeader({ children, className = "" }: SectionHeaderProps) {
     return (
-        <h2 className={`block text-base font-mono text-gray-500 uppercase tracking-widest whitespace-nowrap mb-10 leading-none md:mb-12 ${className}`}>
+        <h2 className={`block text-base font-sfmono text-ink-muted uppercase tracking-[0.08em] whitespace-nowrap mb-10 leading-none md:mb-12 ${className}`}>
             {children}
-            <span className="terminal-cursor ml-2 inline-block align-middle text-gray-500">█</span>
+            <span className="terminal-cursor ml-2 inline-block align-middle text-ink-muted">█</span>
         </h2>
     );
 }

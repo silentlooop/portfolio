@@ -35,26 +35,26 @@ function BlogRow({ blog }: { blog: BlogPost }) {
             target="_blank"
             rel="noopener noreferrer"
             data-cursor="view"
-            className="group relative flex items-center gap-4 rounded px-3 py-3 transition-colors duration-250 ease-out hover:bg-white/[0.03]"
+            className="group relative flex items-center gap-4 rounded-sm px-3 py-3 transition-colors duration-250 ease-out hover:bg-white/[0.03]"
             style={{ textDecoration: "none" }}
         >
             <TerminalHint text={`$ cat ./blogs/${blog.slug}.md`} placement="below-start" />
             <div className="min-w-0 flex-1">
-                <h3 className="text-[18px] font-semibold leading-snug text-ink-primary underline decoration-transparent decoration-1 underline-offset-4 transition-colors duration-250 ease-out group-hover:decoration-ink-primary">
+                <h3 className="text-lg font-semibold leading-snug text-ink-primary underline decoration-transparent decoration-1 underline-offset-4 transition-colors duration-250 ease-out group-hover:decoration-ink-primary">
                     {blog.title}
                 </h3>
-                <p className="mt-1 line-clamp-2 text-[14px] leading-relaxed text-ink-secondary">{blog.excerpt}</p>
-                <p className="mt-2 font-sfmono text-[12px] uppercase tracking-wide text-ink-muted">
+                <p className="mt-1 line-clamp-2 text-sm leading-relaxed text-ink-secondary">{blog.excerpt}</p>
+                <p className="mt-2 font-sfmono text-xs uppercase tracking-[0.08em] text-ink-muted">
                     {blog.date} · {blog.readTime}
                     {blog.tags.length > 0 && <> · {blog.tags.map((t) => `#${t}`).join(" ")}</>}
                 </p>
             </div>
             {blog.thumbnail && (
-                <div className="hidden h-16 w-24 shrink-0 overflow-hidden rounded-md border border-edge bg-[#161616] p-2 sm:block">
+                <div className="hidden h-16 w-24 shrink-0 overflow-hidden rounded-sm border border-edge bg-surface-raised p-2 sm:block">
                     <img src={blog.thumbnail} alt="" className="h-full w-full object-contain" />
                 </div>
             )}
-            <span className="shrink-0 text-ink-muted transition-transform duration-150 ease-out group-hover:translate-x-1">↗</span>
+            <span className="shrink-0 text-ink-muted transition-transform duration-250 ease-out group-hover:translate-x-1">↗</span>
         </a>
     );
 }
@@ -67,13 +67,13 @@ const Blogs = () => {
     return (
         <>
             <NavBar />
-            <div className="relative min-h-screen bg-[#111111] text-white font-sfmono pt-24 pb-20">
+            <div className="relative min-h-screen bg-[#111111] text-ink-primary font-sfmono pt-24 pb-20">
                 <div className="relative w-full px-5 max-w-content mx-auto">
                     <SectionPrompt command="cat ./blogs" className="mb-6" />
-                    <div className="relative bg-[#111111] rounded-md p-6 border border-white/10 shadow-sm shadow-white/5">
+                    <div className="relative bg-[#111111] rounded-sm p-6 border border-edge shadow-sm shadow-white/5">
                         <div className="mb-6 flex items-center gap-2">
                             <WindowDots />
-                            <span className="ml-3 text-gray-400 text-xs">manthan@portfolio:~/blogs$</span>
+                            <span className="ml-3 text-ink-secondary text-xs">manthan@portfolio:~/blogs$</span>
                         </div>
 
                         {sortedBlogs.length > 0 ? (
@@ -81,7 +81,7 @@ const Blogs = () => {
                                 {years.map((year) => (
                                     <div key={year}>
                                         {showYearLabels && (
-                                            <p className="mb-2 mt-4 font-sfmono text-[11px] uppercase tracking-wide text-ink-muted first:mt-0">{year}</p>
+                                            <p className="mb-2 mt-4 font-sfmono text-xs uppercase tracking-[0.08em] text-ink-muted first:mt-0">{year}</p>
                                         )}
                                         {sortedBlogs
                                             .filter((b) => new Date(b.date).getFullYear() === year)
@@ -95,7 +95,7 @@ const Blogs = () => {
                             <p className="px-3 py-2 text-sm text-ink-muted">looking for one...</p>
                         )}
 
-                        <div className="mt-4 flex items-center gap-2 border-t border-white/5 pt-4 text-sm text-gray-500">
+                        <div className="mt-4 flex items-center gap-2 border-t border-edge pt-4 text-sm text-ink-muted">
                             <span>manthan@portfolio:~/blogs$</span>
                             <span className="terminal-cursor inline-block">▍</span>
                         </div>

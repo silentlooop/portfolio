@@ -87,10 +87,11 @@ function App() {
   return (
     <>
       <NavBar />
-      <div className="flex flex-col bg-[#111111] text-gray-200 scale-100 relative">
+      <div className="flex flex-col bg-[#111111] text-ink-primary scale-100 relative">
 
         {/* Rail + projects */}
         <div id="work" className="relative z-15 mx-auto w-full max-w-[1440px] px-4 pt-24 md:px-10 md:pt-28">
+          <h2 className="sr-only">Projects</h2>
           <SectionPrompt command="cd ./selected-work" className="mb-6 lg:hidden" />
           <div className="lg:grid lg:grid-cols-[280px_1fr] lg:gap-12">
             <HomeRail activeSlug={highlightedSlug} onHoverIndex={setHoveredSlug} onSelectIndex={scrollToProject} />
@@ -100,6 +101,7 @@ function App() {
 
         {/* Experience */}
         <div id="experience" className="relative z-15 mx-auto mt-16 w-full max-w-[1440px] px-4 pb-16 md:mt-24 md:px-10 md:pb-0">
+          <h2 className="sr-only">Experience</h2>
           <SectionPrompt command="cd ./deep-dive/experience" className="mb-8" startOnMount />
           <TerminalExperience />
         </div>

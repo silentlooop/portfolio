@@ -99,21 +99,21 @@ function ShapedCard({ item, spanClass }: { item: ShapedItem; spanClass: string }
     return (
         <div
             ref={ref}
-            className={`${spanClass} transition-[opacity,transform] duration-500 ease-out`}
+            className={`${spanClass} transition-[opacity,transform] duration-400 ease-out`}
             style={{
                 opacity: revealed ? 1 : 0,
                 transform: revealed ? "translateY(0)" : "translateY(12px)",
             }}
         >
-            <div className="group/shaped relative h-full overflow-hidden rounded-md border border-edge bg-[#141414] shadow-2xl shadow-black/20 transition-[color,background-color,border-color,transform] duration-250 ease-out hover:-translate-y-1 hover:border-edge-hover">
+            <div className="group/shaped relative h-full overflow-hidden rounded-sm border border-edge bg-surface-raised shadow-2xl shadow-black/20 transition-[color,background-color,border-color,transform] duration-250 ease-out hover:-translate-y-1 hover:border-edge-hover">
                 <TerminalHint text={`$ cat ./me/${slug}`} />
                 <div className="p-5 md:p-6">
                     {item.media && <CardMedia media={item.media} mediaType={item.mediaType} title={item.title} />}
-                    <span className="text-[11px] font-sfmono uppercase tracking-wider text-gray-500">{item.type}</span>
-                    <h3 className="text-xl font-bold leading-snug tracking-tight text-white md:text-2xl">
+                    <span className="text-xs font-sfmono uppercase tracking-[0.08em] text-ink-muted">{item.type}</span>
+                    <h3 className="text-xl font-bold leading-snug tracking-tight text-ink-primary md:text-2xl">
                         <ScrambleText text={item.title} />
                     </h3>
-                    <p className="mt-2.5 font-sfmono text-[15px] leading-relaxed text-gray-400">{item.description}</p>
+                    <p className="mt-2.5 font-sfmono text-base leading-relaxed text-ink-secondary">{item.description}</p>
                 </div>
             </div>
         </div>
@@ -131,20 +131,20 @@ export default function Shaped() {
         <div className="relative min-h-screen bg-[#111111]">
             <NavBar />
 
-            <main className="pt-24 pb-20 px-5 max-w-content mx-auto relative text-white font-sfmono">
+            <main className="pt-24 pb-20 px-5 max-w-content mx-auto relative text-ink-primary font-sfmono">
 
                 {/* ── Background decorative layer ── */}
                 <div className="absolute inset-0 pointer-events-none select-none overflow-hidden z-0">
                     {/* Large ghost text */}
 
-                    <p className="absolute top-[32%] right-[2%] text-3xl md:text-5xl font-sfmono text-white opacity-[0.03] whitespace-nowrap rotate-[-3deg]">
+                    <p className="absolute top-[32%] right-[2%] text-3xl md:text-5xl font-sfmono text-ink-primary opacity-[0.03] whitespace-nowrap rotate-[-3deg]">
                         &gt; compiling personality...
                     </p>
-                    <p className="absolute bottom-[22%] left-[8%] text-4xl md:text-6xl font-sfmono text-white opacity-[0.02] whitespace-nowrap rotate-[1deg]">
+                    <p className="absolute bottom-[22%] left-[8%] text-4xl md:text-6xl font-sfmono text-ink-primary opacity-[0.02] whitespace-nowrap rotate-[1deg]">
                         &gt; parsing experiences...
                     </p>
                     {/* Vertical pipe decorations */}
-                    <div className="absolute top-[12%] left-[48%] font-sfmono text-white opacity-[0.035] text-xs leading-tight whitespace-pre">
+                    <div className="absolute top-[12%] left-[48%] font-sfmono text-ink-primary opacity-[0.035] text-xs leading-tight whitespace-pre">
                         {`│
 │
 ├──
@@ -152,7 +152,7 @@ export default function Shaped() {
 │
 └──`}
                     </div>
-                    <div className="absolute bottom-[15%] right-[30%] font-sfmono text-white opacity-[0.03] text-xs leading-tight whitespace-pre">
+                    <div className="absolute bottom-[15%] right-[30%] font-sfmono text-ink-primary opacity-[0.03] text-xs leading-tight whitespace-pre">
                         {`┌───────┐
 │ ░░░░░ │
 │ ░░░░░ │
@@ -163,32 +163,34 @@ export default function Shaped() {
                 {/* ── Terminal Window Bar ── */}
                 <SectionPrompt command="cat ./me/about" className="relative z-[1] mb-6" />
 
-                <SectionReveal className="relative z-[1] mb-10 overflow-hidden rounded-md border border-white/10 bg-[#141414] shadow-2xl shadow-black/20">
-                    <div className="flex items-center gap-2 border-b border-white/10 bg-[#111111] px-5 py-4">
+                <SectionReveal className="relative z-[1] mb-10 overflow-hidden rounded-sm border border-edge bg-surface-raised shadow-2xl shadow-black/20">
+                    <div className="flex items-center gap-2 border-b border-edge bg-[#111111] px-5 py-4">
                         <WindowDots />
-                        <span className="ml-3 text-sm text-gray-400 font-sfmono truncate">
+                        <span className="ml-3 text-sm text-ink-secondary font-sfmono truncate">
                             <ScrambleText text="manthan@life ~ % things-that-shaped-me" />
                         </span>
                     </div>
                     <div className="px-5 py-6 font-sfmono text-sm sm:px-7 sm:py-7 md:px-10 md:py-8">
                         <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
-                            <div className="group/avatar h-20 w-20 shrink-0 overflow-hidden rounded-md border border-edge bg-[#161616] p-1">
+                            <div className="group/avatar h-20 w-20 shrink-0 overflow-hidden rounded-sm border border-edge bg-surface-raised p-1">
                                 <img
-                                    src="/pfp.PNG"
+                                    src="/pfp.webp"
                                     alt="Manthan"
-                                    className="h-full w-full rounded object-cover grayscale transition-all duration-400 ease-out group-hover/avatar:grayscale-0"
+                                    width={320}
+                                    height={320}
+                                    className="h-full w-full rounded-sm object-cover grayscale transition-all duration-400 ease-out group-hover/avatar:grayscale-0"
                                 />
                             </div>
                             <div className="min-w-0 flex-1">
-                                <p className="flex items-center gap-2 text-gray-500">
-                                    <span className="text-gray-600">$</span> cat manifest.txt
+                                <p className="flex items-center gap-2 text-ink-muted">
+                                    <span className="text-ink-faint">$</span> cat manifest.txt
                                 </p>
-                                <p className="mt-3 max-w-xl text-[13px] leading-relaxed text-gray-400 sm:text-[15px]">
+                                <p className="mt-3 max-w-xl text-sm leading-relaxed text-ink-secondary sm:text-base">
                                     a running log of things that left a mark — some serious, some not, all true.
                                 </p>
                             </div>
                         </div>
-                        <div className="mt-6 flex items-center justify-between border-t border-white/5 pt-4 text-xs text-zinc-600">
+                        <div className="mt-6 flex items-center justify-between border-t border-edge pt-4 text-xs text-ink-faint">
                             <span>status: <span className="text-[#fde047]">online</span></span>
                             <span>process: profile_loaded</span>
                         </div>
@@ -205,7 +207,7 @@ export default function Shaped() {
                 {/* ── Anime Terminal Log ── */}
                 <SectionPrompt command="cat ./me/anime" className="relative z-[1] mt-12 mb-6" />
 
-                <div className="relative z-[1] mb-4 rounded-md border border-white/10 bg-[#141414] p-5 font-sfmono text-xs text-gray-300 shadow-2xl shadow-black/20 md:p-6 md:text-sm">
+                <div className="relative z-[1] mb-4 rounded-sm border border-edge bg-surface-raised p-5 font-sfmono text-xs text-ink-primary shadow-2xl shadow-black/20 md:p-6 md:text-sm">
                     <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-x-12">
                         <div>
                             <span className="text-ink-muted">$</span> <span className="text-ink-muted">Anime Series (Top 10)</span>
@@ -248,10 +250,10 @@ export default function Shaped() {
 
                 {/* ── Terminal status bar / footer ── */}
                 <div className="relative z-[1] mt-20 border-t border-[#1e1e1e] pt-4 flex flex-col md:flex-row items-center justify-between gap-2">
-                    <p className="font-sfmono text-sm text-gray-500 select-none">
+                    <p className="font-sfmono text-sm text-ink-muted select-none">
                         [exit] ← type anything or press any key
                     </p>
-                    <p className="font-sfmono text-sm text-gray-500 select-none">
+                    <p className="font-sfmono text-sm text-ink-muted select-none">
                         manthan@life: ~/things-that-shaped-me
 
                     </p>

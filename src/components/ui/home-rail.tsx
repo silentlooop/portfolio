@@ -18,20 +18,20 @@ export function HomeRail({ activeSlug, onHoverIndex, onSelectIndex }: HomeRailPr
     <aside className="mb-10 lg:sticky lg:top-28 lg:mb-0 lg:h-fit">
       <div className="space-y-6 font-sfmono lg:space-y-8">
         <div>
-          <p className="mb-3 text-[10px] uppercase tracking-[0.22em] text-[#fde047]">$ whoami</p>
+          <p className="mb-3 text-xs uppercase tracking-[0.08em] text-[#fde047]">$ whoami</p>
           <h1 className="text-4xl font-bold tracking-[-0.04em] text-ink-primary lg:text-5xl">manthan</h1>
           <p className="mt-2 text-sm text-ink-secondary lg:text-base">ML engineer · IIT Bombay</p>
         </div>
 
-        <p className="max-w-[42ch] text-[14px] leading-[1.7] text-ink-primary/90 lg:text-[16px]">
-          I build where math meets machinery models that learn, pipelines that ship, and interfaces
+        <p className="max-w-[42ch] text-sm leading-[1.7] text-ink-secondary lg:text-base">
+          I build where math meets machinery: models that learn, pipelines that ship, and interfaces
           people actually enjoy using. Currently deep in diffusion models, watching structure emerge
           from noise.
         </p>
 
         <nav
           aria-label="Projects index"
-          className="flex gap-3 overflow-x-auto border-t border-white/10 pt-4 text-[11px] text-ink-muted lg:flex-col lg:gap-1.5 lg:overflow-visible lg:pt-5 lg:text-sm"
+          className="flex gap-3 overflow-x-auto border-t border-edge pt-4 text-xs text-ink-muted lg:flex-col lg:gap-1.5 lg:overflow-visible lg:pt-5 lg:text-sm"
         >
           {projects.map((project, i) => {
             const isActive = activeSlug === project.slug;
@@ -52,14 +52,14 @@ export function HomeRail({ activeSlug, onHoverIndex, onSelectIndex }: HomeRailPr
           })}
         </nav>
 
-        <div className="flex flex-col gap-2.5 border-t border-white/5 pt-5 text-sm text-ink-secondary">
+        <div className="flex flex-col gap-2.5 border-t border-edge pt-5 text-sm text-ink-secondary">
           <a
             href="https://github.com/silentlooop"
             target="_blank"
             rel="noreferrer"
-            className="group relative flex w-fit items-center gap-2 transition-colors hover:text-white"
+            className="group relative flex w-fit items-center gap-2 transition-colors hover:text-ink-primary"
           >
-            <FaGithub className="h-4 w-4 shrink-0 text-ink-muted transition-colors group-hover:text-white" />
+            <FaGithub className="h-4 w-4 shrink-0 text-ink-muted transition-colors group-hover:text-ink-primary" />
             github ↗
             <TerminalHint text="$ git log since=3am" placement="below-start" />
           </a>
@@ -67,7 +67,7 @@ export function HomeRail({ activeSlug, onHoverIndex, onSelectIndex }: HomeRailPr
             href="https://www.linkedin.com/in/manthan-p-6457b3313"
             target="_blank"
             rel="noreferrer"
-            className="group relative flex w-fit items-center gap-2 transition-colors hover:text-white"
+            className="group relative flex w-fit items-center gap-2 transition-colors hover:text-ink-primary"
           >
             <FaLinkedin className="h-4 w-4 shrink-0 text-ink-muted transition-colors group-hover:text-[#0A66C2]" />
             linkedin ↗
@@ -77,7 +77,7 @@ export function HomeRail({ activeSlug, onHoverIndex, onSelectIndex }: HomeRailPr
             href="https://leetcode.com/u/silentlooop/"
             target="_blank"
             rel="noreferrer"
-            className="group relative flex w-fit items-center gap-2 transition-colors hover:text-white"
+            className="group relative flex w-fit items-center gap-2 transition-colors hover:text-ink-primary"
           >
             <SiLeetcode className="h-4 w-4 shrink-0 text-ink-muted transition-colors group-hover:text-[#FFA116]" />
             leetcode ↗
@@ -87,7 +87,7 @@ export function HomeRail({ activeSlug, onHoverIndex, onSelectIndex }: HomeRailPr
             href="https://monkeytype.com/profile/silentlooop"
             target="_blank"
             rel="noreferrer"
-            className="group relative flex w-fit items-center gap-2 transition-colors hover:text-white"
+            className="group relative flex w-fit items-center gap-2 transition-colors hover:text-ink-primary"
           >
             <SiMonkeytype className="h-4 w-4 shrink-0 text-ink-muted transition-colors group-hover:text-[#E2B714]" />
             monkeytype ↗

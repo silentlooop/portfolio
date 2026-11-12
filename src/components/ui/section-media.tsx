@@ -5,7 +5,7 @@ function Item({ item, aspect }: { item: MediaItem; aspect?: string }) {
   return (
     <div>
       <MediaFrame item={item} aspect={aspect} />
-      {item.caption && <p className="mt-2 text-center font-sfmono text-[12px] text-ink-muted">{item.caption}</p>}
+      {item.caption && <p className="mt-2 text-center font-sfmono text-xs text-ink-muted">{item.caption}</p>}
     </div>
   );
 }

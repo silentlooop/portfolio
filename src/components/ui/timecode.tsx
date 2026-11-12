@@ -40,9 +40,9 @@ export function Timecode() {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none fixed bottom-3 right-3 z-[80] select-none font-sfmono text-[10px] tracking-wider text-zinc-600"
+      className="pointer-events-none fixed bottom-3 right-3 z-[80] hidden select-none font-sfmono text-xs tabular-nums tracking-[0.08em] text-ink-faint md:block"
     >
-      {formatTimecode(totalFrames)}
+      TC {formatTimecode(totalFrames)}
     </div>
   );
 }

@@ -112,7 +112,7 @@ export function CustomCursor() {
         style={{ width: isText ? "4px" : `${size}px`, height: isText ? `${size}px` : `${size}px` }}
       >
         {variant === "view" && (
-          <span className="font-sfmono text-[12px] font-medium text-black">see more</span>
+          <span className="font-sfmono text-xs font-medium text-black">see more</span>
         )}
       </div>
     </div>

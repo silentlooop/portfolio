@@ -7,7 +7,6 @@ export const EFFECTS = {
   scrollReveal: true,
   titleScramble: true,
   imageParallax: true,
-  sound: true,
 } as const;
 
 export type EffectKey = keyof typeof EFFECTS;

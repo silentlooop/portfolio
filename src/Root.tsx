@@ -41,7 +41,7 @@ export default function Root() {
       <div className="cursor-default top-5">
         <main
           ref={mainRef}
-          className="relative z-10 min-h-screen border-b border-white/[0.08] bg-[#111111] shadow-[0_24px_48px_rgba(0,0,0,0.5)] md:mb-[var(--footer-h)]"
+          className="relative z-10 min-h-screen border-b border-edge bg-[#111111] shadow-[0_24px_48px_rgba(0,0,0,0.5)] md:mb-[var(--footer-h)]"
         >
           <Routes>
             <Route path="/" element={<App />} />
