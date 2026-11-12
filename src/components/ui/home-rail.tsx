@@ -1,6 +1,6 @@
 import { TerminalHint } from "./terminal-hint";
 import { projects } from "../../content/projects";
-import { FaLinkedin, FaGithub } from "react-icons/fa6";
+import { FaLinkedin, FaGithub, FaEnvelope } from "react-icons/fa6";
 import { SiLeetcode, SiMonkeytype } from "react-icons/si";
 
 function toTitleCase(text: string) {
@@ -28,6 +28,17 @@ export function HomeRail({ activeSlug, onHoverIndex, onSelectIndex }: HomeRailPr
           people actually enjoy using. Currently deep in diffusion models, watching structure emerge
           from noise.
         </p>
+
+        <a
+          href="mailto:24b2511@iitb.ac.in"
+          data-cursor="link"
+          className="group relative inline-flex w-fit items-center gap-2.5 rounded-sm border border-edge-hover px-3.5 py-2 text-sm text-ink-primary transition-colors hover:border-[#fde047]/60 hover:text-[#fde047]"
+        >
+          <FaEnvelope className="h-3.5 w-3.5 shrink-0 text-ink-muted transition-colors group-hover:text-[#fde047]" />
+          24b2511@iitb.ac.in
+          <span aria-hidden="true">↗</span>
+          <TerminalHint text="$ mail -s hey manthan" placement="below-start" />
+        </a>
 
         <nav
           aria-label="Projects index"
