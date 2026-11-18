@@ -11,5 +11,5 @@ export default function ProjectDetail() {
     return <NotFound />;
   }
 
-  return <ProjectDetailLayout project={project} />;
+  return <ProjectDetailLayout key={project.slug} project={project} />;
 }

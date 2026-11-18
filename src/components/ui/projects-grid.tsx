@@ -1,11 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { memo, useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SectionReveal } from "./terminal-effects";
 import { TerminalHint } from "./terminal-hint";
 import { EFFECTS } from "../../lib/effects-config";
-import { navigateWithTransition } from "../../lib/view-transition-nav";
+import { useProjectTransition } from "../../lib/project-transition";
+import { useTilt } from "../../lib/use-tilt";
 import { projects } from "../../content/projects";
 
 function coverOf(slug: string) {
@@ -18,6 +19,9 @@ function metaOf(slug: string) {
 
 gsap.registerPlugin(ScrollTrigger);
 
+// Touch screens have no hover, so there the card crossing the viewport centre gets colour instead.
+const CAN_HOVER = typeof window !== "undefined" && window.matchMedia("(hover: hover)").matches;
+
 interface ProjectCardProps {
   slug: string;
   title: string;
@@ -29,10 +33,14 @@ interface ProjectCardProps {
   width?: number;
   height?: number;
   isHighlighted?: boolean;
+  /** Another card is being hovered / focused, so this one steps back. */
+  isDimmed?: boolean;
+  /** Above-the-fold card: load its image eagerly at high priority (it's the LCP element). */
+  priority?: boolean;
   onHover?: (slug: string | null) => void;
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({
+const ProjectCard = memo(function ProjectCard({
   slug,
   title,
   category,
@@ -42,9 +50,12 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   width,
   height,
   isHighlighted = false,
+  isDimmed = false,
+  priority = false,
   onHover = () => {},
-}) => {
-  const navigate = useNavigate();
+}: ProjectCardProps) {
+  const { openProject } = useProjectTransition();
+  const tiltRef = useTilt<HTMLElement>(3.5);
 
   // Determine media type from file extension if not explicitly provided
   const isVideo = mediaType === "video" ||
@@ -54,7 +65,20 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     imageSrc.endsWith('.mov');
 
   const parallaxRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [centered, setCentered] = useState(false);
+
+  // Only decode/play the video while it's actually on screen.
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) video.play().catch(() => {});
+      else video.pause();
+    });
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (!EFFECTS.imageParallax) return;
@@ -73,43 +97,57 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         }
       );
 
-      ScrollTrigger.create({
-        trigger: el,
-        start: "top center",
-        end: "bottom center",
-        onToggle: (self) => setCentered(self.isActive),
-      });
+      if (!CAN_HOVER) {
+        ScrollTrigger.create({
+          trigger: el,
+          start: "top center",
+          end: "bottom center",
+          onToggle: (self) => setCentered(self.isActive),
+        });
+      }
     });
 
     return () => ctx.revert();
   }, []);
 
-  // Grey at rest, colour on hover. Touch screens have no hover, so there the centred card gets colour instead.
-  const canHover = typeof window !== "undefined" && window.matchMedia("(hover: hover)").matches;
+  // Grey at rest, colour on hover (or when centred, on touch).
   const colorGraded =
-    !canHover && centered ? "grayscale-0 saturate-100 brightness-100" : "grayscale saturate-50 brightness-90";
+    !CAN_HOVER && centered ? "grayscale-0 saturate-100 brightness-100" : "grayscale saturate-50 brightness-90";
   const meta = metaOf(slug);
+
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    // Let cmd/ctrl/shift/middle-click open a new tab as usual.
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+    openProject(slug);
+  };
 
   return (
     <Link
       to={`/projects/${slug}`}
-      onClick={navigateWithTransition(navigate, `/projects/${slug}`)}
+      onClick={handleClick}
       id={`project-${slug}`}
       data-project-slug={slug}
       data-cursor="view"
       onMouseEnter={() => onHover(slug)}
       onMouseLeave={() => onHover(null)}
-      className="group/card relative mb-4 block break-inside-avoid bg-[#111111] px-0.5 py-0.5 opacity-100 transition-opacity duration-400 ease-in-out hover:opacity-75"
+      onFocus={() => onHover(slug)}
+      onBlur={() => onHover(null)}
+      className={`group/card relative mb-4 block break-inside-avoid bg-[#111111] px-0.5 py-0.5 transition-[opacity,filter] duration-400 ease-in-out ${
+        isDimmed ? "opacity-40 blur-[1px]" : "opacity-100"
+      }`}
     >
       <TerminalHint text={`$ open ./projects/${slug}`} />
       <article
-        className={`overflow-hidden rounded-sm border transition-colors duration-250 ease-out group-hover/card:border-edge-hover ${
+        ref={tiltRef}
+        className={`relative overflow-hidden rounded-sm border transition-colors duration-250 ease-out group-hover/card:border-edge-hover ${
           isHighlighted ? "border-edge-hover" : "border-edge"
         }`}
       >
-        <div ref={parallaxRef} style={{ viewTransitionName: `project-cover-${slug}` } as React.CSSProperties}>
+        <div ref={parallaxRef}>
           {isVideo ? (
             <video
+              ref={videoRef}
               src={imageSrc}
               className={`w-full h-auto object-contain transition-[filter,transform] duration-400 ease-out group-hover/card:scale-[1.02] group-hover/card:grayscale-0 group-hover/card:saturate-100 group-hover/card:brightness-100 ${colorGraded}`}
               autoPlay
@@ -121,7 +159,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             <img
               src={imageSrc}
               alt={imageAlt}
-              loading="lazy"
+              loading={priority ? "eager" : "lazy"}
+              fetchPriority={priority ? "high" : "auto"}
+              decoding="async"
               width={width}
               height={height}
               className={`w-full h-auto object-contain transition-[filter,transform] duration-400 ease-out group-hover/card:scale-[1.02] group-hover/card:grayscale-0 group-hover/card:saturate-100 group-hover/card:brightness-100 ${colorGraded}`}
@@ -139,18 +179,21 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       </div>
     </Link>
   );
-};
+});
 
 type ProjectsGridProps = {
   highlightedSlug?: string | null;
+  /** Card (or rail entry) currently hovered/focused; every other card dims. */
+  hoveredSlug?: string | null;
   onHoverProject?: (slug: string | null) => void;
 };
 
-const ProjectsGrid: React.FC<ProjectsGridProps> = ({ highlightedSlug = null, onHoverProject = () => {} }) => {
+const ProjectsGrid: React.FC<ProjectsGridProps> = ({ highlightedSlug = null, hoveredSlug = null, onHoverProject = () => {} }) => {
   const projectCards = [
     <ProjectCard
       key="btsp"
       slug="btsp"
+      priority
       title="BTSP"
       category="BIOX-WNCC PROJECT"
       imageSrc={coverOf("btsp").src}
@@ -158,6 +201,7 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({ highlightedSlug = null, onH
       width={coverOf("btsp").width}
       height={coverOf("btsp").height}
       isHighlighted={highlightedSlug === "btsp"}
+      isDimmed={!!hoveredSlug && hoveredSlug !== "btsp"}
       onHover={onHoverProject}
     />,
     <ProjectCard
@@ -170,19 +214,7 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({ highlightedSlug = null, onH
       width={coverOf("probabilistic-graphic-model").width}
       height={coverOf("probabilistic-graphic-model").height}
       isHighlighted={highlightedSlug === "probabilistic-graphic-model"}
-      onHover={onHoverProject}
-    />,
-    <ProjectCard
-      key="resume-rater"
-      slug="resume-rater"
-      title="RESUME RATER"
-      category="AI MODEL"
-      imageSrc={coverOf("resume-rater").src}
-      mediaType="image"
-      imageAlt="AI Community logo"
-      width={coverOf("resume-rater").width}
-      height={coverOf("resume-rater").height}
-      isHighlighted={highlightedSlug === "resume-rater"}
+      isDimmed={!!hoveredSlug && hoveredSlug !== "probabilistic-graphic-model"}
       onHover={onHoverProject}
     />,
     <ProjectCard
@@ -194,6 +226,7 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({ highlightedSlug = null, onH
       imageAlt="instigpt"
       mediaType="video"
       isHighlighted={highlightedSlug === "instigpt"}
+      isDimmed={!!hoveredSlug && hoveredSlug !== "instigpt"}
       onHover={onHoverProject}
     />,
     <ProjectCard
@@ -206,6 +239,7 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({ highlightedSlug = null, onH
       width={coverOf("wids-25").width}
       height={coverOf("wids-25").height}
       isHighlighted={highlightedSlug === "wids-25"}
+      isDimmed={!!hoveredSlug && hoveredSlug !== "wids-25"}
       onHover={onHoverProject}
     />,
     <ProjectCard
@@ -218,6 +252,7 @@ const ProjectsGrid: React.FC<ProjectsGridProps> = ({ highlightedSlug = null, onH
       width={coverOf("karyogram").width}
       height={coverOf("karyogram").height}
       isHighlighted={highlightedSlug === "karyogram"}
+      isDimmed={!!hoveredSlug && hoveredSlug !== "karyogram"}
       onHover={onHoverProject}
     />,
   ];

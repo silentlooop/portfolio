@@ -1,10 +1,10 @@
-import { forwardRef, useEffect, useState } from "react";
+import { forwardRef, useEffect, useState, type RefObject } from "react";
 import { TerminalHint } from "./terminal-hint";
 import { OPEN_TERMINAL_EVENT } from "./command-terminal";
 
 type FooterProps = {
-  progress: number;
-  reducedMotion: boolean;
+  /** Inner wrapper whose opacity/transform useFooterReveal drives directly. */
+  contentRef: RefObject<HTMLDivElement | null>;
 };
 
 function FooterTimecode() {
@@ -24,18 +24,15 @@ function FooterTimecode() {
   );
 }
 
-export const Footer = forwardRef<HTMLElement, FooterProps>(function Footer({ progress, reducedMotion }, ref) {
-  const opacity = reducedMotion ? 1 : 0.4 + progress * 0.6;
-  const translateY = reducedMotion ? 0 : 24 * (1 - progress);
-
+export const Footer = forwardRef<HTMLElement, FooterProps>(function Footer({ contentRef }, ref) {
   return (
     <footer
       ref={ref}
       className="relative z-0 w-full bg-[#1A1A1A] text-ink-primary font-sfmono md:fixed md:inset-x-0 md:bottom-0"
     >
       <div
+        ref={contentRef}
         className="mx-auto w-full max-w-[1440px] px-4 py-8 sm:px-5 sm:py-10 md:px-10"
-        style={{ opacity, transform: `translateY(${translateY}px)` }}
       >
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 sm:gap-10">
           {/* left */}

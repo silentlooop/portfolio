@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { projects } from "../../content/projects";
 import { TerminalHint } from "./terminal-hint";
 import { WindowDots } from "./window-dots";
+import { useProjectTransition } from "../../lib/project-transition";
 
 // Fire this from anywhere to open the terminal, e.g. a footer button.
 export const OPEN_TERMINAL_EVENT = "open-command-terminal";
@@ -45,6 +46,7 @@ const WELCOME: Line[] = [
 
 export function CommandTerminal() {
     const navigate = useNavigate();
+    const { openProject, openMe } = useProjectTransition();
     const [open, setOpen] = useState(false);
     const [input, setInput] = useState("");
     const [lines, setLines] = useState<Line[]>(WELCOME);
@@ -118,6 +120,10 @@ export function CommandTerminal() {
             setOpen(false);
             if (path === "/#work" && window.location.pathname === "/") {
                 document.getElementById("work")?.scrollIntoView({ behavior: "smooth" });
+            } else if (path === "/shaped" && window.location.pathname !== "/shaped") {
+                openMe();
+            } else if (path.startsWith("/projects/")) {
+                openProject(path.slice("/projects/".length));
             } else {
                 navigate(path);
             }

@@ -45,7 +45,10 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Geist+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <!-- Load fonts without blocking first paint (text renders in the fallback mono, then swaps). -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Geist+Mono:wght@400;500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Geist+Mono:wght@400;500;600;700&display=swap" /></noscript>
+    <link rel="preload" as="image" href="/btsp.webp" fetchpriority="high" />
     <style>
       /* 👇 ensure background is always black */
       html, body, #root {

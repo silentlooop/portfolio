@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { memo, useEffect, useRef, useState } from "react"
 
 import { ProjectsGrid } from "./components/ui/projects-grid"
 import { HomeRail } from "./components/ui/home-rail"
@@ -8,6 +8,10 @@ import { NavBar, TerminalExperience } from "./pages/about"
 import { SectionPrompt } from "./components/ui/terminal-effects"
 import { Note, Signature } from "./components/ui/annotations"
 import { projects } from "./content/projects"
+import { EFFECTS } from "./lib/effects-config"
+
+// Static content: skip re-rendering it whenever a card hover / scroll-spy updates App state.
+const Experience = memo(TerminalExperience)
 
 function App() {
   const [activeSlug, setActiveSlug] = useState<string | null>(projects[0]?.slug ?? null);
@@ -80,6 +84,41 @@ function App() {
     return () => observer.disconnect();
   }, []);
 
+  // Keyboard browsing: j / k step through projects, 1–9 jump straight to one, Enter opens the focused card.
+  const activeSlugRef = useRef(activeSlug);
+  activeSlugRef.current = activeSlug;
+  useEffect(() => {
+    if (!EFFECTS.keyboardNav) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      const target = e.target as HTMLElement | null;
+      if (target?.closest("input, textarea, select, [contenteditable='true']")) return;
+
+      const focusedSlug = (document.activeElement as HTMLElement | null)?.getAttribute("data-project-slug");
+      const fromIndex = projects.findIndex((p) => p.slug === (focusedSlug ?? activeSlugRef.current));
+      let nextIndex: number | null = null;
+
+      if (e.key === "j" || e.key === "k") {
+        const step = e.key === "j" ? 1 : -1;
+        // First press focuses the card already in view; later presses move.
+        nextIndex = focusedSlug ? fromIndex + step : Math.max(fromIndex, 0);
+      } else if (/^[1-9]$/.test(e.key)) {
+        nextIndex = Number(e.key) - 1;
+      }
+      if (nextIndex === null || nextIndex < 0 || nextIndex >= projects.length) return;
+
+      e.preventDefault();
+      const slug = projects[nextIndex].slug;
+      const el = document.getElementById(`project-${slug}`);
+      if (!el) return;
+      el.focus({ preventScroll: true });
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+      setActiveSlug(slug);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, []);
+
   const scrollToProject = (slug: string) => {
     document.getElementById(`project-${slug}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
   };
@@ -95,7 +134,7 @@ function App() {
           <SectionPrompt command="cd ./selected-work" className="mb-6 lg:hidden" />
           <div className="lg:grid lg:grid-cols-[280px_1fr] lg:gap-12">
             <HomeRail activeSlug={highlightedSlug} onHoverIndex={setHoveredSlug} onSelectIndex={scrollToProject} />
-            <ProjectsGrid highlightedSlug={highlightedSlug} onHoverProject={setHoveredSlug} />
+            <ProjectsGrid highlightedSlug={highlightedSlug} hoveredSlug={hoveredSlug} onHoverProject={setHoveredSlug} />
           </div>
         </div>
 
@@ -103,7 +142,7 @@ function App() {
         <div id="experience" className="relative z-15 mx-auto mt-16 w-full max-w-[1440px] px-4 pb-16 md:mt-24 md:px-10 md:pb-0">
           <h2 className="sr-only">Experience</h2>
           <div className="border-t border-edge pt-10 md:pt-12">
-            <TerminalExperience />
+            <Experience />
           </div>
         </div>
 

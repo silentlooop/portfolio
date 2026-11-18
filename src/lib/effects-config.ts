@@ -7,6 +7,10 @@ export const EFFECTS = {
   scrollReveal: true,
   titleScramble: true,
   imageParallax: true,
+  projectTransitions: true,
+  cardTilt: true,
+  cursorPreview: true,
+  keyboardNav: true,
 } as const;
 
 export type EffectKey = keyof typeof EFFECTS;

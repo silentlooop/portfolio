@@ -6,6 +6,7 @@ import { TerminalHint } from "../components/ui/terminal-hint";
 import { ScrambleText } from "../components/ui/scramble-text";
 import { useInViewOnce, usePrefersReducedMotion } from "../components/ui/use-terminal-effects";
 import { WindowDots } from "../components/ui/window-dots";
+import { useProjectTransition } from "../lib/project-transition";
 
 // --- TYPES ---
 
@@ -123,12 +124,25 @@ function ShapedCard({ item, spanClass }: { item: ShapedItem; spanClass: string }
 // --- COMPONENT ---
 
 export default function Shaped() {
+    const { closeToHome } = useProjectTransition();
+
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
 
+    // Esc closes ~/me the same way it closes a project.
+    useEffect(() => {
+        const onKeyDown = (e: KeyboardEvent) => {
+            if (e.key !== "Escape") return;
+            if ((e.target as HTMLElement | null)?.closest("input, textarea, select")) return;
+            closeToHome();
+        };
+        window.addEventListener("keydown", onKeyDown);
+        return () => window.removeEventListener("keydown", onKeyDown);
+    }, [closeToHome]);
+
     return (
-        <div className="relative min-h-screen bg-[#111111]">
+        <div data-page="shaped" className="relative min-h-screen bg-[#111111]">
             <NavBar />
 
             <main className="pt-24 pb-20 px-5 max-w-content mx-auto relative text-ink-primary font-sfmono">
@@ -251,7 +265,7 @@ export default function Shaped() {
                 {/* ── Terminal status bar / footer ── */}
                 <div className="relative z-[1] mt-20 border-t border-[#1e1e1e] pt-4 flex flex-col md:flex-row items-center justify-between gap-2">
                     <p className="font-sfmono text-sm text-ink-muted select-none">
-                        [exit] ← type anything or press any key
+                        [esc] ← cd ~
                     </p>
                     <p className="font-sfmono text-sm text-ink-muted select-none">
                         manthan@life: ~/things-that-shaped-me

@@ -12,6 +12,7 @@ import { useInViewOnce, usePrefersReducedMotion } from "../components/ui/use-ter
 import { FaLinkedin, FaXTwitter, FaGithub } from "react-icons/fa6";
 import { SiLeetcode, SiMonkeytype } from "react-icons/si";
 import { WindowDots } from "../components/ui/window-dots";
+import { useProjectTransition } from "../lib/project-transition";
 
 // --- HELPERS ---
 
@@ -227,6 +228,7 @@ function NavBar() {
     const { scrollYProgress } = useScroll();
     const scrollProgress = useSpring(scrollYProgress, { stiffness: 200, damping: 30, restDelta: 0.001 });
     const location = useLocation();
+    const { openMe, closeToHome } = useProjectTransition();
 
     const isActive = (path: string) =>
         path === "/" ? location.pathname === "/" : location.pathname.startsWith(path);
@@ -235,14 +237,22 @@ function NavBar() {
     const [homeSection, setHomeSection] = useState<"work" | "experience">("work");
     useEffect(() => {
         if (location.pathname !== "/") return;
-        const onScroll = () => {
+        let raf = 0;
+        const update = () => {
+            raf = 0;
             const experience = document.getElementById("experience");
             if (!experience) return;
             setHomeSection(experience.getBoundingClientRect().top < window.innerHeight * 0.5 ? "experience" : "work");
         };
-        onScroll();
+        const onScroll = () => {
+            if (!raf) raf = requestAnimationFrame(update);
+        };
+        update();
         window.addEventListener("scroll", onScroll, { passive: true });
-        return () => window.removeEventListener("scroll", onScroll);
+        return () => {
+            window.removeEventListener("scroll", onScroll);
+            cancelAnimationFrame(raf);
+        };
     }, [location.pathname]);
 
     // Lock body scroll when menu is open
@@ -254,8 +264,29 @@ function NavBar() {
         }
     }, [isOpen]);
 
+    const isPlainClick = (e: React.MouseEvent) => !(e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0);
+
+    const openMePage = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        setIsOpen(false);
+        if (!isPlainClick(e)) return;
+        e.preventDefault();
+        if (location.pathname !== "/shaped") openMe();
+    };
+
+    const goHome = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        if (location.pathname === "/" || !isPlainClick(e)) return;
+        e.preventDefault();
+        closeToHome();
+    };
+
     const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
         setIsOpen(false); // Close menu on click
+        // Coming from another page (e.g. ~/me): curtain back home and land on the section.
+        if (location.pathname !== "/" && isPlainClick(e)) {
+            e.preventDefault();
+            closeToHome(id);
+            return;
+        }
         // If we are already on the page, just scroll
         const element = document.getElementById(id);
         if (element) {
@@ -271,7 +302,7 @@ function NavBar() {
         <>
             <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between border-b border-edge bg-[#111111]/85 px-4 py-3 backdrop-blur-md transition-all duration-250 sm:px-5 md:px-8 md:py-4">
                 {/* Logo */}
-                <a href="/" className="text-ink-primary font-sfmono text-base md:text-lg font-bold tracking-tight hover:opacity-80 transition-opacity z-50 relative">
+                <a href="/" onClick={goHome} className="text-ink-primary font-sfmono text-base md:text-lg font-bold tracking-tight hover:opacity-80 transition-opacity z-50 relative">
                     <ScrambleText text="silentlooop" /><span className="terminal-cursor text-ink-muted">_</span>
                     <TerminalHint text="$ cd ~/home-sweet-home" placement="below" />
                 </a>
@@ -280,7 +311,7 @@ function NavBar() {
                 <div className="hidden items-center gap-7 text-sm font-sfmono text-ink-secondary md:flex">
                     <a href="/#work" onClick={(e) => scrollToSection(e, 'work')} className={`relative transition-colors cursor-pointer ${isActive("/") && homeSection === "work" ? "text-[#fde047]" : "hover:text-ink-primary"}`}>projects<TerminalHint text="$ ls ./proof-i-dont-just-talk" placement="below" /></a>
                     <a href="/#experience" onClick={(e) => scrollToSection(e, 'experience')} className={`relative transition-colors cursor-pointer ${isActive("/") && homeSection === "experience" ? "text-[#fde047]" : "hover:text-ink-primary"}`}>experience<TerminalHint text="$ cat ./where-ive-worked" placement="below" /></a>
-                    <a href="/shaped" className={`relative transition-colors cursor-pointer ${isActive("/shaped") ? "text-[#fde047]" : "hover:text-ink-primary"}`}>~/me<TerminalHint text="$ whoami the-human-behind-it" placement="below" /></a>
+                    <a href="/shaped" onClick={openMePage} className={`relative transition-colors cursor-pointer ${isActive("/shaped") ? "text-[#fde047]" : "hover:text-ink-primary"}`}>~/me<TerminalHint text="$ whoami the-human-behind-it" placement="below" /></a>
                 </div>
 
                 {/* Mobile Menu Toggle (Hamburger / Close) */}
@@ -330,6 +361,7 @@ function NavBar() {
                                 custom={2}
                                 variants={linkVariants}
                                 href="/shaped"
+                                onClick={openMePage}
                                 className="text-xl font-semibold text-ink-muted tracking-tight font-sfmono"
                             >
                                 ~/me

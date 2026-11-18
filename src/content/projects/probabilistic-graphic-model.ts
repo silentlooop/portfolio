@@ -39,5 +39,5 @@ export const probabilisticGraphicModel: ProjectContent = {
       media: [{ type: "image", placeholder: "before/after or summary visual" }],
     },
   ],
-  nextProject: "resume-rater",
+  nextProject: "instigpt",
 };
